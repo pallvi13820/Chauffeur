@@ -14,6 +14,18 @@ export const login = createAsyncThunk(
   },
 );
 
+export const signUp = createAsyncThunk(
+  AUTH_LOGIN,
+  async (body, {rejectWithValue}) => {
+    try {
+      const res = await UserController.login(body);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const logout = createAsyncThunk(
   AUTH_LOGOUT,
   async (params, {rejectWithValue}) => {

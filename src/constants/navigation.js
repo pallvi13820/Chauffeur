@@ -1,7 +1,11 @@
 export const NAVIGATION = {
-  home: 'Home',
-  homeNavigator: 'homeNavigator',
+  onBoarding: 'OnBoarding',
   login: 'Login',
-  profile: 'Profile',
-  profileNavigator: 'profileNavigator',
+  forgotPassword: 'ForgotPassword',
+  recoverViaEmail: 'RecoverViaEmail',
+  recoverViaNumber: 'RecoverViaNumber',
+  verifyByPhoneCode: 'VerifyByPhoneCode',
+  verifyByEmailCode: 'VerifyByEmailCode',
+  createNewPassword: 'CreateNewPassword',
+  verifyPhoneNumber: 'VerifyPhoneNumber',
 };
