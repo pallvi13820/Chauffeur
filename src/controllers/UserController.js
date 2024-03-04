@@ -28,6 +28,83 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          // showMessage({
+          //   message: err?.message,
+          //   type: 'danger',
+          // });
+
+          reject(new Error(strings.login.invalidCredentials));
+        });
+    });
+  }
+
+  static async verifyOtp(data) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_END_POINTS.verifyOtp;
+      const body = data;
+      HttpClient.post(endpoint, body)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          // showMessage({
+          //   message: err?.message,
+          //   type: 'danger',
+          // });
+
+          alert(err?.message);
+          reject(new Error(strings.login.invalidCredentials));
+        });
+    });
+  }
+
+  static async resendOtp(data) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_END_POINTS.resendOtp;
+      const body = data;
+      HttpClient.post(endpoint, body)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          // showMessage({
+          //   message: err?.message,
+          //   type: 'danger',
+          // });
+          alert(err?.message);
+          reject(new Error(strings.login.invalidCredentials));
+        });
+    });
+  }
+
+  static async forgotPassword(data) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_END_POINTS.forgotPassword;
+      const body = data;
+      HttpClient.post(endpoint, body)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          // showMessage({
+          //   message: err?.message,
+          //   type: 'danger',
+          // });
+          alert(err?.message);
+          reject(new Error(strings.login.invalidCredentials));
+        });
+    });
+  }
+
+  static async verifyForgotPasswordOtp(data) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_END_POINTS.verifyForgotPasswordOtp;
+      const body = data;
+      HttpClient.post(endpoint, body)
+        .then(res => {
           console.log('asgjasgjfgas', res);
           resolve(res);
         })
@@ -37,6 +114,28 @@ export class UserController {
           //   type: 'danger',
           // });
           console.log('ahdkhas', err);
+          alert(err?.message);
+          reject(new Error(strings.login.invalidCredentials));
+        });
+    });
+  }
+
+  static async resendForgotPasswordOtp(data) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_END_POINTS.resendForgotPasswordOtp;
+      const body = data;
+      HttpClient.post(endpoint, body)
+        .then(res => {
+          console.log('asgjasgjfgas', res);
+          resolve(res);
+        })
+        .catch(err => {
+          // showMessage({
+          //   message: err?.message,
+          //   type: 'danger',
+          // });
+          console.log('ahdkhas', err);
+          alert(err?.message);
           reject(new Error(strings.login.invalidCredentials));
         });
     });

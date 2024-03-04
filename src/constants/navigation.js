@@ -8,4 +8,5 @@ export const NAVIGATION = {
   verifyByEmailCode: 'VerifyByEmailCode',
   createNewPassword: 'CreateNewPassword',
   verifyPhoneNumber: 'VerifyPhoneNumber',
+  verifyOtp: 'VerifyOtp',
 };

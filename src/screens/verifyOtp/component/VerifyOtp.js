@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {BottomBackground, Edit} from '@/assets';
-import {styles} from '../styles';
 import {ms} from 'react-native-size-matters';
 import {
   CodeField,
@@ -12,21 +11,77 @@ import {
 } from 'react-native-confirmation-code-field';
 import CustomButton from '@/components/CustomButton';
 import {Spacer} from '@/theme/Spacer';
+import styles from '../style';
+import {ScreenWrapper} from '@/components/ScreenWrapper';
+import {useDispatch, useSelector} from 'react-redux';
+import {useRoute} from '@react-navigation/native';
+import {resendOtp, verifyOtp} from '@/redux/actions/authActions';
 
-export function Verification() {
+export function VerifyOtp() {
+  const dispatch = useDispatch();
+  const registerDetail = useSelector(state => state?.auth);
+  const route = useRoute();
+  const userDetail = route?.params?.userDetail;
   const CELL_COUNT = 4;
+
   const [value, setValue] = useState('');
+  const [seconds, setSeconds] = useState(59);
+
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(prevSeconds => {
+        if (prevSeconds === 0) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prevSeconds - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [seconds]);
+
+  const formatTime = time => {
+    const minutes = Math.floor(time / 60)
+      .toString()
+      .padStart(2, '0');
+    const seconds = (time % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  };
+
+  const handleResendClick = () => {
+    const data = {
+      user_id: registerDetail?.register?.data?.id,
+    };
+    setSeconds(59);
+    setValue('')
+    dispatch(resendOtp(data));
+  };
+
+  const handleVerifyClick = () => {
+    const data = {
+      user_id: registerDetail?.register?.data?.id,
+      otp: value,
+    };
+    if (value <4) {
+      alert('Please Fill the Verification Code');
+    } else {
+      dispatch(verifyOtp(data));
+    }
+  };
+  
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}>
-        <View style={{flex: 0.9}}>
+        <View style={{flex: 0.9, paddingHorizontal: ms(20)}}>
           <Spacer space={ms(15)} />
           <Text style={styles.headerTitle}>{'Verification'}</Text>
           <Text style={styles.headerSubTitle}>{'Code'}</Text>
@@ -40,7 +95,10 @@ export function Verification() {
 
           <Spacer space={ms(25)} />
           <View style={styles.editTextView}>
-            <Text style={styles.subTitleText}> {'+41 (785)0025674'}</Text>
+            <Text style={styles.subTitleText}>
+              {' '}
+              +{userDetail?.phone_code} {userDetail?.phone_number}
+            </Text>
             <TouchableOpacity>
               <Image source={Edit} style={styles.editIcon} />
             </TouchableOpacity>
@@ -79,16 +137,28 @@ export function Verification() {
 
           <Text style={styles.resendCodeText}>
             {'Resend Code in  '}
-            <Text style={styles.countText}>{'00.16'}</Text>
+            <Text style={styles.countText}>{formatTime(seconds)}</Text>
           </Text>
           <Spacer space={ms(70)} />
 
-          <TouchableOpacity style={styles.resendButtonView}>
-            <Text>{'Resend'}</Text>
+          <TouchableOpacity
+            style={[
+              styles.resendButtonView,
+              {backgroundColor: seconds === 0 ? '#1616C8' : '#E6E6E6'},
+            ]}
+            disabled={seconds !== 0}
+            onPress={handleResendClick}>
+            <Text
+              style={[
+                styles.subTitleText,
+                {color: seconds === 0 ? '#fff' : '#000'},
+              ]}>
+              {'Resend'}
+            </Text>
           </TouchableOpacity>
 
           {/* <Spacer space={ms(10)} /> */}
-          <CustomButton title={'Verify'} />
+          <CustomButton title={'Verify'} onPress={handleVerifyClick} />
         </View>
         <View style={{flex: 0.1}}>
           <Image
@@ -98,6 +168,6 @@ export function Verification() {
           />
         </View>
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

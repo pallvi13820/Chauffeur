@@ -3,12 +3,15 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {moderateScale, ms} from 'react-native-size-matters';
 
-const CustomButton = ({title, onPress}) => {
+const CustomButton = ({title, onPress, disabled}) => {
   return (
     <LinearGradient
       colors={['rgba(22, 22, 200, 1)', 'rgba(0, 0, 139, 1)']}
       style={styles.buttonGradientStyle}>
-      <TouchableOpacity onPress={onPress} style={styles.buttonView}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={styles.buttonView}
+        disabled={disabled}>
         <Text style={styles.title}>{title}</Text>
       </TouchableOpacity>
     </LinearGradient>
@@ -23,7 +26,7 @@ const styles = StyleSheet.create({
     height: ms(58),
     borderRadius: ms(20),
     alignItems: 'center',
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   buttonGradientStyle: {
     marginTop: ms(20),

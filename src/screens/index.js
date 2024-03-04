@@ -9,5 +9,7 @@ export {RecoverViaNumber} from '@/screens/forgotPassword/component/RecoverViaNum
 export {VerifyByPhoneCode} from '@/screens/forgotPassword/component/VerifyByPhoneCode';
 export {VerifyByEmailCode} from '@/screens/forgotPassword/component/VerifyByEmailCode';
 export {CreateNewPassword} from '@/screens/forgotPassword/component/CreateNewPassword';
-export {VerifyPhoneNumber} from '@/screens/login/Component/VerifyPhoneNumber';
+export {VerifyPhoneNumber} from '@/screens/verifyOtp';
+export {VerifyOtp} from '@/screens/verifyOtp/component/VerifyOtp';
+
 

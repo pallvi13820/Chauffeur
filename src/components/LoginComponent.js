@@ -48,7 +48,6 @@ const LoginComponent = () => {
     const data = {
       email: email.trim(),
       password: password,
-
       device_type: Platform.OS === 'android' ? 1 : 2,
       fcm_token: 'randomUUID',
     };

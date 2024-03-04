@@ -1,10 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {login, logout} from '../actions/authActions';
+import {forgotPassword, login, logout, signUp} from '../actions/authActions';
 import {AUTH} from '../types';
 
 const initialState = {
   loading: false,
   user: {},
+  register: {},
+  forgotPasswordDetail: {},
   error: {},
 };
 
@@ -26,6 +28,35 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+
+    // Signup
+    builder
+      .addCase(signUp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(signUp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.register = action.payload;
+      })
+      .addCase(signUp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // forgot
+    builder
+      .addCase(forgotPassword.pending, state => {
+        state.loading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordDetail = action.payload;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
     // logout
     builder
       .addCase(logout.pending, state => {

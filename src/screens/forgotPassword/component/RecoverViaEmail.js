@@ -15,9 +15,33 @@ import {Spacer} from '@/theme/Spacer';
 import {navigate, goBack} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
 import CustomInput from '@/components/CustomInput';
+import {forgotPassword} from '@/redux/actions/authActions';
+import {useDispatch} from 'react-redux';
 
 export function RecoverViaEmail() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
+
+  const handleVerifyClick = () => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (email == '') {
+      alert('Please enter email id');
+    } else if (reg.test(email) === false) {
+      alert('Please enter the valid email Id.');
+    } else {
+      forgotPasswordRequest();
+    }
+  };
+
+  const forgotPasswordRequest = () => {
+    const data = {
+      email: email.trim(),
+      type: 1,
+    };
+
+    dispatch(forgotPassword(data));
+    navigate(NAVIGATION.verifyByEmailCode, {email: email});
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,10 +78,7 @@ export function RecoverViaEmail() {
 
         <Spacer space={ms(30)} />
 
-        <CustomButton
-          title={'Submit'}
-          onPress={() => navigate(NAVIGATION.verifyByEmailCode)}
-        />
+        <CustomButton title={'Submit'} onPress={handleVerifyClick} />
 
         <Image
           source={BottomBackground}

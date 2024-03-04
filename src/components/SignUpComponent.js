@@ -8,6 +8,7 @@ import CustomButton from './CustomButton';
 import {navigate} from '../navigation/NavigationRef';
 import {NAVIGATION} from '../constants';
 import {Spacer} from '@/theme/Spacer';
+import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 const SignUpComponent = () => {
   const [email, setEmail] = useState('');
@@ -20,6 +21,14 @@ const SignUpComponent = () => {
   };
 
   const validateFields = () => {
+    const signUpUserDetail = {
+      full_name: name,
+      email: email.trim(),
+      password: password,
+      confirm_password: confirmPassword,
+      device_type: Platform.OS === 'android' ? 1 : 2,
+      fcm_token: 'randomUUID',
+    };
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     let Passwordregex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (email == '') {
@@ -35,19 +44,10 @@ const SignUpComponent = () => {
     } else if (password !== confirmPassword) {
       alert('Password and confirm password should be same.');
     } else {
-      loginRequest();
+      navigate(NAVIGATION.verifyPhoneNumber, {
+        signUpUserDetail: signUpUserDetail,
+      });
     }
-  };
-  const loginRequest = () => {
-    const data = {
-      email: email.trim(),
-      password: password,
-
-      device_type: Platform.OS === 'android' ? 1 : 2,
-      fcm_token: 'randomUUID',
-    };
-
-    dispatch(login(data));
   };
 
   return (
@@ -97,10 +97,7 @@ const SignUpComponent = () => {
         </Text>
         .
       </Text>
-      <CustomButton
-        title={'Sign Up'}
-        onPress={() => navigate(NAVIGATION.verifyPhoneNumber)}
-      />
+      <CustomButton title={'Sign Up'} onPress={handleSubmit} />
     </View>
   );
 };
@@ -115,9 +112,12 @@ const styles = StyleSheet.create({
   textStyle: {
     marginHorizontal: ms(30),
     marginTop: ms(30),
+    color: '#828282',
+    fontSize: ms(11),
   },
   descriptionText: {
     color: 'black',
-    fontSize: ms(14),
+    fontSize: ms(11),
+    fontWeight: '500',
   },
 });

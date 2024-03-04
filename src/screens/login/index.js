@@ -26,6 +26,7 @@ export function Login() {
   const signupText = {
     color: activeTab == 1 ? '#fff' : '#0F0F0F',
   };
+  
   useEffect(() => {
     if (isFocused) {
       setTimeout(() => {

@@ -1,6 +1,17 @@
 import React from 'react';
 import {NAVIGATION} from '@/constants';
-import {CreateNewPassword, ForgotPassword, Login, OnBoarding, RecoverViaEmail, RecoverViaNumber, VerifyByEmailCode, VerifyByPhoneCode, VerifyPhoneNumber} from '@/screens';
+import {
+  CreateNewPassword,
+  ForgotPassword,
+  Login,
+  OnBoarding,
+  RecoverViaEmail,
+  RecoverViaNumber,
+  VerifyByEmailCode,
+  VerifyByPhoneCode,
+  VerifyOtp,
+  VerifyPhoneNumber,
+} from '@/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
@@ -51,6 +62,11 @@ export function AuthNavigator() {
       <Stack.Screen
         component={VerifyPhoneNumber}
         name={NAVIGATION.verifyPhoneNumber}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={VerifyOtp}
+        name={NAVIGATION.verifyOtp}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
