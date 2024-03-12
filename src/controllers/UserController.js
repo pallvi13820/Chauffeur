@@ -1,6 +1,7 @@
 import {API_END_POINTS} from '@/constants/apiConstants';
 import {strings} from '@/localization';
 import {HttpClient} from '.';
+import Toast from 'react-native-toast-message';
 
 export class UserController {
   static async login(data) {
@@ -9,14 +10,22 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: strings.login.signup,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
           resolve(res);
         })
         .catch(err => {
-          // showMessage({
-          //   message: err?.message,
-          //   type: 'danger',
-          // });
-          alert(err?.message);
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 6000,
+          });
+
           reject(new Error(strings.login.invalidCredentials));
         });
     });
@@ -28,15 +37,22 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: strings.login.signup,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
           resolve(res);
         })
         .catch(err => {
-          // showMessage({
-          //   message: err?.message,
-          //   type: 'danger',
-          // });
-
-          reject(new Error(strings.login.invalidCredentials));
+          Toast.show({
+            text2: err.msg,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          // reject(new Error(strings.login.invalidCredentials));
         });
     });
   }
@@ -48,15 +64,22 @@ export class UserController {
       HttpClient.post(endpoint, body)
         .then(res => {
           resolve(res);
+          Toast.show({
+            type: 'success_toast',
+            text1: strings.login.signup,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
         })
         .catch(err => {
-          // showMessage({
-          //   message: err?.message,
-          //   type: 'danger',
-          // });
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
 
-          alert(err?.message);
-          reject(new Error(strings.login.invalidCredentials));
+          // reject(new Error(strings.login.invalidCredentials));
         });
     });
   }
@@ -67,6 +90,12 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text1: strings.login.signup,
+            position: 'top',
+            visibilityTime: 1500,
+          });
           resolve(res);
         })
         .catch(err => {
@@ -75,7 +104,7 @@ export class UserController {
           //   type: 'danger',
           // });
           alert(err?.message);
-          reject(new Error(strings.login.invalidCredentials));
+          // reject(new Error(strings.login.invalidCredentials));
         });
     });
   }
@@ -94,7 +123,7 @@ export class UserController {
           //   type: 'danger',
           // });
           alert(err?.message);
-          reject(new Error(strings.login.invalidCredentials));
+          // reject(new Error(strings.login.invalidCredentials));
         });
     });
   }
@@ -105,7 +134,6 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
-          console.log('asgjasgjfgas', res);
           resolve(res);
         })
         .catch(err => {
@@ -113,9 +141,8 @@ export class UserController {
           //   message: err?.message,
           //   type: 'danger',
           // });
-          console.log('ahdkhas', err);
           alert(err?.message);
-          reject(new Error(strings.login.invalidCredentials));
+          // reject(new Error(strings.login.invalidCredentials));
         });
     });
   }
@@ -136,7 +163,7 @@ export class UserController {
           // });
           console.log('ahdkhas', err);
           alert(err?.message);
-          reject(new Error(strings.login.invalidCredentials));
+          // reject(new Error(strings.login.invalidCredentials));
         });
     });
   }
