@@ -1,4 +1,4 @@
-package com.tahur
+package com.chauffeur
 
 import android.app.Application
 import com.facebook.react.PackageList
