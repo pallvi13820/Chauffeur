@@ -40,4 +40,8 @@ export {default as Calendar} from './/images/Calendar.png';
 export {default as HomeBackGround} from './/images/Home.png';
 export {default as VerticalLineSeprator} from './/images/VerticalLineSeprator.png';
 export {default as DropDown} from './/images/DropDown.png';
-
+export {default as Search} from './/images/Search.png';
+export {default as GpsIcon} from './/images/GPS.png';
+export {default as Location} from './/images/Location.png';
+export {default as Drop} from './/images/Drop.png';
+export {default as Car} from './/images/car.png';

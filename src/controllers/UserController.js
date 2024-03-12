@@ -2,6 +2,8 @@ import {API_END_POINTS} from '@/constants/apiConstants';
 import {strings} from '@/localization';
 import {HttpClient} from '.';
 import Toast from 'react-native-toast-message';
+import {navigate} from '@/navigation/NavigationRef';
+import {NAVIGATION} from '@/constants';
 
 export class UserController {
   static async login(data) {
@@ -17,6 +19,7 @@ export class UserController {
             visibilityTime: 1500,
           });
           resolve(res);
+          navigate(NAVIGATION.home);
         })
         .catch(err => {
           Toast.show({
@@ -26,7 +29,7 @@ export class UserController {
             visibilityTime: 6000,
           });
 
-          reject(new Error(strings.login.invalidCredentials));
+          // reject(new Error(strings.login.invalidCredentials));
         });
     });
   }

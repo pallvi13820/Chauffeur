@@ -9,4 +9,5 @@ export const NAVIGATION = {
   createNewPassword: 'CreateNewPassword',
   verifyPhoneNumber: 'VerifyPhoneNumber',
   verifyOtp: 'VerifyOtp',
+  home: 'Home',
 };

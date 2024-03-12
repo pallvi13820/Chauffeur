@@ -1,4 +1,4 @@
-export {Home} from '@/screens/Home/Home';
+// export {Home} from '@/screens/Home/Home';
 // export {Login} from '@/screens/Login/Login';
 // export {Profile} from '@/screens/Profile/Profile';
 export {OnBoarding} from '@/screens/onBoarding';
@@ -11,5 +11,6 @@ export {VerifyByEmailCode} from '@/screens/forgotPassword/component/VerifyByEmai
 export {CreateNewPassword} from '@/screens/forgotPassword/component/CreateNewPassword';
 export {VerifyPhoneNumber} from '@/screens/verifyOtp';
 export {VerifyOtp} from '@/screens/verifyOtp/component/VerifyOtp';
+export {Home} from '@/screens/home'
 
 
