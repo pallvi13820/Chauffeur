@@ -153,7 +153,6 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
-          console.log('asgjasgjfgas', res);
           resolve(res);
         })
         .catch(err => {
@@ -161,7 +160,6 @@ export class UserController {
           //   message: err?.message,
           //   type: 'danger',
           // });
-          console.log('ahdkhas', err);
           alert(err?.message);
           // reject(new Error(strings.login.invalidCredentials));
         });
