@@ -2,6 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {UserController} from '@/controllers';
 import {
   AUTH_FORGOT_PASSWORD,
+  AUTH_GET_RIDE_PRICE,
   AUTH_LOGIN,
   AUTH_LOGOUT,
   AUTH_RESEND_FORGOT_PASSWORD_OTP,
@@ -88,6 +89,18 @@ export const resendForgotPasswordOtp = createAsyncThunk(
   async (body, {rejectWithValue}) => {
     try {
       const res = await UserController.resendForgotPasswordOtp(body);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const getRidePrice = createAsyncThunk(
+  AUTH_GET_RIDE_PRICE,
+  async (body, {rejectWithValue}) => {
+    try {
+      const res = await UserController.getRidePrice(body);
       return res;
     } catch (error) {
       return rejectWithValue(error);

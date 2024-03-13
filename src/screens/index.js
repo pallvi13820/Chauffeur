@@ -11,6 +11,5 @@ export {VerifyByEmailCode} from '@/screens/forgotPassword/component/VerifyByEmai
 export {CreateNewPassword} from '@/screens/forgotPassword/component/CreateNewPassword';
 export {VerifyPhoneNumber} from '@/screens/verifyOtp';
 export {VerifyOtp} from '@/screens/verifyOtp/component/VerifyOtp';
-export {Home} from '@/screens/home'
-
-
+export {Home} from '@/screens/home';
+export {ChooseVehicle} from '@/screens/chooseVehicle';

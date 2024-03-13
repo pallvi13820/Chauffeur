@@ -45,3 +45,12 @@ export {default as GpsIcon} from './/images/GPS.png';
 export {default as Location} from './/images/Location.png';
 export {default as Drop} from './/images/Drop.png';
 export {default as Car} from './/images/car.png';
+export {default as TrackingMap} from './/images/TrackingMap.png';
+
+//ic_icon
+export {default as bag} from './ic_icon/bag.png';
+export {default as clock} from './ic_icon/clock.png';
+export {default as information} from './ic_icon/information.png';
+export {default as leaf} from './ic_icon/leaf.png';
+export {default as user} from './ic_icon/user.png';
+export {default as wifi} from './ic_icon/wifi.png';

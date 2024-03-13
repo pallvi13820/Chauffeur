@@ -10,4 +10,5 @@ export const NAVIGATION = {
   verifyPhoneNumber: 'VerifyPhoneNumber',
   verifyOtp: 'VerifyOtp',
   home: 'Home',
+  chooseVehicle: 'ChooseVehicle',
 };

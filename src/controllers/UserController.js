@@ -1,4 +1,4 @@
-import {API_END_POINTS} from '@/constants/apiConstants';
+import {API_BASE_URL, API_END_POINTS} from '@/constants/apiConstants';
 import {strings} from '@/localization';
 import {HttpClient} from '.';
 import Toast from 'react-native-toast-message';
@@ -36,7 +36,7 @@ export class UserController {
 
   static async signUp(data) {
     return new Promise((resolve, reject) => {
-      const endpoint = API_END_POINTS.signUp;
+      const endpoint = API_BASE_URL + API_END_POINTS.signUp;
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
@@ -50,7 +50,7 @@ export class UserController {
         })
         .catch(err => {
           Toast.show({
-            text2: err.msg,
+            text2: err.message,
             position: 'bottom',
             type: 'error_toast',
             visibilityTime: 1500,
@@ -62,7 +62,7 @@ export class UserController {
 
   static async verifyOtp(data) {
     return new Promise((resolve, reject) => {
-      const endpoint = API_END_POINTS.verifyOtp;
+      const endpoint = API_BASE_URL + API_END_POINTS.verifyOtp;
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
@@ -164,6 +164,33 @@ export class UserController {
           //   type: 'danger',
           // });
           alert(err?.message);
+          // reject(new Error(strings.login.invalidCredentials));
+        });
+    });
+  }
+
+  static async getRidePrice(body) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_BASE_URL + API_END_POINTS.getRidePrice;
+      console.log('sdjgkldsjg', endpoint);
+      HttpClient.post(endpoint, body)
+        .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          resolve(res);
+        })
+        .catch(err => {
+          console.log('dgjdflgjdf', err);
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
           // reject(new Error(strings.login.invalidCredentials));
         });
     });

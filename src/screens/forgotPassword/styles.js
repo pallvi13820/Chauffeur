@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   phoneIcon: {
     width: ms(20),
-    heigth: ms(20),
+    height: ms(20),
     resizeMode: 'contain',
   },
   seprateLine: {
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   },
   rightIcon: {
     width: ms(6),
-    heigth: ms(12),
+    height: ms(12),
     resizeMode: 'contain',
     tintColor: '#FFFF',
   },
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   },
   emailIcon: {
     width: ms(24),
-    heigth: ms(24),
+    height: ms(24),
     resizeMode: 'contain',
   },
   imageView: {
@@ -114,7 +114,7 @@ export const styles = StyleSheet.create({
   },
   arrowIconStyle: {
     width: ms(8),
-    heigth: ms(12),
+    height: ms(12),
     resizeMode: 'contain',
   },
   bottomBackgroundImage: {

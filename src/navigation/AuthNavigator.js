@@ -1,6 +1,7 @@
 import React from 'react';
 import {NAVIGATION} from '@/constants';
 import {
+  ChooseVehicle,
   CreateNewPassword,
   ForgotPassword,
   Home,
@@ -73,6 +74,11 @@ export function AuthNavigator() {
       <Stack.Screen
         component={Home}
         name={NAVIGATION.home}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={ChooseVehicle}
+        name={NAVIGATION.chooseVehicle}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

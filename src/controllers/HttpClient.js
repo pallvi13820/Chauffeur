@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { Config } from 'react-native-config';
 import {strings} from '@/localization';
-import { API_BASE_URL } from '@/constants/apiConstants';
+import {API_BASE_URL} from '@/constants/apiConstants';
 
 const client = axios.create({
   baseURL: API_BASE_URL,
@@ -12,7 +12,7 @@ const client = axios.create({
 
 client.interceptors.request.use(
   config => {
-    if (config.data instanceof FormData) {
+    if (config?.data instanceof FormData) {
       // set headers for FormData
       config.headers = {
         ...config?.headers,
@@ -20,18 +20,13 @@ client.interceptors.request.use(
       };
     } else {
       // set headers for JSON data
-      config.headers = {
-        ...config?.headers,
-        'Content-Type': 'application/json',
-      };
+      config.headers = {...config?.headers, 'Content-Type': 'application/json'};
     }
+
     return config;
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error),
 );
-
 
 client.interceptors.response.use(
   response => response.data,
