@@ -16,7 +16,10 @@ import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
 import {useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import { resendForgotPasswordOtp, verifyForgotPasswordOtp } from '@/redux/actions/authActions';
+import {
+  resendForgotPasswordOtp,
+  verifyForgotPasswordOtp,
+} from '@/redux/actions/authActions';
 
 export function VerifyByEmailCode() {
   const route = useRoute();
@@ -33,7 +36,7 @@ export function VerifyByEmailCode() {
     value,
     setValue,
   });
-console.log("ahskhkahkfsa", registerDetail)
+
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds(prevSeconds => {
@@ -58,6 +61,7 @@ console.log("ahskhkahkfsa", registerDetail)
 
   const handleResendClick = () => {
     const data = {
+      type: 1,
       user_id: registerDetail?.register?.data?.id,
     };
     setSeconds(59);
@@ -135,19 +139,27 @@ console.log("ahskhkahkfsa", registerDetail)
 
           <Text style={styles.resendCodeText}>
             {'Resend Code in  '}
-            <Text style={styles.countText}>{'00.16'}</Text>
+            <Text style={styles.countText}>{formatTime(seconds)}</Text>
           </Text>
           <Spacer space={ms(70)} />
 
-          <TouchableOpacity style={styles.resendButtonView}>
-            <Text>{'Resend'}</Text>
+          <TouchableOpacity
+            style={[
+              styles.resendButtonView,
+              {backgroundColor: seconds === 0 ? '#1616C8' : '#E6E6E6'},
+            ]}
+            disabled={seconds !== 0}
+            onPress={handleResendClick}>
+            <Text
+              style={[
+                styles.subTitleText,
+                {color: seconds === 0 ? '#fff' : '#000'},
+              ]}>
+              {'Resend'}
+            </Text>
           </TouchableOpacity>
-
           {/* <Spacer space={ms(10)} /> */}
-          <CustomButton
-            title={'Verify'}
-            onPress={() => navigate(NAVIGATION.createNewPassword)}
-          />
+          <CustomButton title={'Verify'} onPress={handleVerifyClick} />
         </View>
         <View style={{flex: 0.1}}>
           <Image

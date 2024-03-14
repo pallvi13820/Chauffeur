@@ -15,5 +15,6 @@ export const AUTH_RESEND_OTP = 'auth/resendOtp';
 export const AUTH_FORGOT_PASSWORD = 'auth/forgotPassword';
 export const AUTH_VERIFY_FORGOT_PASSWORD_OTP = 'auth/logout';
 export const AUTH_RESEND_FORGOT_PASSWORD_OTP = 'auth/signup';
-export const AUTH_GET_RIDE_PRICE = 'auth/getRidePrice';
-
+export const AUTH_CREATE_NEW_PASSWORD = 'auth/createNewPassword';
+export const USER = 'user';
+export const USER_GET_RIDE_PRICE = 'user/getRidePrice';

@@ -76,11 +76,6 @@ export function AuthNavigator() {
         name={NAVIGATION.home}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        component={ChooseVehicle}
-        name={NAVIGATION.chooseVehicle}
-        options={{headerShown: false}}
-      />
     </Stack.Navigator>
   );
 }

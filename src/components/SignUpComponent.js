@@ -15,6 +15,8 @@ const SignUpComponent = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
+  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+  const [isVisibleConfirmPwd, setIsVisibleConfirmPwd] = useState(false);
 
   const handleSubmit = () => {
     validateFields();
@@ -31,6 +33,9 @@ const SignUpComponent = () => {
     };
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     let Passwordregex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (name == '') {
+      alert('Please enter Full Name');
+    }
     if (email == '') {
       alert('Please enter email id');
     } else if (reg.test(email) === false) {
@@ -47,6 +52,10 @@ const SignUpComponent = () => {
       navigate(NAVIGATION.verifyPhoneNumber, {
         signUpUserDetail: signUpUserDetail,
       });
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setName('');
     }
   };
 
@@ -73,8 +82,14 @@ const SignUpComponent = () => {
         value={password}
         onChangeText={text => setPassword(text)}
         left={<TextInput.Icon icon={Lock} size={20} />}
-        right={<TextInput.Icon icon={Eye} size={20} />}
-        secureTextEntry
+        right={
+          <TextInput.Icon
+            icon={Eye}
+            size={20}
+            onPress={() => setIsVisiblePassword(!isVisiblePassword)}
+          />
+        }
+        secureTextEntry={!isVisiblePassword}
       />
       <Spacer space={ms(20)} />
       <CustomInput
@@ -82,8 +97,14 @@ const SignUpComponent = () => {
         value={confirmPassword}
         onChangeText={text => setConfirmPassword(text)}
         left={<TextInput.Icon icon={Lock} size={20} />}
-        right={<TextInput.Icon icon={Eye} size={20} />}
-        secureTextEntry
+        right={
+          <TextInput.Icon
+            icon={Eye}
+            size={20}
+            onPress={() => setIsVisibleConfirmPwd(!isVisibleConfirmPwd)}
+          />
+        }
+        secureTextEntry={!isVisibleConfirmPwd}
       />
 
       <Text style={styles.textStyle}>

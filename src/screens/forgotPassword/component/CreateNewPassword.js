@@ -15,11 +15,24 @@ import {ms} from 'react-native-size-matters';
 import {TextInput} from 'react-native-paper';
 import CustomInput from '@/components/CustomInput';
 import CustomButton from '@/components/CustomButton';
-import { Spacer } from '@/theme/Spacer';
+import {Spacer} from '@/theme/Spacer';
+import {useDispatch, useSelector} from 'react-redux';
+import {createNewPassword} from '@/redux/actions/authActions';
 
 export function CreateNewPassword() {
+  const dispatch = useDispatch();
   const [password, setPassword] = useState('');
+  const registerDetail = useSelector(state => state?.auth);
+  const [isVisible, setIsVisible] = useState(false);
 
+  const handleResetPassword = () => {
+    const data = {
+      user_id: registerDetail?.register?.data?.id,
+      new_password: password,
+    };
+
+    dispatch(createNewPassword(data));
+  };
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView
@@ -43,8 +56,14 @@ export function CreateNewPassword() {
             value={password}
             onChangeText={text => setPassword(text)}
             left={<TextInput.Icon icon={Lock} size={20} />}
-            right={<TextInput.Icon icon={Eye} size={20} />}
-            secureTextEntry
+            right={
+              <TextInput.Icon
+                icon={Eye}
+                size={20}
+                onPress={() => setIsVisible(!isVisible)}
+              />
+            }
+            secureTextEntry={!isVisible}
             placeholder={'Password'}
           />
 
@@ -72,7 +91,10 @@ export function CreateNewPassword() {
           </View>
 
           <Spacer space={ms(15)} />
-          <CustomButton title={'Reset Password'} />
+          <CustomButton
+            title={'Reset Password'}
+            onPress={handleResetPassword}
+          />
         </View>
         <View style={{flex: 0.1}}>
           <Image

@@ -22,6 +22,7 @@ const LoginComponent = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleSubmit = () => {
     validateFields();
@@ -71,8 +72,14 @@ const LoginComponent = () => {
         value={password}
         onChangeText={text => setPassword(text)}
         left={<TextInput.Icon icon={Lock} size={20} />}
-        right={<TextInput.Icon icon={Eye} size={20} />}
-        secureTextEntry
+        right={
+          <TextInput.Icon
+            icon={Eye}
+            size={20}
+            onPress={() => setIsVisible(!isVisible)}
+          />
+        }
+        secureTextEntry={!isVisible }
         placeholder={'Password'}
       />
 

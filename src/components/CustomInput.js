@@ -13,6 +13,7 @@ const CustomInput = ({
   style,
   secureTextEntry,
   placeholder,
+  maxLength
 }) => {
   return (
     <TextInput
@@ -35,6 +36,7 @@ const CustomInput = ({
       secureTextEntry={secureTextEntry}
       placeholder={placeholder}
       activeOutlineColor="#AEAEAE"
+      maxLength={maxLength}
     />
   );
 };

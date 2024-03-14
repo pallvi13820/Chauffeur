@@ -229,7 +229,6 @@ const OneWayPickDropPoint = () => {
     };
 
     const rideDetail = await dispatch(getRidePrice(body));
-    console.log('dsafhdsgfkdshga', rideDetail);
     return rideDetail;
   };
 

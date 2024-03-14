@@ -17,6 +17,7 @@ import {NAVIGATION} from '@/constants';
 import CustomInput from '@/components/CustomInput';
 import {forgotPassword} from '@/redux/actions/authActions';
 import {useDispatch} from 'react-redux';
+import {ScreenWrapper} from '@/components/ScreenWrapper';
 
 export function RecoverViaEmail() {
   const dispatch = useDispatch();
@@ -44,48 +45,49 @@ export function RecoverViaEmail() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}>
-        <TouchableOpacity
-          style={styles.arrowIconViewStyle}
-          onPress={() => goBack()}>
-          <Image source={LeftBlackArrow} style={styles.arrowIconStyle} />
-        </TouchableOpacity>
+        <View style={{flex: 1, paddingHorizontal: ms(20)}}>
+          <TouchableOpacity
+            style={styles.arrowIconViewStyle}
+            onPress={() => goBack()}>
+            <Image source={LeftBlackArrow} style={styles.arrowIconStyle} />
+          </TouchableOpacity>
 
-        <Spacer space={ms(15)} />
-        <Text style={styles.headerTitle}>{'Recover'}</Text>
-        <Text style={styles.headerSubTitle}>{'Password Via Email'}</Text>
-        <View style={styles.seprator} />
+          <Spacer space={ms(15)} />
+          <Text style={styles.headerTitle}>{'Recover'}</Text>
+          <Text style={styles.headerSubTitle}>{'Password Via Email'}</Text>
+          <View style={styles.seprator} />
 
-        <Spacer space={ms(35)} />
-        <Image source={EmailBanner} style={styles.bannerEmailImage} />
-        <Spacer space={ms(35)} />
+          <Spacer space={ms(35)} />
+          <Image source={EmailBanner} style={styles.bannerEmailImage} />
+          <Spacer space={ms(35)} />
 
-        <Text style={styles.bannerText}>
-          {'Please enter the email to recover your password.'}
-        </Text>
-        <Spacer space={ms(40)} />
+          <Text style={styles.bannerText}>
+            {'Please enter the email to recover your password.'}
+          </Text>
+          <Spacer space={ms(40)} />
 
-        <CustomInput
-          label={'Email'}
-          value={email}
-          onChangeText={text => setEmail(text)}
-          left={<TextInput.Icon icon={Email} size={20} />}
-          placeholder={'Email'}
-        />
+          <CustomInput
+            label={'Email'}
+            value={email}
+            onChangeText={text => setEmail(text)}
+            left={<TextInput.Icon icon={Email} size={20} />}
+            placeholder={'Email'}
+          />
 
-        <Spacer space={ms(30)} />
+          <Spacer space={ms(30)} />
 
-        <CustomButton title={'Submit'} onPress={handleVerifyClick} />
-
+          <CustomButton title={'Submit'} onPress={handleVerifyClick} />
+        </View>
         <Image
           source={BottomBackground}
           style={styles.backgroundImage}
           resizeMode="cover"
         />
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

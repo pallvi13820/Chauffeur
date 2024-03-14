@@ -9,6 +9,7 @@ import SignUpComponent from '@/components/SignUpComponent';
 import {BottomBackground, Logo} from '@/assets';
 import {useIsFocused} from '@react-navigation/native';
 import {COLORS} from '@/theme/Colors';
+import {ScreenWrapper} from '@/components/ScreenWrapper';
 
 export function Login() {
   const isFocused = useIsFocused();
@@ -26,7 +27,7 @@ export function Login() {
   const signupText = {
     color: activeTab == 1 ? '#fff' : '#0F0F0F',
   };
-  
+
   useEffect(() => {
     if (isFocused) {
       setTimeout(() => {
@@ -37,7 +38,7 @@ export function Login() {
   }, [isFocused]);
 
   return (
-    <View style={styles.container}>
+    <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}>
@@ -77,6 +78,6 @@ export function Login() {
           />
         </View>
       </KeyboardAwareScrollView>
-    </View>
+    </ScreenWrapper>
   );
 }

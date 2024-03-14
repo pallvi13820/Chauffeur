@@ -1,11 +1,5 @@
-import React, {useState} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {BottomBackground, Edit} from '../../../assets';
 import {styles} from '../styles';
@@ -20,15 +14,70 @@ import CustomButton from '@/components/CustomButton';
 import {Spacer} from '@/theme/Spacer';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
+import {useRoute} from '@react-navigation/native';
+import {
+  resendForgotPasswordOtp,
+  verifyForgotPasswordOtp,
+} from '@/redux/actions/authActions';
+import {useDispatch, useSelector} from 'react-redux';
 
 export function VerifyByPhoneCode() {
+  const registerDetail = useSelector(state => state?.auth);
+  const dispatch = useDispatch();
+  const route = useRoute();
   const CELL_COUNT = 4;
   const [value, setValue] = useState('');
+  const [seconds, setSeconds] = useState(59);
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(prevSeconds => {
+        if (prevSeconds === 0) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prevSeconds - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [seconds]);
+
+  const formatTime = time => {
+    const minutes = Math.floor(time / 60)
+      .toString()
+      .padStart(2, '0');
+    const seconds = (time % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  };
+
+  const handleResendClick = () => {
+    const data = {
+      type: 2,
+      user_id: registerDetail?.register?.data?.id,
+    };
+    setSeconds(59);
+    setValue('');
+    dispatch(resendForgotPasswordOtp(data));
+  };
+
+  const handleVerifyClick = () => {
+    const data = {
+      user_id: registerDetail?.register?.data?.id,
+      reset_password_otp: value,
+    };
+    if (value < 4) {
+      alert('Please Fill the Verification Code');
+    } else {
+      dispatch(verifyForgotPasswordOtp(data));
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView
@@ -48,7 +97,9 @@ export function VerifyByPhoneCode() {
 
           <Spacer space={ms(25)} />
           <View style={styles.editTextView}>
-            <Text style={styles.subTitleText}> {'+41 (785)0025674'}</Text>
+            <Text style={styles.subTitleText}>
+              {route?.params?.phoneNumber}
+            </Text>
             <TouchableOpacity>
               <Image source={Edit} style={styles.editIcon} />
             </TouchableOpacity>
@@ -87,18 +138,29 @@ export function VerifyByPhoneCode() {
 
           <Text style={styles.resendCodeText}>
             {'Resend Code in  '}
-            <Text style={styles.countText}>{'00.16'}</Text>
+            <Text style={styles.countText}>{formatTime(seconds)}</Text>
           </Text>
           <Spacer space={ms(70)} />
 
-          <TouchableOpacity style={styles.resendButtonView}>
-            <Text>{'Resend'}</Text>
+          <TouchableOpacity
+            style={[
+              styles.resendButtonView,
+              {backgroundColor: seconds === 0 ? '#1616C8' : '#E6E6E6'},
+            ]}
+            disabled={seconds !== 0}
+            onPress={handleResendClick}>
+            <Text
+              style={[
+                styles.subTitleText,
+                {color: seconds === 0 ? '#fff' : '#000'},
+              ]}>
+              {'Resend'}
+            </Text>
           </TouchableOpacity>
-
           {/* <Spacer space={ms(10)} /> */}
           <CustomButton
             title={'Verify'}
-            onPress={() => navigate(NAVIGATION.createNewPassword)}
+            onPress={handleVerifyClick}
           />
         </View>
         <View style={{flex: 0.1}}>

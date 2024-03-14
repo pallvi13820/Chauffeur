@@ -113,7 +113,8 @@ export function VerifyPhoneNumber() {
                 withFlag={true}
                 withCountryNameButton={true}
                 countryCode={countryCode}
-                filter={true}
+                withFilter={true}
+                // filter={true}
                 // filterPlaceholder="Search"
                 // filterPlaceholderTextColor="#ccc"
                 // filterOptions={{

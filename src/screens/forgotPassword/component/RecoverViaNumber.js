@@ -15,56 +15,79 @@ import CustomButton from '@/components/CustomButton';
 import {Spacer} from '@/theme/Spacer';
 import {navigate, goBack} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
+import {useDispatch} from 'react-redux';
+import {ScreenWrapper} from '@/components/ScreenWrapper';
+import { forgotPassword } from '@/redux/actions/authActions';
 
 export function RecoverViaNumber() {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const dispatch = useDispatch();
 
+  const handleVerifyClick = () => {
+    if (phoneNumber == '') {
+      alert('Please enter Phone Number');
+    } else {
+      forgotPasswordRequest();
+    }
+  };
+
+  const forgotPasswordRequest = () => {
+    const data = {
+      phoneNumber: phoneNumber,
+      type: 2,
+    };
+
+    dispatch(forgotPassword(data));
+    navigate(NAVIGATION.verifyByPhoneCode, {phoneNumber: phoneNumber});
+  };
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}>
-        <TouchableOpacity
-          style={styles.arrowIconViewStyle}
-          onPress={() => goBack()}>
-          <Image source={LeftBlackArrow} style={styles.arrowIconStyle} />
-        </TouchableOpacity>
+        <View style={{flex: 1, paddingHorizontal: ms(20)}}>
+          <TouchableOpacity
+            style={styles.arrowIconViewStyle}
+            onPress={() => goBack()}>
+            <Image source={LeftBlackArrow} style={styles.arrowIconStyle} />
+          </TouchableOpacity>
 
-        <Spacer space={ms(15)} />
-        <Text style={styles.headerTitle}>{'Recover'}</Text>
-        <Text style={styles.headerSubTitle}>{'Password Via Phone'}</Text>
-        <View style={styles.seprator} />
+          <Spacer space={ms(15)} />
+          <Text style={styles.headerTitle}>{'Recover'}</Text>
+          <Text style={styles.headerSubTitle}>{'Password Via Phone'}</Text>
+          <View style={styles.seprator} />
 
-        <Spacer space={ms(35)} />
-        <Image source={PhoneBanner} style={styles.bannerEmailImage} />
-        <Spacer space={ms(35)} />
+          <Spacer space={ms(35)} />
+          <Image source={PhoneBanner} style={styles.bannerEmailImage} />
+          <Spacer space={ms(35)} />
 
-        <Text style={styles.bannerText}>
-          {'Please enter the email to recover your password.'}
-        </Text>
-        <Spacer space={ms(40)} />
+          <Text style={styles.bannerText}>
+            {'Please enter the email to recover your password.'}
+          </Text>
+          <Spacer space={ms(40)} />
 
-        <CustomInput
-          label={'Phone Number'}
-          value={phoneNumber}
-          onChangeText={text => setPhoneNumber(text)}
-          left={<TextInput.Icon icon={Email} size={20} />}
-          placeholder={'Phone Number'}
-        />
+          <CustomInput
+            label={'Phone Number'}
+            value={phoneNumber}
+            onChangeText={text => setPhoneNumber(text)}
+            left={<TextInput.Icon icon={Email} size={20} />}
+            placeholder={'Phone Number'}
+            maxLength={10}
+          />
 
-        <Spacer space={ms(30)} />
+          <Spacer space={ms(30)} />
 
-        <CustomButton
-          title={'Submit'}
-          onPress={() => navigate(NAVIGATION.verifyByPhoneCode)}
-        />
-
+          <CustomButton
+            title={'Submit'}
+            onPress={handleVerifyClick}
+          />
+        </View>
         <Image
           source={BottomBackground}
           style={styles.backgroundImage}
           resizeMode="cover"
         />
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

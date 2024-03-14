@@ -27,31 +27,10 @@ import {goBack} from '@/navigation/NavigationRef';
 import {COLORS} from '@/theme/Colors';
 import {Spacer} from '@/theme/Spacer';
 import {getRidePrice} from '@/redux/actions/authActions';
+import {useSelector} from 'react-redux';
 
 export function ChooseVehicle() {
-  const rideSelectedWay = [
-    {
-      id: 1,
-      image: City,
-      title: 'Business Class',
-      amount: '€ 45.00',
-      onPress: () => {},
-    },
-    {
-      id: 2,
-      image: Airplane,
-      title: 'Business Class',
-      amount: '€ 45.00',
-      onPress: () => {},
-    },
-    {
-      id: 3,
-      image: City,
-      title: 'Business Class',
-      amount: '€ 45.00',
-      onPress: () => {},
-    },
-  ];
+  const rideRates = useSelector(state => state?.user?.ridePrice?.data);
 
   const vehicleDetail = [
     {
@@ -102,9 +81,9 @@ export function ChooseVehicle() {
       }}
       onPress={item?.onPress}>
       <Image
-        source={item?.image}
+        source={{uri: item?.file_src}}
         resizeMode="contain"
-        style={{tintColor: 'black', height: ms(46), width: ms(88)}}
+        style={{height: ms(46), width: ms(88)}}
       />
       <Text
         style={{
@@ -113,7 +92,7 @@ export function ChooseVehicle() {
           color: COLORS.black,
           marginTop: ms(5),
         }}>
-        {item?.amount}
+        {item?.ride_price}
       </Text>
       <Text
         style={{
@@ -121,7 +100,7 @@ export function ChooseVehicle() {
           fontWeight: '500',
           color: COLORS.skyGray,
         }}>
-        {item?.title}
+        {item?.category_name}
       </Text>
     </TouchableOpacity>
   );
@@ -185,7 +164,7 @@ export function ChooseVehicle() {
         <Spacer space={ms(20)} />
         <View>
           <FlatList
-            data={rideSelectedWay}
+            data={rideRates?.categories_rates || []}
             horizontal
             renderItem={renderItem}
             style={{marginHorizontal: ms(10)}}
