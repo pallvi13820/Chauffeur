@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CustomInput from './CustomInput';
-import {Email, Eye, Lock} from '../assets';
+import {Email, Eye, Lock, visibleEye} from '../assets';
 import {TextInput} from 'react-native-paper';
 import {ms} from 'react-native-size-matters';
 import CustomButton from './CustomButton';
@@ -35,8 +35,7 @@ const SignUpComponent = () => {
     let Passwordregex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (name == '') {
       alert('Please enter Full Name');
-    }
-    if (email == '') {
+    } else if (email == '') {
       alert('Please enter email id');
     } else if (reg.test(email) === false) {
       alert('Please enter the valid email Id.');
@@ -84,7 +83,7 @@ const SignUpComponent = () => {
         left={<TextInput.Icon icon={Lock} size={20} />}
         right={
           <TextInput.Icon
-            icon={Eye}
+            icon={isVisiblePassword ? Eye : visibleEye}
             size={20}
             onPress={() => setIsVisiblePassword(!isVisiblePassword)}
           />
@@ -99,7 +98,7 @@ const SignUpComponent = () => {
         left={<TextInput.Icon icon={Lock} size={20} />}
         right={
           <TextInput.Icon
-            icon={Eye}
+            icon={isVisibleConfirmPwd ? Eye : visibleEye}
             size={20}
             onPress={() => setIsVisibleConfirmPwd(!isVisibleConfirmPwd)}
           />

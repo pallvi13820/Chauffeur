@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Apple, Email, Eye, Google, Lock, Seprator} from '@/assets';
+import {Apple, Email, Eye, Google, Lock, Seprator, visibleEye} from '@/assets';
 import {TextInput} from 'react-native-paper';
 import {ms} from 'react-native-size-matters';
 import CustomInput from './CustomInput';
@@ -23,6 +23,24 @@ const LoginComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
+  const handleFocusPassword = () => {
+    setIsFocusedPassword(true);
+  };
+
+  const handleBlurPassword = () => {
+    setIsFocusedPassword(false);
+  };
 
   const handleSubmit = () => {
     validateFields();
@@ -59,28 +77,32 @@ const LoginComponent = () => {
   return (
     <View style={styles.container}>
       <CustomInput
-        label={'Email'}
+        label={isFocused ? 'Email' : ''}
         value={email}
         onChangeText={text => setEmail(text)}
         left={<TextInput.Icon icon={Email} size={20} />}
         placeholder={'Email'}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       <Spacer space={ms(20)} />
 
       <CustomInput
-        label={'Password'}
+        label={isFocusedPassword ? 'Password' : ''}
         value={password}
         onChangeText={text => setPassword(text)}
         left={<TextInput.Icon icon={Lock} size={20} />}
         right={
           <TextInput.Icon
-            icon={Eye}
+            icon={isVisible ? Eye : visibleEye}
             size={20}
             onPress={() => setIsVisible(!isVisible)}
           />
         }
-        secureTextEntry={!isVisible }
+        secureTextEntry={!isVisible}
         placeholder={'Password'}
+        onFocus={handleFocusPassword}
+        onBlur={handleBlurPassword}
       />
 
       <TouchableOpacity

@@ -25,6 +25,7 @@ export function VerifyByEmailCode() {
   const route = useRoute();
 
   const registerDetail = useSelector(state => state?.auth);
+  console.log('fjhdsgggadsgds', registerDetail?.loading);
   const dispatch = useDispatch();
   const CELL_COUNT = 4;
 
@@ -62,7 +63,7 @@ export function VerifyByEmailCode() {
   const handleResendClick = () => {
     const data = {
       type: 1,
-      user_id: registerDetail?.register?.data?.id,
+      user_id: registerDetail?.forgotPasswordDetail?.data?.id,
     };
     setSeconds(59);
     setValue('');
@@ -71,7 +72,7 @@ export function VerifyByEmailCode() {
 
   const handleVerifyClick = () => {
     const data = {
-      user_id: registerDetail?.register?.data?.id,
+      user_id: registerDetail?.forgotPasswordDetail?.data?.id,
       reset_password_otp: value,
     };
     if (value < 4) {

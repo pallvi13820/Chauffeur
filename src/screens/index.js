@@ -13,3 +13,6 @@ export {VerifyPhoneNumber} from '@/screens/verifyOtp';
 export {VerifyOtp} from '@/screens/verifyOtp/component/VerifyOtp';
 export {Home} from '@/screens/home';
 export {ChooseVehicle} from '@/screens/chooseVehicle';
+export {Booking} from '@/screens/booking';
+export {Checkout} from '@/screens/checkout';
+export {AddCardDetails} from '@/screens/checkout/component/AddCardDetails';

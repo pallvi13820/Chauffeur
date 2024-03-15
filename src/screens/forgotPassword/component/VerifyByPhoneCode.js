@@ -23,6 +23,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 export function VerifyByPhoneCode() {
   const registerDetail = useSelector(state => state?.auth);
+
   const dispatch = useDispatch();
   const route = useRoute();
   const CELL_COUNT = 4;
@@ -59,7 +60,7 @@ export function VerifyByPhoneCode() {
   const handleResendClick = () => {
     const data = {
       type: 2,
-      user_id: registerDetail?.register?.data?.id,
+      user_id: registerDetail?.forgotPasswordDetail?.data?.id,
     };
     setSeconds(59);
     setValue('');
@@ -68,7 +69,7 @@ export function VerifyByPhoneCode() {
 
   const handleVerifyClick = () => {
     const data = {
-      user_id: registerDetail?.register?.data?.id,
+      user_id: registerDetail?.forgotPasswordDetail?.data?.id,
       reset_password_otp: value,
     };
     if (value < 4) {
@@ -158,10 +159,7 @@ export function VerifyByPhoneCode() {
             </Text>
           </TouchableOpacity>
           {/* <Spacer space={ms(10)} /> */}
-          <CustomButton
-            title={'Verify'}
-            onPress={handleVerifyClick}
-          />
+          <CustomButton title={'Verify'} onPress={handleVerifyClick} />
         </View>
         <View style={{flex: 0.1}}>
           <Image

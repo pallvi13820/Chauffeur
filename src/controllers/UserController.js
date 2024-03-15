@@ -29,7 +29,7 @@ export class UserController {
             visibilityTime: 6000,
           });
 
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -126,6 +126,7 @@ export class UserController {
             position: 'bottom',
             visibilityTime: 1500,
           });
+
           resolve(res);
         })
         .catch(err => {
@@ -135,7 +136,7 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -224,9 +225,8 @@ export class UserController {
       const endpoint = API_BASE_URL + API_END_POINTS.getRidePrice;
       HttpClient.post(endpoint, body)
         .then(res => {
-        
           resolve(res);
-          navigate(NAVIGATION.chooseVehicle)
+          navigate(NAVIGATION.chooseVehicle);
           Toast.show({
             type: 'success_toast',
             text2: res?.message,

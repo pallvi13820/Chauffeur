@@ -16,11 +16,15 @@ import {navigate, goBack} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
 import CustomInput from '@/components/CustomInput';
 import {forgotPassword} from '@/redux/actions/authActions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
+import FastImage from 'react-native-fast-image';
 
 export function RecoverViaEmail() {
   const dispatch = useDispatch();
+  const registerDetail = useSelector(state => state?.auth);
+  const loading = registerDetail?.loading;
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
 
   const handleVerifyClick = () => {
@@ -34,14 +38,19 @@ export function RecoverViaEmail() {
     }
   };
 
-  const forgotPasswordRequest = () => {
+  const forgotPasswordRequest = async () => {
     const data = {
       email: email.trim(),
       type: 1,
     };
+    setIsLoading(true);
 
-    dispatch(forgotPassword(data));
-    navigate(NAVIGATION.verifyByEmailCode, {email: email});
+    const forgotData = await dispatch(forgotPassword(data));
+
+    setIsLoading(false);
+    if (forgotData?.error?.message != 'Rejected') {
+      navigate(NAVIGATION.verifyByEmailCode, {email: email});
+    }
   };
 
   return (
@@ -80,7 +89,11 @@ export function RecoverViaEmail() {
 
           <Spacer space={ms(30)} />
 
-          <CustomButton title={'Submit'} onPress={handleVerifyClick} />
+          <CustomButton
+            title={'Submit'}
+            onPress={handleVerifyClick}
+            loading={isLoading}
+          />
         </View>
         <Image
           source={BottomBackground}

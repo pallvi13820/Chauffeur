@@ -11,4 +11,7 @@ export const NAVIGATION = {
   verifyOtp: 'VerifyOtp',
   home: 'Home',
   chooseVehicle: 'ChooseVehicle',
+  booking: 'Booking',
+  checkout: 'Checkout',
+  addCardDetails: 'AddCardDetails',
 };

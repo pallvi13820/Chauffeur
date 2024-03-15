@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   Image,
@@ -23,14 +23,17 @@ import {
 } from '@/assets';
 import CustomButton from '@/components/CustomButton';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
-import {goBack} from '@/navigation/NavigationRef';
+import {goBack, navigate} from '@/navigation/NavigationRef';
 import {COLORS} from '@/theme/Colors';
 import {Spacer} from '@/theme/Spacer';
 import {getRidePrice} from '@/redux/actions/authActions';
 import {useSelector} from 'react-redux';
+import {NAVIGATION} from '@/constants';
 
 export function ChooseVehicle() {
   const rideRates = useSelector(state => state?.user?.ridePrice?.data);
+  const [selectedIndex, setSelectedIndex] = useState();
+  const [rideDetail, setRideDetail] = useState('');
 
   const vehicleDetail = [
     {
@@ -64,14 +67,13 @@ export function ChooseVehicle() {
       title: 'Eco-friendly',
     },
   ];
-
+  console.log('dgkdfhghfg', selectedIndex, rideDetail);
   const renderItem = ({item, index}) => (
     <TouchableOpacity
       style={{
-        alignItems: '#00008B',
         padding: ms(10),
-        borderColor: 'blue',
-        borderWidth: 1,
+        borderColor: selectedIndex === index ? '#00008B' : COLORS.skyGray,
+        borderWidth: 2,
         marginHorizontal: ms(10),
         justifyContent: 'center',
         // height: ms(110),
@@ -79,7 +81,9 @@ export function ChooseVehicle() {
         paddingHorizontal: ms(20),
         alignItems: 'center',
       }}
-      onPress={item?.onPress}>
+      onPress={() => {
+        setSelectedIndex(index), setRideDetail(item);
+      }}>
       <Image
         source={{uri: item?.file_src}}
         resizeMode="contain"
@@ -130,6 +134,13 @@ export function ChooseVehicle() {
     </View>
   );
 
+  const handleContinue = () => {
+    if (rideDetail == '') {
+      alert('Please Select Ride');
+    } else {
+      navigate(NAVIGATION.booking, {rideData: rideDetail});
+    }
+  };
   return (
     <ScreenWrapper>
       <View>
@@ -241,10 +252,7 @@ export function ChooseVehicle() {
           />
         </View>
 
-        <CustomButton
-          title={'Continue'}
-          // onPress={() => navigate(NAVIGATION.chooseVehicle)}
-        />
+        <CustomButton title={'Continue'} onPress={handleContinue} />
       </View>
     </ScreenWrapper>
   );

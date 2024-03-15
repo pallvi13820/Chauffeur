@@ -25,13 +25,13 @@ export function CreateNewPassword() {
   const registerDetail = useSelector(state => state?.auth);
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
     const data = {
-      user_id: registerDetail?.register?.data?.id,
+      user_id: registerDetail?.forgotPasswordDetail?.data?.id,
       new_password: password,
     };
 
-    dispatch(createNewPassword(data));
+    await dispatch(createNewPassword(data));
   };
   return (
     <SafeAreaView style={styles.container}>

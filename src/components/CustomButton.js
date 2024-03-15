@@ -1,9 +1,11 @@
+import { COLORS } from '@/theme/Colors';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {moderateScale, ms} from 'react-native-size-matters';
 
-const CustomButton = ({title, onPress, disabled}) => {
+const CustomButton = ({title, onPress, disabled, loading}) => {
   return (
     <LinearGradient
       colors={['rgba(22, 22, 200, 1)', 'rgba(0, 0, 139, 1)']}
@@ -12,7 +14,15 @@ const CustomButton = ({title, onPress, disabled}) => {
         onPress={onPress}
         style={styles.buttonView}
         disabled={disabled}>
-        <Text style={styles.title}>{title}</Text>
+        {loading ? (
+          <FastImage
+            source={require('@/assets/gif/WhiteLoader.gif')}
+            style={{width: ms(20), height: ms(20) , borderColor: COLORS.white}}
+            resizeMode={FastImage.resizeMode.contain}
+          />
+        ) : (
+          <Text style={styles.title}>{title}</Text>
+        )}
       </TouchableOpacity>
     </LinearGradient>
   );

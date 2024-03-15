@@ -17,7 +17,7 @@ import {navigate, goBack} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
 import {useDispatch} from 'react-redux';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
-import { forgotPassword } from '@/redux/actions/authActions';
+import {forgotPassword} from '@/redux/actions/authActions';
 
 export function RecoverViaNumber() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -31,13 +31,13 @@ export function RecoverViaNumber() {
     }
   };
 
-  const forgotPasswordRequest = () => {
+  const forgotPasswordRequest = async () => {
     const data = {
       phoneNumber: phoneNumber,
       type: 2,
     };
 
-    dispatch(forgotPassword(data));
+    await dispatch(forgotPassword(data));
     navigate(NAVIGATION.verifyByPhoneCode, {phoneNumber: phoneNumber});
   };
   return (
@@ -77,10 +77,7 @@ export function RecoverViaNumber() {
 
           <Spacer space={ms(30)} />
 
-          <CustomButton
-            title={'Submit'}
-            onPress={handleVerifyClick}
-          />
+          <CustomButton title={'Submit'} onPress={handleVerifyClick} />
         </View>
         <Image
           source={BottomBackground}

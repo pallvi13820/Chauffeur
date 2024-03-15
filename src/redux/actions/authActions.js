@@ -20,7 +20,7 @@ export const login = createAsyncThunk(
       const res = await UserController.login(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -32,7 +32,7 @@ export const signUp = createAsyncThunk(
       const res = await UserController.signUp(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -44,7 +44,7 @@ export const verifyOtp = createAsyncThunk(
       const res = await UserController.verifyOtp(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -56,7 +56,7 @@ export const resendOtp = createAsyncThunk(
       const res = await UserController.resendOtp(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -68,7 +68,7 @@ export const forgotPassword = createAsyncThunk(
       const res = await UserController.forgotPassword(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -80,7 +80,7 @@ export const verifyForgotPasswordOtp = createAsyncThunk(
       const res = await UserController.verifyForgotPasswordOtp(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -92,7 +92,7 @@ export const resendForgotPasswordOtp = createAsyncThunk(
       const res = await UserController.resendForgotPasswordOtp(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -104,7 +104,7 @@ export const createNewPassword= createAsyncThunk(
       const res = await UserController.createNewPassword(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
@@ -117,7 +117,7 @@ export const getRidePrice = createAsyncThunk(
       const res = await UserController.getRidePrice(body);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );
