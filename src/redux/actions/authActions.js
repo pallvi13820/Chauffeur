@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {UserController} from '@/controllers';
 import {
+  AUTH,
   AUTH_CREATE_NEW_PASSWORD,
   AUTH_FORGOT_PASSWORD,
   AUTH_LOGIN,
@@ -14,7 +15,7 @@ import {
 } from '../types';
 
 export const login = createAsyncThunk(
-  AUTH_LOGIN,
+  AUTH,
   async (body, {rejectWithValue}) => {
     try {
       const res = await UserController.login(body);
@@ -129,7 +130,7 @@ export const logout = createAsyncThunk(
       const res = await UserController.logout(params);
       return res;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(JSON.stringify(error));
     }
   },
 );

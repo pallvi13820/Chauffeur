@@ -21,12 +21,18 @@ import {ms} from 'react-native-size-matters';
 import {useIsFocused} from '@react-navigation/native';
 import {styles} from './styles';
 import OneWayPickDropPoint from './component/OneWayPickDropPoint';
-import { ScreenWrapper } from '@/components/ScreenWrapper';
-import { Spacer } from '@/theme/Spacer';
+import {ScreenWrapper} from '@/components/ScreenWrapper';
+import {Spacer} from '@/theme/Spacer';
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '@/redux/actions/authActions';
 
 export function Home() {
+  const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const isLoadings = useSelector(state => state?.auth?.loading);
+  console.log('jghkdfhkfg', isLoadings);
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -103,6 +109,10 @@ export function Home() {
     </View>
   );
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   useEffect(() => {
     if (isFocused) {
       setTimeout(() => {
@@ -121,7 +131,7 @@ export function Home() {
           <ImageBackground
             source={Linear}
             style={styles.opacityBackgroundImage}>
-            <TouchableOpacity style={styles.menuView}>
+            <TouchableOpacity style={styles.menuView} onPress={handleLogout}>
               <Image source={Menu} style={styles.menuIcon} />
             </TouchableOpacity>
             <View style={styles.rideView}>

@@ -12,4 +12,5 @@ export const API_END_POINTS = {
   verifyForgotPasswordOtp: 'user/verifyForgotPasswordOtp',
   getRidePrice: 'user/getRidePrice',
   createNewPassword: 'user/resetPassword',
+  logout: 'user/logout',
 };

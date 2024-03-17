@@ -20,6 +20,7 @@ import {
   verifyForgotPasswordOtp,
 } from '@/redux/actions/authActions';
 import {useDispatch, useSelector} from 'react-redux';
+import FastImage from 'react-native-fast-image';
 
 export function VerifyByPhoneCode() {
   const registerDetail = useSelector(state => state?.auth);
@@ -29,6 +30,9 @@ export function VerifyByPhoneCode() {
   const CELL_COUNT = 4;
   const [value, setValue] = useState('');
   const [seconds, setSeconds] = useState(59);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingResend, setIsLoadingResend] = useState(false);
+
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -57,17 +61,19 @@ export function VerifyByPhoneCode() {
     return `${minutes}:${seconds}`;
   };
 
-  const handleResendClick = () => {
+  const handleResendClick = async () => {
     const data = {
       type: 2,
       user_id: registerDetail?.forgotPasswordDetail?.data?.id,
     };
     setSeconds(59);
     setValue('');
-    dispatch(resendForgotPasswordOtp(data));
+    setIsLoadingResend(true);
+    await dispatch(resendForgotPasswordOtp(data));
+    setIsLoadingResend(false);
   };
 
-  const handleVerifyClick = () => {
+  const handleVerifyClick = async () => {
     const data = {
       user_id: registerDetail?.forgotPasswordDetail?.data?.id,
       reset_password_otp: value,
@@ -75,7 +81,12 @@ export function VerifyByPhoneCode() {
     if (value < 4) {
       alert('Please Fill the Verification Code');
     } else {
-      dispatch(verifyForgotPasswordOtp(data));
+      setIsLoading(true);
+      const verifyOtp = await dispatch(verifyForgotPasswordOtp(data));
+      setIsLoading(false);
+      if (verifyOtp?.error?.message != 'Rejected') {
+        navigate(NAVIGATION.createNewPassword);
+      }
     }
   };
 
@@ -150,16 +161,28 @@ export function VerifyByPhoneCode() {
             ]}
             disabled={seconds !== 0}
             onPress={handleResendClick}>
-            <Text
-              style={[
-                styles.subTitleText,
-                {color: seconds === 0 ? '#fff' : '#000'},
-              ]}>
-              {'Resend'}
-            </Text>
+            {isLoadingResend ? (
+              <FastImage
+                source={require('@/assets/gif/Loader.gif')}
+                style={{width: ms(35), height: ms(35)}}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+            ) : (
+              <Text
+                style={[
+                  styles.subTitleText,
+                  {color: seconds === 0 ? '#fff' : '#000'},
+                ]}>
+                {'Resend'}
+              </Text>
+            )}
           </TouchableOpacity>
           {/* <Spacer space={ms(10)} /> */}
-          <CustomButton title={'Verify'} onPress={handleVerifyClick} />
+          <CustomButton
+            title={'Verify'}
+            onPress={handleVerifyClick}
+            loading={isLoading}
+          />
         </View>
         <View style={{flex: 0.1}}>
           <Image

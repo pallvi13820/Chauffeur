@@ -19,7 +19,6 @@ export class UserController {
             visibilityTime: 1500,
           });
           resolve(res);
-          navigate(NAVIGATION.home);
         })
         .catch(err => {
           Toast.show({
@@ -55,7 +54,7 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -82,8 +81,7 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -109,7 +107,7 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -154,7 +152,6 @@ export class UserController {
             visibilityTime: 1500,
           });
           resolve(res);
-          navigate(NAVIGATION.createNewPassword);
         })
         .catch(err => {
           Toast.show({
@@ -163,7 +160,7 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -189,7 +186,7 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -235,7 +232,6 @@ export class UserController {
           });
         })
         .catch(err => {
-          console.log('dgjdflgjdf', err);
           Toast.show({
             text2: err.message,
             position: 'bottom',
@@ -248,8 +244,31 @@ export class UserController {
   }
 
   static async logout() {
-    return new Promise(resolve => {
-      setTimeout(resolve, 500);
+    return new Promise((resolve, reject) => {
+      const endpoint = API_BASE_URL + API_END_POINTS.logout;
+      HttpClient.get(endpoint)
+        .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          resolve(res);
+          console.log('dhgkhdgkhdfg', res);
+        })
+        .catch(err => {
+          console.log('errr', err);
+
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
+          console.log('errr', err);
+        });
     });
   }
 }

@@ -1,4 +1,4 @@
-import { COLORS } from '@/theme/Colors';
+import {COLORS} from '@/theme/Colors';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -17,7 +17,7 @@ const CustomButton = ({title, onPress, disabled, loading}) => {
         {loading ? (
           <FastImage
             source={require('@/assets/gif/WhiteLoader.gif')}
-            style={{width: ms(20), height: ms(20) , borderColor: COLORS.white}}
+            style={{width: ms(35), height: ms(35)}}
             resizeMode={FastImage.resizeMode.contain}
           />
         ) : (

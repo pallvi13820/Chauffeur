@@ -7,6 +7,7 @@ const initialState = {
   user: {},
   register: {},
   forgotPasswordDetail: {},
+  logout: {},
   error: {},
 };
 

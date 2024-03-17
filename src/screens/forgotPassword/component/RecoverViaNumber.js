@@ -21,6 +21,8 @@ import {forgotPassword} from '@/redux/actions/authActions';
 
 export function RecoverViaNumber() {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleVerifyClick = () => {
@@ -37,9 +39,16 @@ export function RecoverViaNumber() {
       type: 2,
     };
 
-    await dispatch(forgotPassword(data));
-    navigate(NAVIGATION.verifyByPhoneCode, {phoneNumber: phoneNumber});
+    setIsLoading(true);
+
+    const forgotData = await dispatch(forgotPassword(data));
+
+    setIsLoading(false);
+    if (forgotData?.error?.message != 'Rejected') {
+      navigate(NAVIGATION.verifyByPhoneCode, {phoneNumber: phoneNumber});
+    }
   };
+
   return (
     <ScreenWrapper>
       <KeyboardAwareScrollView
@@ -77,7 +86,11 @@ export function RecoverViaNumber() {
 
           <Spacer space={ms(30)} />
 
-          <CustomButton title={'Submit'} onPress={handleVerifyClick} />
+          <CustomButton
+            title={'Submit'}
+            onPress={handleVerifyClick}
+            loading={isLoading}
+          />
         </View>
         <Image
           source={BottomBackground}

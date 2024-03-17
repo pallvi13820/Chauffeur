@@ -25,7 +25,17 @@ export function AddCardDetails(props) {
   const handleBlur = () => {
     setIsFocused(false);
   };
+  const formatCardNumber = (input) => {
+    // Remove any non-numeric characters from the input
+    const numericInput = input.replace(/\D/g, '');
 
+    // Format the card number with spaces every 4 characters
+    const formattedInput = numericInput.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+    // Set the formatted card number to the state
+    setCardNumber(formattedInput);
+  };
+  console.log("kjdhfkdhfkg", cardNumber)
   return (
     <ScreenWrapper>
       <KeyboardAwareScrollView
@@ -69,11 +79,12 @@ export function AddCardDetails(props) {
           <CustomInput
             label={isFocused ? 'Card Number' : ''}
             value={cardNumber}
-            onChangeText={text => setCardNumber(text)}
+            onChangeText={formatCardNumber}
             left={<TextInput.Icon icon={creditCard} size={20} />}
             placeholder={'Card Number'}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            maxLength={19}
           />
           <Spacer space={ms(20)} />
 

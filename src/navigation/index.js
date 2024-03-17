@@ -15,7 +15,6 @@ export function RootNavigator() {
   const scheme = useColorScheme();
 
   const [isAuthorized, setIsAuthorized] = useState(false);
-console.log("fdfdlhfd", token)
   useEffect(() => {
     if (token) {
       // console.log(token, 'tk');
@@ -24,11 +23,11 @@ console.log("fdfdlhfd", token)
     } else {
       setIsAuthorized(false);
     }
-  }, [token]);
+  }, [token, isAuthorized]);
 
   return (
     <NavigationContainer theme={theme[scheme]} ref={navigationRef}>
-      {isAuthorized ? <HomeNavigator /> : <AuthNavigator />}
+      {token ? <HomeNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 }

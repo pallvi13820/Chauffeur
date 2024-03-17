@@ -15,7 +15,7 @@ import CustomButton from './CustomButton';
 import {Spacer} from '@/theme/Spacer';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {login} from '@/redux/actions/authActions';
 
 const LoginComponent = () => {
@@ -25,6 +25,7 @@ const LoginComponent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+  const isLoading = useSelector(state => state?.auth?.loading);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -48,32 +49,25 @@ const LoginComponent = () => {
 
   const validateFields = () => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    let Passwordregex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (email == '') {
       alert('Please enter email id');
     } else if (reg.test(email) === false) {
       alert('Please enter the valid email Id.');
     } else if (password == '') {
       alert('Please enter your password');
-    } else if (password?.length < 8) {
-      alert('Password must be 8 character long!');
-    } else if (Passwordregex.test(password) === false) {
-      alert('Password must be at least 1 Number and 1 Capital case letter!');
-    } else {
+  } else {
       loginRequest();
     }
   };
-  const loginRequest = () => {
+  const loginRequest = async () => {
     const data = {
       email: email.trim(),
       password: password,
       device_type: Platform.OS === 'android' ? 1 : 2,
       fcm_token: 'randomUUID',
     };
-
-    dispatch(login(data));
+    await dispatch(login(data));
   };
-
   return (
     <View style={styles.container}>
       <CustomInput
@@ -112,7 +106,11 @@ const LoginComponent = () => {
       </TouchableOpacity>
       <Spacer space={ms(10)} />
 
-      <CustomButton title={'Login'} onPress={handleSubmit} />
+      <CustomButton
+        title={'Login'}
+        onPress={handleSubmit}
+        loading={isLoading}
+      />
       <Spacer space={ms(15)} />
 
       <View style={styles.sepratorLoginView}>

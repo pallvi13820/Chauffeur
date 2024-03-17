@@ -37,7 +37,9 @@ export function VerifyPhoneNumber() {
   const [countryPhoneCode, setCountryPhoneCode] = useState('1');
   const [isVisible, setIsVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
+  const isLoadings = useSelector(state => state?.auth?.loading);
+  console.log('jghkdfhkfg', isLoadings);
   const onSelect = country => {
     setCountryCode(country?.cca2);
     setCountryPhoneCode(country?.callingCode[0]);
@@ -68,19 +70,23 @@ export function VerifyPhoneNumber() {
     } else if (phoneNumber?.length < 10) {
       alert('Please enter the valid Phone Number');
     } else {
-        signUpRequest();
-      navigate(NAVIGATION.verifyOtp, {
-        userDetail: data,
-      });
+      signUpRequest();
     }
   };
-  const signUpRequest = () => {
+  const signUpRequest = async () => {
     const data = {
       ...signUpUserDetail,
       phone_code: countryPhoneCode,
       phone_number: phoneNumber,
     };
-    dispatch(signUp(data));
+    setIsLoading(true);
+    const loginDetail = await dispatch(signUp(data));
+    setIsLoading(false);
+    if (loginDetail?.error?.message != 'Rejected') {
+      navigate(NAVIGATION.verifyOtp, {
+        userDetail: data,
+      });
+    }
   };
 
   return (
@@ -168,7 +174,11 @@ export function VerifyPhoneNumber() {
           </View>
           <Spacer space={ms(20)} />
 
-          <CustomButton title={'Send Code'} onPress={handleSubmit} />
+          <CustomButton
+            title={'Send Code'}
+            onPress={handleSubmit}
+            loading={isLoading}
+          />
           <Spacer space={ms(10)} />
         </View>
 
