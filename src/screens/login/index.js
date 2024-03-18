@@ -41,8 +41,10 @@ export function Login() {
     <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
-        <View style={{flex: 0.3}}>
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps={'always'}
+        >
+        <View style={{flex: 0.47}}>
           <Spacer space={ms(25)} />
           <Image source={Logo} style={styles.logoImage} />
           <Spacer space={ms(25)} />
@@ -70,7 +72,7 @@ export function Login() {
 
         {activeTab === 0 ? <LoginComponent /> : <SignUpComponent />}
 
-        <View style={{flex: 0.2}}>
+        <View style={{flex: 0.03}}>
           <Image
             source={BottomBackground}
             style={styles.backgroundImage}

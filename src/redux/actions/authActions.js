@@ -1,4 +1,4 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import {createAction, createAsyncThunk} from '@reduxjs/toolkit';
 import {UserController} from '@/controllers';
 import {
   AUTH,
@@ -11,20 +11,18 @@ import {
   AUTH_SIGNUP,
   AUTH_VERIFY_FORGOT_PASSWORD_OTP,
   AUTH_VERIFY_OTP,
+  BOOK_RIDE,
   USER_GET_RIDE_PRICE,
 } from '../types';
 
-export const login = createAsyncThunk(
-  AUTH,
-  async (body, {rejectWithValue}) => {
-    try {
-      const res = await UserController.login(body);
-      return res;
-    } catch (error) {
-      return rejectWithValue(JSON.stringify(error));
-    }
-  },
-);
+export const login = createAsyncThunk(AUTH_LOGIN, async (body, {rejectWithValue}) => {
+  try {
+    const res = await UserController.login(body);
+    return res;
+  } catch (error) {
+    return rejectWithValue(JSON.stringify(error));
+  }
+});
 
 export const signUp = createAsyncThunk(
   AUTH_SIGNUP,
@@ -98,7 +96,7 @@ export const resendForgotPasswordOtp = createAsyncThunk(
   },
 );
 
-export const createNewPassword= createAsyncThunk(
+export const createNewPassword = createAsyncThunk(
   AUTH_CREATE_NEW_PASSWORD,
   async (body, {rejectWithValue}) => {
     try {
@@ -110,12 +108,23 @@ export const createNewPassword= createAsyncThunk(
   },
 );
 
-
 export const getRidePrice = createAsyncThunk(
   USER_GET_RIDE_PRICE,
   async (body, {rejectWithValue}) => {
     try {
       const res = await UserController.getRidePrice(body);
+      return res;
+    } catch (error) {
+      return rejectWithValue(JSON.stringify(error));
+    }
+  },
+);
+
+export const bookRide = createAsyncThunk(
+  BOOK_RIDE,
+  async (body, {rejectWithValue}) => {
+    try {
+      const res = await UserController.bookRide(body);
       return res;
     } catch (error) {
       return rejectWithValue(JSON.stringify(error));

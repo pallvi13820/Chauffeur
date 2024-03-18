@@ -20,10 +20,48 @@ import {
   visa,
 } from '@/assets';
 import {NAVIGATION} from '@/constants';
+import {useDispatch, useSelector} from 'react-redux';
+import moment from 'moment';
+import {bookRide} from '@/redux/actions/authActions';
 
 export function Checkout(props) {
-  console.log('dfkhdfh', props?.route?.params);
+  const dispatch = useDispatch();
+  const rideDetail = useSelector(
+    state => state?.user?.ridePrice?.data?.booking,
+  );
+  const bookingDetail = props?.route?.params?.bookingDetail;
+  const cardDetail = props?.route?.params?.cardDetail;
+  const rideData = props?.route?.params?.rideData;
 
+  const bookRideData = {
+    pickup_type: rideDetail?.pickup_type,
+    pickup_latitude: rideDetail?.pickup_latitude,
+    pickup_longitude: rideDetail?.pickup_longitude,
+    dropoff_latitude: rideDetail?.dropoff_latitude,
+    dropoff_longitude: rideDetail?.dropoff_longitude,
+    dropoff_location: rideDetail?.dropoff_location,
+    pickup_location: rideDetail?.pickup_location,
+    estimate_distance: rideDetail?.estimate_distance,
+    pickup_date_time: rideDetail?.pickup_date_time,
+    car_category_id: rideData?.category_id,
+    pickup_sign: bookingDetail?.pickup_sign,
+    notes: bookingDetail?.notes,
+    book_for: bookingDetail?.book_for,
+    //   recipient_first_name:lakshdeep
+    //   recipient_last_name:singh
+    //   recipient_phone_code:+91
+    //   recipient_phone_number:7087519219
+    //   recipient_email:lakshdeep@yopmail.com
+    price: rideData?.ride_price,
+    card_holder_name: cardDetail?.card_holder_name,
+    card_number: cardDetail?.card_number,
+    expiry_date: cardDetail?.expiry_date,
+    card_cvv: cardDetail?.card_cvv,
+  };
+
+  const checkout = () => {
+    dispatch(bookRide(bookRideData));
+  };
   return (
     <ScreenWrapper>
       <KeyboardAwareScrollView
@@ -43,7 +81,7 @@ export function Checkout(props) {
           </View>
           <View style={{alignItems: 'center', marginTop: ms(20)}}>
             <Image
-              source={Onboarding_1}
+              source={{uri: rideData?.file_src}}
               style={{height: ms(128), width: ms(244), resizeMode: 'stretch'}}
             />
           </View>
@@ -57,7 +95,7 @@ export function Checkout(props) {
               marginTop: ms(5),
               textAlign: 'center',
             }}>
-            {'€ 45.00'}
+            {rideData?.ride_price}
           </Text>
           <Text
             style={{
@@ -67,7 +105,7 @@ export function Checkout(props) {
               textAlign: 'center',
               marginVertical: ms(2),
             }}>
-            {'Business Class'}
+            {rideData?.category_name}
           </Text>
 
           <Text
@@ -105,7 +143,9 @@ export function Checkout(props) {
               color: COLORS.black,
               marginTop: ms(4),
             }}>
-            {'Mon, Sep. 26 at 10:00 AM'}
+            {moment(rideDetail?.pickup_date_time?.moment)?.format(
+              'ddd, MMM. DD [at] hh:mm A',
+            )}
           </Text>
 
           <View
@@ -169,7 +209,7 @@ export function Checkout(props) {
                     fontWeight: '300',
                   }}
                   numberOfLines={1}>
-                  {'pickupStreetAddress || pickupCurrentLocation'}
+                  {rideDetail?.pickup_location}
                 </Text>
               </View>
               <View
@@ -219,7 +259,7 @@ export function Checkout(props) {
                     fontWeight: '300',
                   }}
                   numberOfLines={1}>
-                  {'dropStreetAddress || dropCurrentLocation'}
+                  {rideDetail?.dropoff_location}
                 </Text>
               </View>
             </View>
@@ -312,7 +352,7 @@ export function Checkout(props) {
 
           <CustomButton
             title={'Pay Now'}
-            onPress={() => navigate(NAVIGATION.addCardDetails)}
+            onPress={checkout}
             // loading={isLoading}
           />
         </View>

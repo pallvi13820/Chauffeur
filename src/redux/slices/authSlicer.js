@@ -1,5 +1,13 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {forgotPassword, login, logout, signUp} from '../actions/authActions';
+import {
+  forgotPassword,
+  login,
+  logout,
+  resendForgotPasswordOtp,
+  signUp,
+  verifyForgotPasswordOtp,
+  verifyOtp,
+} from '../actions/authActions';
 import {AUTH} from '../types';
 
 const initialState = {
@@ -7,8 +15,11 @@ const initialState = {
   user: {},
   register: {},
   forgotPasswordDetail: {},
-  logout: {},
+  logoutUser: {},
   error: {},
+  verifyForgotPassword: {},
+  verifyUser: {},
+  resendForgotPassword: {},
 };
 
 const authSlice = createSlice({
@@ -58,6 +69,48 @@ const authSlice = createSlice({
         state.error = action.payload;
       });
 
+    // verifyOtp
+    builder
+      .addCase(verifyForgotPasswordOtp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(verifyForgotPasswordOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verifyForgotPassword = action.payload;
+      })
+      .addCase(verifyForgotPasswordOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // verifyUserOtp
+    builder
+      .addCase(verifyOtp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verifyUser = action.payload;
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // resendForgotPasswordOTP
+    builder
+      .addCase(resendForgotPasswordOtp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(resendForgotPasswordOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.resendForgotPassword = action.payload;
+      })
+      .addCase(resendForgotPasswordOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
     // logout
     builder
       .addCase(logout.pending, state => {
@@ -65,7 +118,8 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.logoutUser = action.payload;
+        state.error = null;
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;

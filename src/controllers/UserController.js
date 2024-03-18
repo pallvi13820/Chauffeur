@@ -12,6 +12,8 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
+          console.log("djlgjdlg", res)
+
           Toast.show({
             type: 'success_toast',
             text2: res?.message,
@@ -212,7 +214,7 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
         });
     });
   }
@@ -238,7 +240,36 @@ export class UserController {
             type: 'error_toast',
             visibilityTime: 1500,
           });
-          // reject(new Error(strings.login.invalidCredentials));
+          reject(new Error(err));
+        });
+    });
+  }
+  static async bookRide(body) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_BASE_URL + API_END_POINTS.bookRide;
+      HttpClient.post(endpoint, body)
+
+      console.log("dhkahksdfhs", endpoint)
+        .then(res => {
+          console.log("sdfklsdkf", res)
+          resolve(res);
+          // navigate(NAVIGATION.chooseVehicle);
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+        })
+        .catch(err => {
+          console.log("sfjksdjf", err)
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
         });
     });
   }

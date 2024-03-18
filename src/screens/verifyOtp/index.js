@@ -19,7 +19,7 @@ import CustomButton from '@/components/CustomButton';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
 import {COLORS} from '@/theme/Colors';
 import {signUp} from '@/redux/actions/authActions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
 
@@ -37,9 +37,8 @@ export function VerifyPhoneNumber() {
   const [countryPhoneCode, setCountryPhoneCode] = useState('1');
   const [isVisible, setIsVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const isLoadings = useSelector(state => state?.auth?.loading);
-  console.log('jghkdfhkfg', isLoadings);
+  const isLoading = useSelector(state => state?.auth?.loading);
+
   const onSelect = country => {
     setCountryCode(country?.cca2);
     setCountryPhoneCode(country?.callingCode[0]);
@@ -79,12 +78,11 @@ export function VerifyPhoneNumber() {
       phone_code: countryPhoneCode,
       phone_number: phoneNumber,
     };
-    setIsLoading(true);
-    const loginDetail = await dispatch(signUp(data));
-    setIsLoading(false);
-    if (loginDetail?.error?.message != 'Rejected') {
+    const registerDetail = await dispatch(signUp(data));
+    if (registerDetail?.error?.message != 'Rejected') {
       navigate(NAVIGATION.verifyOtp, {
         userDetail: data,
+        registerData: registerDetail,
       });
     }
   };
@@ -93,7 +91,8 @@ export function VerifyPhoneNumber() {
     <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps={'always'}>
         <View style={{flex: 1, paddingHorizontal: ms(20)}}>
           <Spacer space={ms(20)} />
 

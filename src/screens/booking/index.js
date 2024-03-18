@@ -11,22 +11,28 @@ import {Spacer} from '@/theme/Spacer';
 import CountryPicker from 'react-native-country-picker-modal';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
+import {useSelector} from 'react-redux';
 
 export function Booking(props) {
   const rideData = props?.route?.params?.rideData;
+
+  const userDetail = useSelector(state => state?.auth?.user);
+  const isLoading = useSelector(state => state?.auth?.loading);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [countryCode, setCountryCode] = useState('US');
+  const [countryPhoneCode, setCountryPhoneCode] = useState('+1');
   const [isVisible, setIsVisible] = useState(false);
   const [phoneNo, setPhoneNo] = useState('');
   const [bookingType, setBookingType] = useState(1);
   const [notes, setNotes] = useState('');
-  const [user, setUser] = useState('');
+  const [pickupSign, setPickupSign] = useState('');
 
   const onSelect = country => {
     setCountryCode(country?.cca2);
-    // setCountryPhoneCode(country?.callingCode[0]);
+    setCountryPhoneCode(country?.callingCode[0]);
     setIsVisible(false);
   };
   const handleFocus = () => {
@@ -36,17 +42,46 @@ export function Booking(props) {
   const handleBlur = () => {
     setIsFocused(false);
   };
+  const bookingDetailForMyself = {
+    pickup_sign: pickupSign,
+    notes: notes,
+    book_for: bookingType,
+  };
+  const bookingDetailForOther = {
+    pickup_sign: pickupSign,
+    notes: notes,
+    book_for: bookingType,
+    recipient_first_name: name,
+    recipient_phone_code: countryPhoneCode,
+    recipient_phone_number: phoneNo,
+    recipient_email: email,
+  };
 
   const handleContinue = () => {
-    if (!user) {
+    if (!pickupSign) {
       alert('Please describe Pickup Sign.');
     } else if (!notes) {
       alert('Please describe notes.');
+    } else if (bookingType === 1) {
+      userDetail?.data?.user_cards?.length < 1
+        ? navigate(NAVIGATION.addCardDetails, {
+            rideData: rideData,
+            bookingDetail: bookingDetailForMyself,
+          })
+        : navigate(NAVIGATION.checkout, {
+            rideData: rideData,
+            bookingDetail: bookingDetailForMyself,
+          });
     } else {
-      navigate(NAVIGATION.checkout, {
-        rideData: rideData,
-        bookingType: bookingType,
-      });
+      userDetail?.data?.user_cards?.length < 1
+        ? navigate(NAVIGATION.addCardDetails, {
+            rideData: rideData,
+            bookingDetail: bookingDetailForMyself,
+          })
+        : navigate(NAVIGATION.checkout, {
+            rideData: rideData,
+            bookingDetail: bookingDetailForOther,
+          });
     }
   };
 
@@ -54,7 +89,8 @@ export function Booking(props) {
     <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps={'always'}>
         <View style={{marginHorizontal: ms(20), marginTop: ms(20)}}>
           <Text
             style={{fontSize: ms(26), fontWeight: '700', color: COLORS.black}}>
@@ -243,8 +279,8 @@ export function Booking(props) {
 
         <CustomInput
           label={isFocused ? 'Pickup sign' : ''}
-          value={user}
-          onChangeText={text => setUser(text)}
+          value={pickupSign}
+          onChangeText={text => setPickupSign(text)}
           placeholder={'Pickup sign'}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -266,7 +302,7 @@ export function Booking(props) {
           <CustomButton
             title={'Continue'}
             onPress={handleContinue}
-            // loading={isLoading}
+            loading={isLoading}
           />
         </View>
       </KeyboardAwareScrollView>

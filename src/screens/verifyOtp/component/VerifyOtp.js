@@ -16,6 +16,7 @@ import {ScreenWrapper} from '@/components/ScreenWrapper';
 import {useDispatch, useSelector} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
 import {resendOtp, verifyOtp} from '@/redux/actions/authActions';
+import FastImage from 'react-native-fast-image';
 
 export function VerifyOtp() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export function VerifyOtp() {
 
   const [value, setValue] = useState('');
   const [seconds, setSeconds] = useState(59);
+  const isLoading = useSelector(state => state?.auth?.loading);
 
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -42,7 +44,7 @@ export function VerifyOtp() {
         }
         return prevSeconds - 1;
       });
-    }, 1000);
+    }, 10);
 
     return () => clearInterval(interval);
   }, [seconds]);
@@ -60,7 +62,7 @@ export function VerifyOtp() {
       user_id: registerDetail?.register?.data?.id,
     };
     setSeconds(59);
-    setValue('')
+    setValue('');
     dispatch(resendOtp(data));
   };
 
@@ -69,13 +71,13 @@ export function VerifyOtp() {
       user_id: registerDetail?.register?.data?.id,
       otp: value,
     };
-    if (value <4) {
+    if (value < 4) {
       alert('Please Fill the Verification Code');
     } else {
       dispatch(verifyOtp(data));
     }
   };
-  
+
   return (
     <ScreenWrapper>
       <KeyboardAwareScrollView
@@ -148,17 +150,29 @@ export function VerifyOtp() {
             ]}
             disabled={seconds !== 0}
             onPress={handleResendClick}>
-            <Text
-              style={[
-                styles.subTitleText,
-                {color: seconds === 0 ? '#fff' : '#000'},
-              ]}>
-              {'Resend'}
-            </Text>
+            {isLoading ? (
+              <FastImage
+                source={require('@/assets/gif/Loader.gif')}
+                style={{width: ms(35), height: ms(35)}}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+            ) : (
+              <Text
+                style={[
+                  styles.subTitleText,
+                  {color: seconds === 0 ? '#fff' : '#000'},
+                ]}>
+                {'Resend'}
+              </Text>
+            )}
           </TouchableOpacity>
 
           {/* <Spacer space={ms(10)} /> */}
-          <CustomButton title={'Verify'} onPress={handleVerifyClick} />
+          <CustomButton
+            title={'Verify'}
+            onPress={handleVerifyClick}
+            loading={isLoading}
+          />
         </View>
         <View style={{flex: 0.1}}>
           <Image

@@ -21,7 +21,8 @@ import {forgotPassword} from '@/redux/actions/authActions';
 
 export function RecoverViaNumber() {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const registerDetail = useSelector(state => state?.auth);
+  const isLoading = registerDetail?.loading;
 
   const dispatch = useDispatch();
 
@@ -39,11 +40,8 @@ export function RecoverViaNumber() {
       type: 2,
     };
 
-    setIsLoading(true);
-
     const forgotData = await dispatch(forgotPassword(data));
 
-    setIsLoading(false);
     if (forgotData?.error?.message != 'Rejected') {
       navigate(NAVIGATION.verifyByPhoneCode, {phoneNumber: phoneNumber});
     }
@@ -53,7 +51,8 @@ export function RecoverViaNumber() {
     <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps={'always'}>
         <View style={{flex: 1, paddingHorizontal: ms(20)}}>
           <TouchableOpacity
             style={styles.arrowIconViewStyle}

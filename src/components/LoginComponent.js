@@ -27,6 +27,7 @@ const LoginComponent = () => {
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
   const isLoading = useSelector(state => state?.auth?.loading);
 
+
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -48,14 +49,14 @@ const LoginComponent = () => {
   };
 
   const validateFields = () => {
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    let reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (email == '') {
       alert('Please enter email id');
-    } else if (reg.test(email) === false) {
+    } else if (reg?.test(email) === false) {
       alert('Please enter the valid email Id.');
     } else if (password == '') {
       alert('Please enter your password');
-  } else {
+    } else {
       loginRequest();
     }
   };
@@ -65,8 +66,16 @@ const LoginComponent = () => {
       password: password,
       device_type: Platform.OS === 'android' ? 1 : 2,
       fcm_token: 'randomUUID',
+      // is_verified: 
     };
-    await dispatch(login(data));
+    const loginDetail = await dispatch(login(data));
+    console.log("djfgjlsjd", loginDetail)
+    // if (loginDetail?.error?.message != 'Rejected') {
+    //   navigate(NAVIGATION.verifyOtp, {
+    //     userDetail: data,
+    //   });
+    // }
+    // navigate(NAVIGATION.verifyOtp);
   };
   return (
     <View style={styles.container}>
@@ -113,7 +122,7 @@ const LoginComponent = () => {
       />
       <Spacer space={ms(15)} />
 
-      <View style={styles.sepratorLoginView}>
+      {/* <View style={styles.sepratorLoginView}>
         <Image source={Seprator} style={{height: ms(3)}} />
         <Text style={{color: '#828282', textAlign: 'center'}}>
           or Login with
@@ -129,7 +138,7 @@ const LoginComponent = () => {
         <TouchableOpacity style={styles.socialLoginView}>
           <Image style={styles.socialIcon} source={Google} />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

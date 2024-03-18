@@ -13,4 +13,5 @@ export const API_END_POINTS = {
   getRidePrice: 'user/getRidePrice',
   createNewPassword: 'user/resetPassword',
   logout: 'user/logout',
+  bookRide: 'user/bookRide',
 };

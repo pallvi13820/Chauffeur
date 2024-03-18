@@ -23,8 +23,7 @@ import FastImage from 'react-native-fast-image';
 export function RecoverViaEmail() {
   const dispatch = useDispatch();
   const registerDetail = useSelector(state => state?.auth);
-  const loading = registerDetail?.loading;
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = registerDetail?.loading;
   const [email, setEmail] = useState('');
 
   const handleVerifyClick = () => {
@@ -43,11 +42,9 @@ export function RecoverViaEmail() {
       email: email.trim(),
       type: 1,
     };
-    setIsLoading(true);
 
     const forgotData = await dispatch(forgotPassword(data));
 
-    setIsLoading(false);
     if (forgotData?.error?.message != 'Rejected') {
       navigate(NAVIGATION.verifyByEmailCode, {email: email});
     }
@@ -57,7 +54,8 @@ export function RecoverViaEmail() {
     <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps={'always'}>
         <View style={{flex: 1, paddingHorizontal: ms(20)}}>
           <TouchableOpacity
             style={styles.arrowIconViewStyle}

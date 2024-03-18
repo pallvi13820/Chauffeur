@@ -8,7 +8,6 @@ import CustomButton from './CustomButton';
 import {navigate} from '../navigation/NavigationRef';
 import {NAVIGATION} from '../constants';
 import {Spacer} from '@/theme/Spacer';
-import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 const SignUpComponent = () => {
   const [email, setEmail] = useState('');
@@ -56,10 +55,11 @@ const SignUpComponent = () => {
       navigate(NAVIGATION.verifyPhoneNumber, {
         signUpUserDetail: signUpUserDetail,
       });
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setName('');
+
+      // setEmail('');
+      // setPassword('');
+      // setConfirmPassword('');
+      // setName('');
     }
   };
 
