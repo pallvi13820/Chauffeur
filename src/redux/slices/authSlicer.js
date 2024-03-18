@@ -1,11 +1,25 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {login, logout} from '../actions/authActions';
+import {
+  forgotPassword,
+  login,
+  logout,
+  resendForgotPasswordOtp,
+  signUp,
+  verifyForgotPasswordOtp,
+  verifyOtp,
+} from '../actions/authActions';
 import {AUTH} from '../types';
 
 const initialState = {
   loading: false,
   user: {},
+  register: {},
+  forgotPasswordDetail: {},
+  logoutUser: {},
   error: {},
+  verifyForgotPassword: {},
+  verifyUser: {},
+  resendForgotPassword: {},
 };
 
 const authSlice = createSlice({
@@ -26,6 +40,77 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+
+    // Signup
+    builder
+      .addCase(signUp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(signUp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.register = action.payload;
+      })
+      .addCase(signUp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // forgot
+    builder
+      .addCase(forgotPassword.pending, state => {
+        state.loading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordDetail = action.payload;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // verifyOtp
+    builder
+      .addCase(verifyForgotPasswordOtp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(verifyForgotPasswordOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verifyForgotPassword = action.payload;
+      })
+      .addCase(verifyForgotPasswordOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // verifyUserOtp
+    builder
+      .addCase(verifyOtp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verifyUser = action.payload;
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // resendForgotPasswordOTP
+    builder
+      .addCase(resendForgotPasswordOtp.pending, state => {
+        state.loading = true;
+      })
+      .addCase(resendForgotPasswordOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.resendForgotPassword = action.payload;
+      })
+      .addCase(resendForgotPasswordOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
     // logout
     builder
       .addCase(logout.pending, state => {
@@ -33,7 +118,8 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.logoutUser = action.payload;
+        state.error = null;
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
