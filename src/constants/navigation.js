@@ -14,4 +14,5 @@ export const NAVIGATION = {
   booking: 'Booking',
   checkout: 'Checkout',
   addCardDetails: 'AddCardDetails',
+  invoiceDetail: 'InvoiceDetail',
 };

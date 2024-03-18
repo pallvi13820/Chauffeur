@@ -62,6 +62,7 @@ export {default as add} from './ic_icon/add.png';
 export {default as smile} from './ic_icon/smile.png';
 export {default as cvvIcon} from './ic_icon/cvv.png';
 export {default as creditCard} from './ic_icon/creditCard.png';
+export {default as success} from './ic_icon/success.png';
 
 //Splash
 

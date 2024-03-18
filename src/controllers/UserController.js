@@ -249,7 +249,7 @@ export class UserController {
       const endpoint = API_BASE_URL + API_END_POINTS.bookRide;
       HttpClient.post(endpoint, body)
 
-      console.log("dhkahksdfhs", endpoint)
+      console.log("dhkahksdfhs", body)
         .then(res => {
           console.log("sdfklsdkf", res)
           resolve(res);
@@ -262,6 +262,7 @@ export class UserController {
           });
         })
         .catch(err => {
+          alert(err)
           console.log("sfjksdjf", err)
           Toast.show({
             text2: err.message,

@@ -17,12 +17,14 @@ import {
   VerticalLineSeprator,
   activeCheckBox,
   add,
+  success,
   visa,
 } from '@/assets';
 import {NAVIGATION} from '@/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {bookRide} from '@/redux/actions/authActions';
+import Modal from 'react-native-modal';
 
 export function Checkout(props) {
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ export function Checkout(props) {
   const bookingDetail = props?.route?.params?.bookingDetail;
   const cardDetail = props?.route?.params?.cardDetail;
   const rideData = props?.route?.params?.rideData;
-
+  const price = rideData?.ride_price.substring(1);
   const bookRideData = {
     pickup_type: rideDetail?.pickup_type,
     pickup_latitude: rideDetail?.pickup_latitude,
@@ -52,7 +54,7 @@ export function Checkout(props) {
     //   recipient_phone_code:+91
     //   recipient_phone_number:7087519219
     //   recipient_email:lakshdeep@yopmail.com
-    price: rideData?.ride_price,
+    price: price,
     card_holder_name: cardDetail?.card_holder_name,
     card_number: cardDetail?.card_number,
     expiry_date: cardDetail?.expiry_date,
@@ -60,7 +62,8 @@ export function Checkout(props) {
   };
 
   const checkout = () => {
-    dispatch(bookRide(bookRideData));
+    navigate(NAVIGATION.invoiceDetail)
+    // dispatch(bookRide(bookRideData));
   };
   return (
     <ScreenWrapper>
@@ -357,6 +360,35 @@ export function Checkout(props) {
           />
         </View>
       </KeyboardAwareScrollView>
+      <Modal isVisible={false}>
+        <View
+          style={{
+            justifyContent: 'center',
+            backgroundColor: COLORS.white,
+            flex: 1 / 2.5,
+            alignItems: 'center',
+            borderRadius: ms(15),
+          }}>
+          <Image
+            source={success}
+            style={{height: ms(76), width: ms(76), resizeMode: 'contain'}}
+          />
+          <Spacer space={ms(20)} />
+
+          <Text
+            style={{fontSize: ms(22), color: COLORS.black, fontWeight: '600'}}>
+            {'Payment Successful'}
+          </Text>
+
+          <Spacer space={ms(20)} />
+          <Text
+            style={{fontSize: ms(12), color: COLORS.skyGray, fontWeight: '400', textAlign: "center", marginHorizontal: ms(20)}}>
+            {
+              'Please wait a moment we will redirect you to the conformation page.'
+            }
+          </Text>
+        </View>
+      </Modal>
     </ScreenWrapper>
   );
 }

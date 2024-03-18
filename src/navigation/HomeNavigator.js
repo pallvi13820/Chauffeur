@@ -6,6 +6,7 @@ import {
   Checkout,
   ChooseVehicle,
   Home,
+  InvoiceDetail,
 } from '@/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -37,6 +38,11 @@ export function HomeNavigator() {
       <Stack.Screen
         component={AddCardDetails}
         name={NAVIGATION.addCardDetails}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={InvoiceDetail}
+        name={NAVIGATION.invoiceDetail}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -1,5 +1,6 @@
 // export {Home} from '@/screens/Home/Home';
 // export {Login} from '@/screens/Login/Login';
+
 // export {Profile} from '@/screens/Profile/Profile';
 export {OnBoarding} from '@/screens/onBoarding';
 export {Login} from '@/screens/login';
@@ -16,3 +17,4 @@ export {ChooseVehicle} from '@/screens/chooseVehicle';
 export {Booking} from '@/screens/booking';
 export {Checkout} from '@/screens/checkout';
 export {AddCardDetails} from '@/screens/checkout/component/AddCardDetails';
+export {InvoiceDetail} from '@/screens/checkout/component/InvoiceDetail';
