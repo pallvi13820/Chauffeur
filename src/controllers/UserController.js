@@ -68,7 +68,7 @@ export class UserController {
       HttpClient.post(endpoint, body)
         .then(res => {
           resolve(res);
-          navigate(NAVIGATION.login);
+          // navigate(NAVIGATION.login);
           Toast.show({
             type: 'success_toast',
             text2: res?.message,

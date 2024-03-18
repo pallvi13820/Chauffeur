@@ -17,6 +17,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
 import {resendOtp, verifyOtp} from '@/redux/actions/authActions';
 import FastImage from 'react-native-fast-image';
+import {navigate} from '@/navigation/NavigationRef';
+import {NAVIGATION} from '@/constants';
 
 export function VerifyOtp() {
   const dispatch = useDispatch();
@@ -27,7 +29,8 @@ export function VerifyOtp() {
 
   const [value, setValue] = useState('');
   const [seconds, setSeconds] = useState(59);
-  const isLoading = useSelector(state => state?.auth?.loading);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingResend, setIsLoadingResend] = useState(false);
 
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -44,7 +47,7 @@ export function VerifyOtp() {
         }
         return prevSeconds - 1;
       });
-    }, 10);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [seconds]);
@@ -57,24 +60,31 @@ export function VerifyOtp() {
     return `${minutes}:${seconds}`;
   };
 
-  const handleResendClick = () => {
+  const handleResendClick = async () => {
     const data = {
       user_id: registerDetail?.register?.data?.id,
     };
     setSeconds(59);
     setValue('');
-    dispatch(resendOtp(data));
+    setIsLoadingResend(true);
+    await dispatch(resendOtp(data));
+    setIsLoadingResend(false);
   };
 
-  const handleVerifyClick = () => {
+  const handleVerifyClick = async () => {
     const data = {
       user_id: registerDetail?.register?.data?.id,
       otp: value,
     };
-    if (value < 4) {
+    if (value?.length < 4) {
       alert('Please Fill the Verification Code');
     } else {
-      dispatch(verifyOtp(data));
+      setIsLoading(true);
+      const verifyOtpUser = await dispatch(verifyOtp(data));
+      setIsLoading(false);
+      if (verifyOtpUser?.error?.message != 'Rejected') {
+        navigate(NAVIGATION.login, {isVerify: 'isVerify'});
+      }
     }
   };
 
@@ -82,7 +92,8 @@ export function VerifyOtp() {
     <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps={'always'}>
         <View style={{flex: 0.9, paddingHorizontal: ms(20)}}>
           <Spacer space={ms(15)} />
           <Text style={styles.headerTitle}>{'Verification'}</Text>
@@ -150,7 +161,7 @@ export function VerifyOtp() {
             ]}
             disabled={seconds !== 0}
             onPress={handleResendClick}>
-            {isLoading ? (
+            {isLoadingResend ? (
               <FastImage
                 source={require('@/assets/gif/Loader.gif')}
                 style={{width: ms(35), height: ms(35)}}

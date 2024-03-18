@@ -1,5 +1,4 @@
 import React from 'react';
-import {hide} from 'react-native-bootsplash';
 import {enableScreens} from 'react-native-screens';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -46,7 +45,7 @@ export function App() {
   
   return (
     <Provider store={store}>
-       <PersistGate onBeforeLift={hide} persistor={persistor}>
+       <PersistGate persistor={persistor}>
         <RootNavigator />
         <Toast config={toastConfig} />
        </PersistGate>

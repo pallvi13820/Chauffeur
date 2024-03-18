@@ -11,7 +11,9 @@ import {useIsFocused} from '@react-navigation/native';
 import {COLORS} from '@/theme/Colors';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
 
-export function Login() {
+export function Login(props) {
+  const isVerify = props?.route?.params?.isVerify;
+  console.log('skhfjsd', isVerify);
   const isFocused = useIsFocused();
   const [activeTab, setActiveTab] = useState(0);
 
@@ -35,6 +37,9 @@ export function Login() {
         StatusBar.setBarStyle('dark-content');
       }, 300);
     }
+    if(isVerify) {
+      setActiveTab(0)
+    }
   }, [isFocused]);
 
   return (
@@ -42,8 +47,7 @@ export function Login() {
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}
-        keyboardShouldPersistTaps={'always'}
-        >
+        keyboardShouldPersistTaps={'always'}>
         <View style={{flex: 0.47}}>
           <Spacer space={ms(25)} />
           <Image source={Logo} style={styles.logoImage} />

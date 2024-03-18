@@ -8,11 +8,16 @@ import {navigationRef} from './NavigationRef';
 import {HomeNavigator} from './HomeNavigator';
 import {HttpClient} from '@/controllers';
 // import {selectLoginAuth} from '@/redux/slices/auth';
+import SplashScreen from 'react-native-splash-screen';
 
 export function RootNavigator() {
   const user = useSelector(state => state?.auth?.user);
   const token = user?.data?.auth_token;
   const scheme = useColorScheme();
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   const [isAuthorized, setIsAuthorized] = useState(false);
   useEffect(() => {

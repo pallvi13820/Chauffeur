@@ -78,7 +78,7 @@ export function VerifyByPhoneCode() {
       user_id: registerDetail?.forgotPasswordDetail?.data?.id,
       reset_password_otp: value,
     };
-    if (value < 4) {
+    if (value?.length < 4) {
       alert('Please Fill the Verification Code');
     } else {
       setIsLoading(true);
