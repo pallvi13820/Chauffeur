@@ -21,4 +21,6 @@ export const NAVIGATION = {
   termConditions: 'TermConditions',
   privacyPolicy: 'PrivacyPolicy',
   changePassword: 'ChangePassword',
+  deleteAccountBottomSheet: 'DeleteAccountBottomSheet',
+  paymentMethod: 'PaymentMethod',
 };

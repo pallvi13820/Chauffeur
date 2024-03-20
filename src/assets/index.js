@@ -46,6 +46,9 @@ export {default as Location} from './/images/Location.png';
 export {default as Drop} from './/images/Drop.png';
 export {default as Car} from './/images/car.png';
 export {default as TrackingMap} from './/images/TrackingMap.png';
+export {default as UserDelete} from './/images/UserDelete.png';
+export {default as PaymentCard} from './/images/PaymentCard.png';
+export {default as BlankCard} from './/images/BlankCard.png';
 
 //ic_icon
 export {default as bag} from './ic_icon/bag.png';

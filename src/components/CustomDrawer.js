@@ -19,10 +19,8 @@ import {COLORS} from '@/theme/Colors';
 import {Spacer} from '@/theme/Spacer';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
-import BottomSheet from '@gorhom/bottom-sheet';
 
 const CustomDrawer = () => {
-  const bottomSheetRef = useRef(null);
   const [isToggle, setIsToggle] = useState(false);
 
   const data = [
@@ -49,7 +47,7 @@ const CustomDrawer = () => {
       id: 4,
       title: 'Payment Method',
       image: card,
-      onPress: () => navigate(NAVIGATION.addNewCard),
+      onPress: () => navigate(NAVIGATION.paymentMethod),
     },
     {
       id: 5,
@@ -195,32 +193,19 @@ const CustomDrawer = () => {
             {'Logout'}
           </Text>
         </TouchableOpacity>
-  
-          <Text
-            style={{
-              fontSize: ms(14),
-              color: COLORS.skyGray,
-              fontWeight: '500',
-              marginHorizontal: ms(10),
-              flex: 1,
-            }} onPress={() => bottomSheetRef?.current?.snapToIndex(0)} >
-            {'Delete My Account'}
-          </Text>
-      
-      </View>
 
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={[200, 300, 500]}
-        backgroundComponent={() => (
-          <View style={{backgroundColor: 'rgba(0,0,0,0.5)', flex: 1}} />
-        )}
-      >
-        <View style={{backgroundColor: 'white', height: 300}}>
-          <Text style={{fontSize: 24}}>Bottom Sheet Content</Text>
-        </View>
-      </BottomSheet>
+        <Text
+          style={{
+            fontSize: ms(14),
+            color: COLORS.skyGray,
+            fontWeight: '500',
+            marginHorizontal: ms(10),
+            flex: 1,
+          }}
+          onPress={() => navigate(NAVIGATION.deleteAccountBottomSheet)}>
+          {'Delete My Account'}
+        </Text>
+      </View>
     </View>
   );
 };

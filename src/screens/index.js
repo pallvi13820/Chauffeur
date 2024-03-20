@@ -24,3 +24,5 @@ export {AddNewCard} from '@/screens/menu/AddNewCard';
 export {TermConditions} from '@/screens/menu/TermConditions';
 export {PrivacyPolicy} from '@/screens/menu/PrivacyPolicy';
 export {ChangePassword} from '@/screens/menu/ChangePassword';
+export {DeleteAccountBottomSheet} from '@/screens/menu/DeleteAccountBottomSheet';
+export {PaymentMethod} from '@/screens/menu/PaymentMethod';

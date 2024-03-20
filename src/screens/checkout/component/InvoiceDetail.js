@@ -22,7 +22,6 @@ const width = Dimensions.get('window').width;
 
 export function InvoiceDetail() {
   const bookingDetail = useSelector(state => state?.user?.bookRideDetail?.data);
-  console.log('dfjgdjfgjdfg', bookingDetail);
   return (
     <ScreenWrapper>
       <View style={{flex: 1, backgroundColor: COLORS.sky_grey}}>

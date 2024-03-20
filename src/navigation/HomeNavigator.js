@@ -7,9 +7,11 @@ import {
   ChangePassword,
   Checkout,
   ChooseVehicle,
+  DeleteAccountBottomSheet,
   EditInfo,
   Home,
   InvoiceDetail,
+  PaymentMethod,
   PersonalInfo,
   PrivacyPolicy,
   TermConditions,
@@ -77,9 +79,19 @@ export function HomeNavigator() {
         name={NAVIGATION.privacyPolicy}
         options={{headerShown: false}}
       />
-         <Stack.Screen
+      <Stack.Screen
         component={ChangePassword}
         name={NAVIGATION.changePassword}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={DeleteAccountBottomSheet}
+        name={NAVIGATION.deleteAccountBottomSheet}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={PaymentMethod}
+        name={NAVIGATION.paymentMethod}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
