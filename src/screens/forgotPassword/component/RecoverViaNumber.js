@@ -15,7 +15,7 @@ import CustomButton from '@/components/CustomButton';
 import {Spacer} from '@/theme/Spacer';
 import {navigate, goBack} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
 import {forgotPassword} from '@/redux/actions/authActions';
 

@@ -11,10 +11,13 @@ import {Spacer} from '@/theme/Spacer';
 import CustomButton from '@/components/CustomButton';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
+import {useDispatch} from 'react-redux';
+import {addCards} from '@/redux/actions/authActions';
 
 export function AddCardDetails(props) {
   const rideData = props?.route?.params?.rideData;
   const bookingDetail = props?.route?.params?.bookingDetail;
+  const dispatch = useDispatch();
 
   const [holderName, setHolderName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
@@ -69,10 +72,11 @@ export function AddCardDetails(props) {
   //   console.log('Invalid expiry date format');
   // }
   const handleProceedCheckout = () => {
+    dispatch(addCards(cardDetail));
     navigate(NAVIGATION.checkout, {
       rideData: rideData,
       bookingDetail: bookingDetail,
-      cardDetail: cardDetail,
+      // cardDetail: cardDetail,
     });
   };
 
@@ -126,6 +130,7 @@ export function AddCardDetails(props) {
             onFocus={handleFocus}
             onBlur={handleBlur}
             maxLength={19}
+            inputMode="numeric"
           />
           <Spacer space={ms(20)} />
 
@@ -146,6 +151,7 @@ export function AddCardDetails(props) {
               onFocus={handleFocus}
               onBlur={handleBlur}
               style={{flex: 1, marginHorizontal: 0}}
+              inputMode="numeric"
             />
             <CustomInput
               label={isFocused ? 'cvv' : ''}
@@ -162,6 +168,7 @@ export function AddCardDetails(props) {
               onFocus={handleFocus}
               onBlur={handleBlur}
               style={{flex: 1, marginHorizontal: 0, marginLeft: ms(10)}}
+              inputMode="numeric"
             />
           </View>
         </View>

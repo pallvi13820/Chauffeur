@@ -1,12 +1,20 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {bookRide, getRidePrice} from '../actions/authActions';
+import {
+  addCards,
+  bookRide,
+  getCards,
+  getRidePrice,
+} from '../actions/authActions';
 import {USER} from '../types';
+import {restAllData} from '../commonActions';
 
 const initialState = {
   loading: false,
   error: {},
   ridePrice: {},
   bookRideDetail: {},
+  cardsDetails: {},
+  addCardDetails: {},
 };
 
 const userSlice = createSlice({
@@ -14,6 +22,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(restAllData, () => initialState);
     // RidePrice
     builder
       .addCase(getRidePrice.pending, state => {
@@ -38,6 +47,34 @@ const userSlice = createSlice({
         state.bookRideDetail = action.payload;
       })
       .addCase(bookRide.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    //getCards
+    builder
+      .addCase(getCards.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getCards.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cardsDetails = action.payload;
+      })
+      .addCase(getCards.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    //adCards
+    builder
+      .addCase(addCards.pending, state => {
+        state.loading = true;
+      })
+      .addCase(addCards.fulfilled, (state, action) => {
+        state.loading = false;
+        state.addCardDetails = action.payload;
+      })
+      .addCase(addCards.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

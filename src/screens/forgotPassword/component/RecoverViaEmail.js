@@ -37,13 +37,13 @@ export function RecoverViaEmail() {
     }
   };
 
-  const forgotPasswordRequest = async () => {
+  const forgotPasswordRequest = () => {
     const data = {
       email: email.trim(),
       type: 1,
     };
 
-    const forgotData = await dispatch(forgotPassword(data));
+    const forgotData = dispatch(forgotPassword(data));
 
     if (forgotData?.error?.message != 'Rejected') {
       navigate(NAVIGATION.verifyByEmailCode, {email: email});

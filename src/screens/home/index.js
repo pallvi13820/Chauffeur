@@ -25,6 +25,7 @@ import {ScreenWrapper} from '@/components/ScreenWrapper';
 import {Spacer} from '@/theme/Spacer';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '@/redux/actions/authActions';
+import {restAllData} from '@/redux/commonActions';
 
 export function Home() {
   const dispatch = useDispatch();
@@ -111,6 +112,7 @@ export function Home() {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(restAllData());
   };
 
   useEffect(() => {

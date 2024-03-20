@@ -11,7 +11,8 @@ import {HttpClient} from '@/controllers';
 import SplashScreen from 'react-native-splash-screen';
 
 export function RootNavigator() {
-  const user = useSelector(state => state?.auth?.user);
+  const user = useSelector(state => state?.auth?.verifyUser);
+
   const token = user?.data?.auth_token;
   const scheme = useColorScheme();
 
@@ -22,7 +23,6 @@ export function RootNavigator() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   useEffect(() => {
     if (token) {
-      // console.log(token, 'tk');
       HttpClient.setAuthorization(token);
       setIsAuthorized(true);
     } else {

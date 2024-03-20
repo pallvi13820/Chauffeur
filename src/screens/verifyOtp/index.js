@@ -81,8 +81,7 @@ export function VerifyPhoneNumber() {
     const registerDetail = await dispatch(signUp(data));
     if (registerDetail?.error?.message != 'Rejected') {
       navigate(NAVIGATION.verifyOtp, {
-        userDetail: data,
-        registerData: registerDetail,
+        userDetail: registerDetail?.payload?.data,
       });
     }
   };

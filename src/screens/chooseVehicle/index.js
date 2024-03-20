@@ -67,7 +67,7 @@ export function ChooseVehicle() {
       title: 'Eco-friendly',
     },
   ];
-  console.log('dgkdfhghfg', selectedIndex, rideDetail);
+
   const renderItem = ({item, index}) => (
     <TouchableOpacity
       style={{
@@ -96,7 +96,7 @@ export function ChooseVehicle() {
           color: COLORS.black,
           marginTop: ms(5),
         }}>
-        {item?.ride_price}
+        ${item?.ride_price?.toFixed(2)}
       </Text>
       <Text
         style={{

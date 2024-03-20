@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import CustomButton from '@/components/CustomButton';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
 import {goBack, navigate} from '@/navigation/NavigationRef';
 import {COLORS} from '@/theme/Colors';
 import {Spacer} from '@/theme/Spacer';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ms} from 'react-native-size-matters';
 import {
@@ -17,24 +24,41 @@ import {
   VerticalLineSeprator,
   activeCheckBox,
   add,
+  inActiveCheckBox,
   success,
   visa,
 } from '@/assets';
 import {NAVIGATION} from '@/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
-import {bookRide} from '@/redux/actions/authActions';
+import {bookRide, getCards} from '@/redux/actions/authActions';
 import Modal from 'react-native-modal';
+import {useFocusEffect} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 export function Checkout(props) {
   const dispatch = useDispatch();
+
+  const [cardId, setCardId] = useState('');
   const rideDetail = useSelector(
     state => state?.user?.ridePrice?.data?.booking,
   );
+  const userDetail = useSelector(state => state?.auth?.verifyUser);
+  const cardsDetail = useSelector(state => state?.user?.cardsDetails);
+  const isLoading = useSelector(state => state?.user?.loading);
+
   const bookingDetail = props?.route?.params?.bookingDetail;
-  const cardDetail = props?.route?.params?.cardDetail;
   const rideData = props?.route?.params?.rideData;
-  const price = rideData?.ride_price.substring(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getCards());
+    }, []),
+  );
+
+  const [isVisible, setIsVisible] = useState(false);
+
   const bookRideData = {
     pickup_type: rideDetail?.pickup_type,
     pickup_latitude: rideDetail?.pickup_latitude,
@@ -54,16 +78,95 @@ export function Checkout(props) {
     //   recipient_phone_code:+91
     //   recipient_phone_number:7087519219
     //   recipient_email:lakshdeep@yopmail.com
-    price: price,
-    card_holder_name: cardDetail?.card_holder_name,
-    card_number: cardDetail?.card_number,
-    expiry_date: cardDetail?.expiry_date,
-    card_cvv: cardDetail?.card_cvv,
+    price: rideData?.ride_price,
+    card_id: cardId,
   };
 
+  function formatDebitCardNumber(debitCardNumber) {
+    // Convert the number to a string
+    const cardNumberString = debitCardNumber?.toString();
+
+    // Get the last 3 digits
+    const lastThreeDigits = cardNumberString?.slice(-4);
+
+    // Create a masked string with dots
+    const maskedString =
+      '*'.repeat(cardNumberString?.length - 4) + lastThreeDigits;
+
+    return maskedString;
+  }
+
+  const renderItem = ({item, index}) => (
+    <View
+      style={{
+        backgroundColor: '#FFF',
+        shadowColor: '#000000',
+        shadowOffset: {
+          width: 0,
+          height: 3,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 3,
+        elevation: 5,
+        paddingHorizontal: ms(20),
+        paddingVertical: ms(15),
+        borderRadius: ms(15),
+        marginVertical: ms(5),
+      }}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Image
+          source={visa}
+          style={{height: ms(13), width: ms(42), resizeMode: 'contain'}}
+        />
+        <Text
+          style={{
+            flex: 1,
+            fontSize: ms(14),
+            color: COLORS.black,
+            fontWeight: '500',
+            marginHorizontal: ms(10),
+          }}>
+          {formatDebitCardNumber(item?.card_number)}
+          {/* {'Visa....4567'} */}
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedIndex(index);
+            setCardId(item?.id);
+            //   setHolderName(item?.card_holder_name),
+            //   setCardNumber(item?.card_number);
+            // setCvv(item?.card_cvv);
+          }}
+          style={{
+            height: ms(30),
+            width: ms(30),
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingHorizontal: ms(20),
+          }}>
+          <Image
+            source={selectedIndex === index ? activeCheckBox : inActiveCheckBox}
+            style={{height: ms(22), width: ms(22), resizeMode: 'contain'}}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   const checkout = () => {
-    navigate(NAVIGATION.invoiceDetail)
-    // dispatch(bookRide(bookRideData));
+    // navigate(NAVIGATION.invoiceDetail)
+    setIsVisible(true);
+    dispatch(bookRide(bookRideData))
+      .then(response => {
+        // Handle success callback here
+        console.log('Ride booked successfully:', response);
+      })
+      .catch(error => {
+        setIsVisible(false);
+
+        // Handle error callback here
+        console.error('Error booking ride:', error);
+      });
   };
   return (
     <ScreenWrapper>
@@ -98,7 +201,7 @@ export function Checkout(props) {
               marginTop: ms(5),
               textAlign: 'center',
             }}>
-            {rideData?.ride_price}
+            ${rideData?.ride_price?.toFixed(2)}
           </Text>
           <Text
             style={{
@@ -218,17 +321,17 @@ export function Checkout(props) {
               <View
                 style={{
                   flexDirection: 'row',
-                  marginVertical: ms(4),
+                  marginVertical: ms(8),
                   alignItems: 'center',
                 }}>
                 <Image
                   source={Seprator}
                   style={{
-                    width: ms(190),
+                    flex: 1,
                     resizeMode: 'contain',
                   }}
                 />
-                <View
+                {/* <View
                   style={{
                     backgroundColor: '#F6F6F6',
                     borderRadius: ms(20),
@@ -242,7 +345,7 @@ export function Checkout(props) {
                     source={Car}
                     resizeMode="contain"
                   />
-                </View>
+                </View> */}
               </View>
               <View>
                 <Text
@@ -286,58 +389,20 @@ export function Checkout(props) {
             {'Card'}
           </Text>
 
-          <View
-            style={{
-              backgroundColor: '#FFF',
-              shadowColor: '#000000',
-              shadowOffset: {
-                width: 0,
-                height: 3,
-              },
-              shadowOpacity: 0.15,
-              shadowRadius: 3,
-              elevation: 5,
-              paddingHorizontal: ms(20),
-              paddingVertical: ms(15),
-              borderRadius: ms(15),
-            }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image
-                source={visa}
-                style={{height: ms(13), width: ms(42), resizeMode: 'contain'}}
-              />
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: ms(14),
-                  color: COLORS.black,
-                  fontWeight: '500',
-                  marginHorizontal: ms(10),
-                }}>
-                {'Visa....4567'}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {}}
-                style={{
-                  height: ms(30),
-                  width: ms(30),
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Image
-                  source={activeCheckBox}
-                  style={{height: ms(22), width: ms(22), resizeMode: 'contain'}}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
+          <FlatList data={cardsDetail?.data || []} renderItem={renderItem} />
 
           <TouchableOpacity
             style={{
               flexDirection: 'row',
               marginVertical: ms(15),
               alignItems: 'center',
-            }}>
+            }}
+            onPress={() =>
+              navigate(NAVIGATION.addCardDetails, {
+                rideData: rideData,
+                bookingDetail: bookingDetail,
+              })
+            }>
             <Image
               source={add}
               style={{height: ms(18), width: ms(18), resizeMode: 'contain'}}
@@ -360,33 +425,57 @@ export function Checkout(props) {
           />
         </View>
       </KeyboardAwareScrollView>
-      <Modal isVisible={false}>
+      <Modal isVisible={isVisible} onBackdropPress={() => setIsVisible(false)}>
         <View
           style={{
             justifyContent: 'center',
             backgroundColor: COLORS.white,
-            flex: 1 / 2.5,
+            flex: 1 / 2,
             alignItems: 'center',
             borderRadius: ms(15),
           }}>
-          <Image
-            source={success}
-            style={{height: ms(76), width: ms(76), resizeMode: 'contain'}}
-          />
-          <Spacer space={ms(20)} />
+          {isLoading ? (
+            <FastImage
+              source={require('@/assets/gif/Loader.gif')}
+              style={{width: ms(150), height: ms(150)}}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          ) : (
+            <View style={{alignItems: 'center', height: ms(150)}}>
+              <Image
+                source={success}
+                style={{height: ms(76), width: ms(76), resizeMode: 'contain'}}
+              />
+              <Spacer space={ms(20)} />
 
-          <Text
-            style={{fontSize: ms(22), color: COLORS.black, fontWeight: '600'}}>
-            {'Payment Successful'}
-          </Text>
-
+              <Text
+                style={{
+                  fontSize: ms(22),
+                  color: COLORS.black,
+                  fontWeight: '600',
+                }}>
+                {'Payment Successful'}
+              </Text>
+            </View>
+          )}
           <Spacer space={ms(20)} />
           <Text
-            style={{fontSize: ms(12), color: COLORS.skyGray, fontWeight: '400', textAlign: "center", marginHorizontal: ms(20)}}>
+            style={{
+              fontSize: ms(12),
+              color: COLORS.skyGray,
+              fontWeight: '400',
+              textAlign: 'center',
+              marginHorizontal: ms(20),
+            }}>
             {
               'Please wait a moment we will redirect you to the conformation page.'
             }
           </Text>
+          <Spacer space={ms(15)} />
+          <CustomButton
+            onPress={() => navigate(NAVIGATION.invoiceDetail)}
+            title={'Generate Invoice'}
+          />
         </View>
       </Modal>
     </ScreenWrapper>

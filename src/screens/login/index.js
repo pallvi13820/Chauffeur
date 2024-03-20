@@ -13,7 +13,6 @@ import {ScreenWrapper} from '@/components/ScreenWrapper';
 
 export function Login(props) {
   const isVerify = props?.route?.params?.isVerify;
-  console.log('skhfjsd', isVerify);
   const isFocused = useIsFocused();
   const [activeTab, setActiveTab] = useState(0);
 

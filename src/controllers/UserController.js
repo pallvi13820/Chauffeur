@@ -4,6 +4,8 @@ import {HttpClient} from '.';
 import Toast from 'react-native-toast-message';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
+import {restAllData} from '@/redux/commonActions';
+import {useDispatch} from 'react-redux';
 
 export class UserController {
   static async login(data) {
@@ -12,8 +14,6 @@ export class UserController {
       const body = data;
       HttpClient.post(endpoint, body)
         .then(res => {
-          console.log("djlgjdlg", res)
-
           Toast.show({
             type: 'success_toast',
             text2: res?.message,
@@ -244,14 +244,12 @@ export class UserController {
         });
     });
   }
+
   static async bookRide(body) {
     return new Promise((resolve, reject) => {
       const endpoint = API_BASE_URL + API_END_POINTS.bookRide;
       HttpClient.post(endpoint, body)
-
-      console.log("dhkahksdfhs", body)
         .then(res => {
-          console.log("sdfklsdkf", res)
           resolve(res);
           // navigate(NAVIGATION.chooseVehicle);
           Toast.show({
@@ -262,8 +260,62 @@ export class UserController {
           });
         })
         .catch(err => {
-          alert(err)
-          console.log("sfjksdjf", err)
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
+        });
+    });
+  }
+
+  static async addCards(body) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_BASE_URL + API_END_POINTS.addCards;
+      HttpClient.post(endpoint, body)
+        .then(res => {
+          resolve(res);
+          console.log("response add card", res)
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+        })
+        .catch(err => {
+          console.log("shsdhg", err)
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
+        });
+    });
+  }
+
+
+  static async getCards() {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_BASE_URL + API_END_POINTS.getCards;
+      HttpClient.get(endpoint)
+        .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          console.log("djfsdf", res)
+          resolve(res);
+        })
+        .catch(err => {
+          console.log("djfsdf",err)
+
           Toast.show({
             text2: err.message,
             position: 'bottom',
@@ -287,11 +339,8 @@ export class UserController {
             visibilityTime: 1500,
           });
           resolve(res);
-          console.log('dhgkhdgkhdfg', res);
         })
         .catch(err => {
-          console.log('errr', err);
-
           Toast.show({
             text2: err.message,
             position: 'bottom',
@@ -299,7 +348,6 @@ export class UserController {
             visibilityTime: 1500,
           });
           reject(new Error(err));
-          console.log('errr', err);
         });
     });
   }

@@ -9,6 +9,7 @@ import {
   verifyOtp,
 } from '../actions/authActions';
 import {AUTH} from '../types';
+import {restAllData} from '../commonActions';
 
 const initialState = {
   loading: false,
@@ -27,6 +28,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(restAllData, () => initialState);
     // login
     builder
       .addCase(login.pending, state => {

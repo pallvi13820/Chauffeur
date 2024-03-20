@@ -71,11 +71,11 @@ export function AuthNavigator() {
         name={NAVIGATION.verifyOtp}
         options={{headerShown: false}}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         component={Home}
         name={NAVIGATION.home}
         options={{headerShown: false}}
-      />
+      /> */}
     </Stack.Navigator>
   );
 }

@@ -73,18 +73,15 @@ export function VerifyOtp() {
 
   const handleVerifyClick = async () => {
     const data = {
-      user_id: registerDetail?.register?.data?.id,
+      user_id: userDetail?.id,
       otp: value,
     };
     if (value?.length < 4) {
       alert('Please Fill the Verification Code');
     } else {
       setIsLoading(true);
-      const verifyOtpUser = await dispatch(verifyOtp(data));
+      await dispatch(verifyOtp(data));
       setIsLoading(false);
-      if (verifyOtpUser?.error?.message != 'Rejected') {
-        navigate(NAVIGATION.login, {isVerify: 'isVerify'});
-      }
     }
   };
 

@@ -17,6 +17,7 @@ const CustomInput = ({
   maxLength,
   onFocus,
   onBlur,
+  inputMode,
 }) => {
   return (
     <TextInput
@@ -56,6 +57,7 @@ const CustomInput = ({
       onFocus={onFocus}
       onBlur={onBlur}
       placeholderTextColor={'#AEAEAE'}
+      inputMode={inputMode}
     />
   );
 };

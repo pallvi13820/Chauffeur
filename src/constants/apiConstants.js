@@ -14,4 +14,6 @@ export const API_END_POINTS = {
   createNewPassword: 'user/resetPassword',
   logout: 'user/logout',
   bookRide: 'user/bookRide',
+  getCards: 'user/getCards',
+  addCards: 'user/addCard',
 };

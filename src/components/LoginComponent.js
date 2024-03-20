@@ -27,7 +27,6 @@ const LoginComponent = () => {
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
   const isLoading = useSelector(state => state?.auth?.loading);
 
-
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -66,16 +65,13 @@ const LoginComponent = () => {
       password: password,
       device_type: Platform.OS === 'android' ? 1 : 2,
       fcm_token: 'randomUUID',
-      // is_verified: 
     };
     const loginDetail = await dispatch(login(data));
-    console.log("djfgjlsjd", loginDetail)
-    // if (loginDetail?.error?.message != 'Rejected') {
-    //   navigate(NAVIGATION.verifyOtp, {
-    //     userDetail: data,
-    //   });
-    // }
-    // navigate(NAVIGATION.verifyOtp);
+    if (loginDetail?.payload?.data?.is_verified === 0) {
+      navigate(NAVIGATION.verifyOtp, {
+        userDetail: loginDetail?.payload?.data,
+      });
+    }
   };
   return (
     <View style={styles.container}>

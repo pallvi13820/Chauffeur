@@ -8,6 +8,7 @@ import CustomButton from './CustomButton';
 import {navigate} from '../navigation/NavigationRef';
 import {NAVIGATION} from '../constants';
 import {Spacer} from '@/theme/Spacer';
+import Toast from 'react-native-toast-message';
 
 const SignUpComponent = () => {
   const [email, setEmail] = useState('');
@@ -28,29 +29,81 @@ const SignUpComponent = () => {
 
   const validateFields = () => {
     const signUpUserDetail = {
-      full_name: name,
+      full_name: name?.trim(),
       email: email.trim(),
       password: password,
       confirm_password: confirmPassword,
       device_type: Platform.OS === 'android' ? 1 : 2,
       fcm_token: 'randomUUID',
     };
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    let reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let fullnameregex = /^[A-Za-z ]+$/;
     let Passwordregex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if (name == '') {
-      alert('Please enter Full Name');
-    } else if (email == '') {
+
+    if (name?.trim() == '') {
+      Toast.show({
+        text2: 'Please enter full name',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
+    } else if (name?.trim()?.length < 3) {
+      Toast.show({
+        text2: 'Full name must be 3 character long',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
+    } else if (fullnameregex.test(name?.trim()) == false) {
+      Toast.show({
+        text2: 'Please enter alphabetic character only',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
+    } else if (email?.trim == '') {
+      Toast.show({
+        text2: 'Please enter alphabetic character only',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
       alert('Please enter email id');
     } else if (reg.test(email) === false) {
-      alert('Please enter the valid email Id.');
+      Toast.show({
+        text2: 'Please enter the valid email Id.',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
     } else if (password == '') {
-      alert('Please enter your password');
+      Toast.show({
+        text2: 'Please enter your password',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
     } else if (password?.length < 8) {
-      alert('Password must be 8 character long!');
+      Toast.show({
+        text2: 'Password must be 8 character long!',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
     } else if (Passwordregex.test(password) === false) {
-      alert('Password must be at least 1 Number and 1 Capital case letter!');
+      Toast.show({
+        text2: 'Password must be at least 1 Number and 1 Capital case letter!',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
     } else if (password !== confirmPassword) {
-      alert('Password and confirm password should be same.');
+      Toast.show({
+        text2: 'Password and confirm password should be same.',
+        position: 'bottom',
+        type: 'error_toast',
+        visibilityTime: 1500,
+      });
     } else {
       navigate(NAVIGATION.verifyPhoneNumber, {
         signUpUserDetail: signUpUserDetail,

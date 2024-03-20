@@ -9,14 +9,20 @@ import {
 } from '@/assets';
 import CustomButton from '@/components/CustomButton';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
+import {NAVIGATION} from '@/constants';
+import {navigate} from '@/navigation/NavigationRef';
 import {COLORS} from '@/theme/Colors';
 import {Spacer} from '@/theme/Spacer';
+import moment from 'moment';
 import React from 'react';
 import {Dimensions, Image, Text, View} from 'react-native';
 import {ms} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 const width = Dimensions.get('window').width;
 
 export function InvoiceDetail() {
+  const bookingDetail = useSelector(state => state?.user?.bookRideDetail?.data);
+  console.log('dfjgdjfgjdfg', bookingDetail);
   return (
     <ScreenWrapper>
       <View style={{flex: 1, backgroundColor: COLORS.sky_grey}}>
@@ -41,7 +47,7 @@ export function InvoiceDetail() {
             marginTop: ms(5),
             textAlign: 'center',
           }}>
-          {'€ 45.00'}
+          ${bookingDetail?.price?.toFixed(2)}
         </Text>
         <Text
           style={{
@@ -142,7 +148,7 @@ export function InvoiceDetail() {
                     fontWeight: '300',
                   }}
                   numberOfLines={1}>
-                  {'rideDetail?.pickup_location'}
+                  {bookingDetail?.pickup_location}
                 </Text>
               </View>
               <View
@@ -192,7 +198,7 @@ export function InvoiceDetail() {
                     fontWeight: '300',
                   }}
                   numberOfLines={1}>
-                  {'rideDetail?.dropoff_location'}
+                  {bookingDetail?.dropoff_location}
                 </Text>
               </View>
             </View>
@@ -221,10 +227,9 @@ export function InvoiceDetail() {
               color: COLORS.skyGray,
               marginTop: ms(10),
             }}>
-            {'Mon, Sep. 26 at 10:00 AM'}
-            {/* {moment(rideDetail?.pickup_date_time?.moment)?.format(
+            {moment(bookingDetail?.pickup_date_time?.moment)?.format(
               'ddd, MMM. DD [at] hh:mm A',
-            )} */}
+            )}
           </Text>
 
           <Spacer space={ms(15)} />
@@ -272,10 +277,9 @@ export function InvoiceDetail() {
             </Text>
           </View>
         </View>
-
       </View>
-      <CustomButton title={"Okay"}/>
-<Spacer space={ms(20)}/>
+      <CustomButton title={'Okay'} onPress={() => navigate(NAVIGATION.home)} />
+      <Spacer space={ms(20)} />
     </ScreenWrapper>
   );
 }

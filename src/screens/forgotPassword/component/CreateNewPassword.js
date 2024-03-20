@@ -18,6 +18,7 @@ import CustomButton from '@/components/CustomButton';
 import {Spacer} from '@/theme/Spacer';
 import {useDispatch, useSelector} from 'react-redux';
 import {createNewPassword} from '@/redux/actions/authActions';
+import {ScreenWrapper} from '@/components/ScreenWrapper';
 
 export function CreateNewPassword() {
   const dispatch = useDispatch();
@@ -34,11 +35,11 @@ export function CreateNewPassword() {
     await dispatch(createNewPassword(data));
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenWrapper>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}>
-        <View style={{flex: 0.9}}>
+        <View style={{flex: 1, paddingHorizontal: ms(20)}}>
           <Spacer space={ms(20)} />
           <Text style={styles.headerTitle}>{'Create New'}</Text>
           <Text style={styles.headerSubTitle}>{'Password'}</Text>
@@ -67,7 +68,7 @@ export function CreateNewPassword() {
             placeholder={'Password'}
           />
 
-          <Spacer space={ms(25)} />
+          {/* <Spacer space={ms(25)} />
           <View style={styles.passwordView}>
             <Image source={GreenLine} style={styles.greenLineStyle} />
             <Image source={GreenLine} style={styles.greenLineStyle} />
@@ -88,7 +89,7 @@ export function CreateNewPassword() {
             <Text style={styles.strongText}>
               {'contain at least one uppercase letter'}
             </Text>
-          </View>
+          </View> */}
 
           <Spacer space={ms(15)} />
           <CustomButton
@@ -96,7 +97,7 @@ export function CreateNewPassword() {
             onPress={handleResetPassword}
           />
         </View>
-        <View style={{flex: 0.1}}>
+        <View style={{flex: 0}}>
           <Image
             source={BottomBackground}
             style={styles.backgroundImage}
@@ -104,6 +105,6 @@ export function CreateNewPassword() {
           />
         </View>
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

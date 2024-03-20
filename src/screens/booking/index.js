@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 export function Booking(props) {
   const rideData = props?.route?.params?.rideData;
 
-  const userDetail = useSelector(state => state?.auth?.user);
+  const userDetail = useSelector(state => state?.auth?.verifyUser);
   const isLoading = useSelector(state => state?.auth?.loading);
 
   const [name, setName] = useState('');
