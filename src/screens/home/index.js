@@ -18,7 +18,7 @@ import {
   Menu,
 } from '@/assets';
 import {ms} from 'react-native-size-matters';
-import {useIsFocused} from '@react-navigation/native';
+import {DrawerActions, useIsFocused} from '@react-navigation/native';
 import {styles} from './styles';
 import OneWayPickDropPoint from './component/OneWayPickDropPoint';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
@@ -26,6 +26,7 @@ import {Spacer} from '@/theme/Spacer';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '@/redux/actions/authActions';
 import {restAllData} from '@/redux/commonActions';
+import { navigationRef } from '@/navigation/NavigationRef';
 
 export function Home() {
   const dispatch = useDispatch();
@@ -111,8 +112,9 @@ export function Home() {
   );
 
   const handleLogout = () => {
-    dispatch(logout());
-    dispatch(restAllData());
+    // toggleDrawers();
+    // dispatch(logout());
+    // dispatch(restAllData());
   };
 
   useEffect(() => {
@@ -124,6 +126,9 @@ export function Home() {
     }
   }, [isFocused]);
 
+  const openDrawer = () => {
+    navigationRef.current.dispatch(DrawerActions.openDrawer());
+  };
   return (
     <ScreenWrapper>
       <ImageBackground
@@ -133,7 +138,7 @@ export function Home() {
           <ImageBackground
             source={Linear}
             style={styles.opacityBackgroundImage}>
-            <TouchableOpacity style={styles.menuView} onPress={handleLogout}>
+            <TouchableOpacity style={styles.menuView} onPress={openDrawer}>
               <Image source={Menu} style={styles.menuIcon} />
             </TouchableOpacity>
             <View style={styles.rideView}>

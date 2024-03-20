@@ -15,4 +15,10 @@ export const NAVIGATION = {
   checkout: 'Checkout',
   addCardDetails: 'AddCardDetails',
   invoiceDetail: 'InvoiceDetail',
+  personalInfo: 'PersonalInfo',
+  editInfo: 'EditInfo',
+  addNewCard: 'AddNewCard',
+  termConditions: 'TermConditions',
+  privacyPolicy: 'PrivacyPolicy',
+  changePassword: 'ChangePassword',
 };

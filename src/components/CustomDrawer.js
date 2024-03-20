@@ -1,0 +1,228 @@
+import React, {useRef, useState} from 'react';
+import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
+import {ms} from 'react-native-size-matters';
+import {
+  Notification,
+  Password,
+  Profile,
+  bookRide,
+  card,
+  help,
+  logout,
+  privacy,
+  terms,
+  toggleOff,
+  toggleOn,
+  userIcon,
+} from '@/assets';
+import {COLORS} from '@/theme/Colors';
+import {Spacer} from '@/theme/Spacer';
+import {navigate} from '@/navigation/NavigationRef';
+import {NAVIGATION} from '@/constants';
+import BottomSheet from '@gorhom/bottom-sheet';
+
+const CustomDrawer = () => {
+  const bottomSheetRef = useRef(null);
+  const [isToggle, setIsToggle] = useState(false);
+
+  const data = [
+    {
+      id: 1,
+      title: 'Personal Information',
+      image: Profile,
+      onPress: () => navigate(NAVIGATION.personalInfo),
+    },
+    {
+      id: 2,
+      title: 'Notifications',
+      image: Notification,
+      onPress: () => {},
+      toggleIcon: isToggle ? toggleOn : toggleOff,
+    },
+    {
+      id: 3,
+      title: 'Ride Bookings ',
+      image: bookRide,
+      onPress: () => {},
+    },
+    {
+      id: 4,
+      title: 'Payment Method',
+      image: card,
+      onPress: () => navigate(NAVIGATION.addNewCard),
+    },
+    {
+      id: 5,
+      title: 'Change Password',
+      image: Password,
+      onPress: () => navigate(NAVIGATION.changePassword),
+    },
+    {
+      id: 6,
+      title: 'Terms & Conditions',
+      image: terms,
+      onPress: () => navigate(NAVIGATION.termConditions),
+    },
+    {
+      id: 7,
+      title: 'Privacy Policy',
+      image: privacy,
+      onPress: () => navigate(NAVIGATION.privacyPolicy),
+    },
+    {
+      id: 8,
+      title: 'Help',
+      image: help,
+      onPress: () => {},
+    },
+  ];
+
+  const renderItem = ({item, index}) => (
+    <TouchableOpacity
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: ms(5),
+      }}
+      onPress={item?.onPress}>
+      <View
+        style={{
+          backgroundColor: '#F6F6F6',
+          height: ms(36),
+          width: ms(36),
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: ms(14),
+        }}>
+        <Image
+          style={{height: ms(20), width: ms(20), resizeMode: 'contain'}}
+          source={item?.image}
+        />
+      </View>
+      <Text
+        style={{
+          fontSize: ms(15),
+          color: COLORS.black,
+          fontWeight: '400',
+          marginHorizontal: ms(10),
+          flex: 1,
+        }}>
+        {item?.title}
+      </Text>
+      {index == 1 ? (
+        <TouchableOpacity
+          onPress={() => setIsToggle(!isToggle)}
+          style={{
+            paddingVertical: ms(0),
+            height: ms(25),
+            width: ms(40),
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+          }}>
+          <Image
+            source={item?.toggleIcon}
+            style={{width: ms(34), height: ms(18), resizeMode: 'contain'}}
+          />
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
+    </TouchableOpacity>
+  );
+
+  return (
+    <View style={{padding: ms(20), flex: 1}}>
+      <View style={{flex: 0.9}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image
+            style={{height: ms(48), width: ms(48), resizeMode: 'contain'}}
+            source={userIcon}
+          />
+          <View style={{marginLeft: ms(15)}}>
+            <Text
+              style={{
+                fontSize: ms(14),
+                color: COLORS.skyGray,
+                fontWeight: '500',
+              }}>
+              {'Hey'}
+            </Text>
+            <Text
+              style={{
+                fontSize: ms(26),
+                color: COLORS.black,
+                fontWeight: '600',
+              }}>
+              {'Johan'}
+            </Text>
+          </View>
+        </View>
+
+        <Spacer space={ms(20)} />
+
+        <FlatList data={data} style={{}} renderItem={renderItem} />
+      </View>
+
+      <View style={{flex: 0.1}}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: ms(5),
+          }}>
+          <View
+            style={{
+              backgroundColor: '#F6F6F6',
+              height: ms(36),
+              width: ms(36),
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: ms(14),
+            }}>
+            <Image
+              style={{height: ms(20), width: ms(20), resizeMode: 'contain'}}
+              source={logout}
+            />
+          </View>
+          <Text
+            style={{
+              fontSize: ms(15),
+              color: COLORS.black,
+              fontWeight: '400',
+              marginHorizontal: ms(10),
+              flex: 1,
+            }}>
+            {'Logout'}
+          </Text>
+        </TouchableOpacity>
+  
+          <Text
+            style={{
+              fontSize: ms(14),
+              color: COLORS.skyGray,
+              fontWeight: '500',
+              marginHorizontal: ms(10),
+              flex: 1,
+            }} onPress={() => bottomSheetRef?.current?.snapToIndex(0)} >
+            {'Delete My Account'}
+          </Text>
+      
+      </View>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={[200, 300, 500]}
+        backgroundComponent={() => (
+          <View style={{backgroundColor: 'rgba(0,0,0,0.5)', flex: 1}} />
+        )}
+      >
+        <View style={{backgroundColor: 'white', height: 300}}>
+          <Text style={{fontSize: 24}}>Bottom Sheet Content</Text>
+        </View>
+      </BottomSheet>
+    </View>
+  );
+};
+
+export default CustomDrawer;

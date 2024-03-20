@@ -9,14 +9,10 @@ import {TextInput} from 'react-native-paper';
 import {Calendar, creditCard, cvvIcon, smile} from '@/assets';
 import {Spacer} from '@/theme/Spacer';
 import CustomButton from '@/components/CustomButton';
-import {goBack, navigate} from '@/navigation/NavigationRef';
-import {NAVIGATION} from '@/constants';
 import {useDispatch} from 'react-redux';
 import {addCards} from '@/redux/actions/authActions';
 
-export function AddCardDetails(props) {
-  const rideData = props?.route?.params?.rideData;
-  const bookingDetail = props?.route?.params?.bookingDetail;
+export function AddNewCard() {
   const dispatch = useDispatch();
 
   const [holderName, setHolderName] = useState('');
@@ -73,11 +69,6 @@ export function AddCardDetails(props) {
   // }
   const handleProceedCheckout = () => {
     dispatch(addCards(cardDetail));
-    navigate(NAVIGATION.checkout, {
-      rideData: rideData,
-      bookingDetail: bookingDetail,
-      // cardDetail: cardDetail,
-    });
   };
 
   return (
@@ -175,7 +166,7 @@ export function AddCardDetails(props) {
         <View
           style={{flex: 1, justifyContent: 'flex-end', marginBottom: ms(30)}}>
           <CustomButton
-            title={'Proceed to Checkout'}
+            title={'Add'}
             onPress={handleProceedCheckout}
           />
         </View>

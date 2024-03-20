@@ -63,6 +63,25 @@ export {default as smile} from './ic_icon/smile.png';
 export {default as cvvIcon} from './ic_icon/cvv.png';
 export {default as creditCard} from './ic_icon/creditCard.png';
 export {default as success} from './ic_icon/success.png';
+export {default as userIcon} from './ic_icon/userIcon.png';
+
+//menuIcon
+
+export {default as Notification} from './ic_icon/Notification.png';
+export {default as bookRide} from './ic_icon/bookRide.png';
+export {default as card} from './ic_icon/card.png';
+export {default as help} from './ic_icon/help.png';
+export {default as logout} from './ic_icon/logout.png';
+export {default as privacy} from './ic_icon/privacy.png';
+export {default as Password} from './ic_icon/Password.png';
+export {default as Profile} from './ic_icon/Profile.png';
+export {default as terms} from './ic_icon/terms.png';
+export {default as toggleOff} from './ic_icon/toggleOff.png';
+export {default as toggleOn} from './ic_icon/toggleOn.png';
+export {default as globe} from './ic_icon/globe.png';
+export {default as Message} from './ic_icon/Message.png';
+export {default as Calling} from './ic_icon/Calling.png';
+export {default as changePassword} from './ic_icon/changePassword.png';
 
 //Splash
 
