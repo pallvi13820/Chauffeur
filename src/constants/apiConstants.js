@@ -17,6 +17,7 @@ export const API_END_POINTS = {
   getCards: 'user/getCards',
   addCards: 'user/addCard',
   getBookings: 'user/getBookings',
+  getNotification: 'user/notification',
 };
 
 // /api/v1/user/getBookings?status=7

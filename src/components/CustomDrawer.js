@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
 import {ms} from 'react-native-size-matters';
 import {
@@ -20,16 +20,23 @@ import {Spacer} from '@/theme/Spacer';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
 import {restAllData} from '@/redux/commonActions';
-import {logout} from '@/redux/actions/authActions';
-import {useDispatch} from 'react-redux';
+import {getNotification, logout} from '@/redux/actions/authActions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const CustomDrawer = () => {
   const dispatch = useDispatch();
 
   const [isToggle, setIsToggle] = useState(false);
+  const notificationData = useSelector((state) => state?.user?.notification)
+  console.log("slfjlsdf", notificationData?.data?.is_notification)
+
   const handleLogout = () => {
     dispatch(logout());
     dispatch(restAllData());
+  };
+
+  const handleNotification = () => {
+    dispatch(getNotification());
   };
 
   const data = [
@@ -43,7 +50,7 @@ const CustomDrawer = () => {
       id: 2,
       title: 'Notifications',
       image: Notification,
-      onPress: () => {},
+      onPress: handleNotification,
       toggleIcon: isToggle ? toggleOn : toggleOff,
     },
     {

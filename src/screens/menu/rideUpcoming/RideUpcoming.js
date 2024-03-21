@@ -36,7 +36,7 @@ import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
-export function Checkout(props) {
+export function RideUpcoming(props) {
   const dispatch = useDispatch();
 
   const [cardId, setCardId] = useState('');

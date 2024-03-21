@@ -226,7 +226,7 @@ export function InvoiceDetail() {
               color: COLORS.skyGray,
               marginTop: ms(10),
             }}>
-            {moment(bookingDetail?.pickup_date_time?.moment)?.format(
+            {moment(bookingDetail?.pickup_date_time)?.format(
               'ddd, MMM. DD [at] hh:mm A',
             )}
           </Text>

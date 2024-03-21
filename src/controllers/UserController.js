@@ -337,7 +337,7 @@ export class UserController {
             position: 'bottom',
             visibilityTime: 1500,
           });
-          console.log('djfsdf', res);
+          console.log('djfsdf', JSON.stringify(res));
           resolve(res);
         })
         .catch(err => {
@@ -353,6 +353,36 @@ export class UserController {
         });
     });
   }
+
+
+  static async getNotification() {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_BASE_URL + API_END_POINTS.getNotification
+      HttpClient.get(endpoint)
+        .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          console.log('djfsdf', JSON.stringify(res));
+          resolve(res);
+        })
+        .catch(err => {
+          console.log('djfsdf', err);
+
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
+        });
+    });
+  }
+
 
   static async logout() {
     return new Promise((resolve, reject) => {

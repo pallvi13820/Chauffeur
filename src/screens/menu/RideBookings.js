@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {ScreenWrapper} from '@/components/ScreenWrapper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -15,157 +22,183 @@ import {goBack} from '@/navigation/NavigationRef';
 import {ms} from 'react-native-size-matters';
 import {Spacer} from '@/theme/Spacer';
 import {COLORS} from '@/theme/Colors';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getBookings} from '@/redux/actions/authActions';
+import FastImage from 'react-native-fast-image';
+import moment from 'moment';
 
 export function RideBookings() {
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
+  const rideBookings = useSelector(state => state?.user?.rideBookings);
+  const isLoading = useSelector(state => state?.user?.loading);
+
   useEffect(() => {
     dispatch(getBookings(active));
-  }, []);
+  }, [active]);
+
+  const renderItem = ({item, index}) => (
+    <TouchableOpacity style={styles.bookingDetailView}>
+      <View style={styles.displayFlex}>
+        <Image source={Calendar} style={styles.calendarIcon} />
+        <Text style={styles.dateTimeText}>
+          {moment(item?.pickup_date_time)?.format('ddd, MMM. DD [at] hh:mm A')}
+        </Text>
+        <Text style={styles.amountText}>${item?.price}</Text>
+      </View>
+      <Spacer space={ms(20)} />
+
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Image
+          source={{uri: item?.car_category?.file_src}}
+          style={styles.rideImage}
+        />
+
+        <View style={{alignItems: 'center'}}>
+          <Text style={styles.businessText}>{item?.car_category?.title}</Text>
+          <Text style={styles.descriptionText}>
+            {'Mercedes E Class or similar'}
+          </Text>
+        </View>
+      </View>
+      <Spacer space={ms(20)} />
+
+      <View style={styles.displayFlex}>
+        <View style={{alignItems: 'center'}}>
+          <Image source={OutlineCircle} style={styles.pickupIcon} />
+          <View style={{paddingVertical: ms(2)}}>
+            <Image source={VerticalLineSeprator} style={styles.verticalLine} />
+          </View>
+
+          <Image source={Drop} style={styles.dropIcon} />
+        </View>
+        <View style={styles.addressView}>
+          <View>
+            <Text style={styles.pickupPoint}>{'Pick Point'}</Text>
+            <Text style={styles.pickupAddress} numberOfLines={1}>
+              {item?.pickup_location}
+            </Text>
+          </View>
+
+          <Spacer space={ms(20)} />
+          <View>
+            <Text style={styles.DropHeaderText}>{'Drop Point'}</Text>
+            <Text style={styles.dropAddressText} numberOfLines={1}>
+              {item?.dropoff_location}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <Spacer />
+    </TouchableOpacity>
+  );
 
   return (
     <ScreenWrapper>
-      <KeyboardAwareScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
-        <View style={{flex: 1, marginVertical: ms(25)}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+      <View style={{flex: 1, marginVertical: ms(25)}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
 
-              paddingHorizontal: ms(20),
-            }}>
-            <TouchableOpacity
-              style={styles.arrowIconViewStyle}
-              onPress={() => goBack()}>
-              <Image source={LeftBlackArrow} style={styles.arrowIconStyle} />
-            </TouchableOpacity>
-
-            <Spacer space={ms(15)} />
-            <Text style={styles.headerTitle}>{'Ride Bookings '}</Text>
-          </View>
-          <Spacer space={ms(25)} />
-
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={{flex: 1}} onPress={() => setActive(0)}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: active === 0 ? COLORS.black : COLORS.skyGray,
-                  fontSize: ms(14),
-                  fontWeight: '500',
-                }}>
-                {'Upcoming'}
-              </Text>
-              <Spacer space={ms(10)} />
-              <View
-                style={{
-                  height: active === 0 ? ms(3) : ms(2),
-                  backgroundColor: active === 0 ? COLORS.black : '#E8E8E8',
-                }}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{flex: 1}} onPress={() => setActive(6)}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: active === 6 ? COLORS.black : COLORS.skyGray,
-                  fontSize: ms(14),
-                  fontWeight: '500',
-                }}>
-                {'Past'}
-              </Text>
-              <Spacer space={ms(10)} />
-              <View
-                style={{
-                  height: active === 6 ? ms(3) : ms(2),
-                  backgroundColor: active === 6 ? COLORS.black : '#E8E8E8',
-                }}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{flex: 1}} onPress={() => setActive(7)}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: active === 7 ? COLORS.black : COLORS.skyGray,
-                  fontSize: ms(14),
-                  fontWeight: '500',
-                }}>
-                {'Cancelled'}
-              </Text>
-              <Spacer space={ms(10)} />
-              <View
-                style={{
-                  height: active === 7 ? ms(3) : ms(2),
-                  backgroundColor: active === 7 ? COLORS.black : '#E8E8E8',
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <Spacer space={ms(20)} />
-
-          <TouchableOpacity style={styles.bookingDetailView}>
-            <View style={styles.displayFlex}>
-              <Image source={Calendar} style={styles.calendarIcon} />
-              <Text style={styles.dateTimeText}>{'Today at 10:00 AM'}</Text>
-              <Text style={styles.amountText}>{'€ 45.00'}</Text>
-            </View>
-            <Spacer space={ms(20)} />
-
-            <View style={{flexDirection: 'row'}}>
-              <Image source={card} style={styles.rideImage} />
-
-              <View style={{alignItems: 'center'}}>
-                <Text style={styles.businessText}>{'Business Class'}</Text>
-                <Text style={styles.descriptionText}>
-                  {'Mercedes E Class or similar'}
-                </Text>
-              </View>
-            </View>
-            <Spacer space={ms(20)} />
-
-            <View style={styles.displayFlex}>
-              <View style={{alignItems: 'center'}}>
-                <Image source={OutlineCircle} style={styles.pickupIcon} />
-                <View style={{paddingVertical: ms(2)}}>
-                  <Image
-                    source={VerticalLineSeprator}
-                    style={styles.verticalLine}
-                  />
-                </View>
-
-                <Image source={Drop} style={styles.dropIcon} />
-              </View>
-              <View style={styles.addressView}>
-                <View>
-                  <Text style={styles.pickupPoint}>{'Pick Point'}</Text>
-                  <Text style={styles.pickupAddress} numberOfLines={1}>
-                    {'pickupStreetAddress || pickupCurrentLocation'}
-                  </Text>
-                </View>
-
-                <Spacer space={ms(20)} />
-                <View>
-                  <Text style={styles.DropHeaderText}>{'Drop Point'}</Text>
-                  <Text style={styles.dropAddressText} numberOfLines={1}>
-                    {'dropStreetAddress || dropCurrentLocation'}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <Spacer />
+            paddingHorizontal: ms(20),
+          }}>
+          <TouchableOpacity
+            style={styles.arrowIconViewStyle}
+            onPress={() => goBack()}>
+            <Image source={LeftBlackArrow} style={styles.arrowIconStyle} />
           </TouchableOpacity>
 
-          <Spacer space={ms(20)} />
+          <Spacer space={ms(15)} />
+          <Text style={styles.headerTitle}>{'Ride Bookings '}</Text>
         </View>
-      </KeyboardAwareScrollView>
+        <Spacer space={ms(25)} />
+
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={{flex: 1}} onPress={() => setActive(0)}>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: active === 0 ? COLORS.black : COLORS.skyGray,
+                fontSize: ms(14),
+                fontWeight: '500',
+              }}>
+              {'Upcoming'}
+            </Text>
+            <Spacer space={ms(10)} />
+            <View
+              style={{
+                height: active === 0 ? ms(3) : ms(2),
+                backgroundColor: active === 0 ? COLORS.black : '#E8E8E8',
+              }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{flex: 1}} onPress={() => setActive(6)}>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: active === 6 ? COLORS.black : COLORS.skyGray,
+                fontSize: ms(14),
+                fontWeight: '500',
+              }}>
+              {'Past'}
+            </Text>
+            <Spacer space={ms(10)} />
+            <View
+              style={{
+                height: active === 6 ? ms(3) : ms(2),
+                backgroundColor: active === 6 ? COLORS.black : '#E8E8E8',
+              }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{flex: 1}} onPress={() => setActive(7)}>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: active === 7 ? COLORS.black : COLORS.skyGray,
+                fontSize: ms(14),
+                fontWeight: '500',
+              }}>
+              {'Cancelled'}
+            </Text>
+            <Spacer space={ms(10)} />
+            <View
+              style={{
+                height: active === 7 ? ms(3) : ms(2),
+                backgroundColor: active === 7 ? COLORS.black : '#E8E8E8',
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <Spacer space={ms(20)} />
+        {isLoading ? (
+          <View style={{alignItems: 'center', marginVertical: ms(40)}}>
+            <FastImage
+              source={require('@/assets/gif/Loader.gif')}
+              style={{width: ms(78), height: ms(78)}}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          </View>
+        ) : (
+          <FlatList
+            data={rideBookings?.data?.list}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index?.toString()}
+            ListEmptyComponent={() => (
+              <View style={{alignItems: 'center', marginVertical: ms(40)}}>
+                <Text style={{fontSize: ms(22), color: COLORS.black}}>
+                  {'No Booking'}
+                </Text>
+              </View>
+            )}
+          />
+        )}
+        <Spacer space={ms(20)} />
+      </View>
     </ScreenWrapper>
   );
 }
@@ -190,8 +223,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: ms(10),
   },
-  amountText: {fontSize: ms(18), color: COLORS.black, fontWeight: '600'},
-  rideImage: {height: ms(39), width: ms(75), resizeMode: 'contain'},
+  amountText: {
+    fontSize: ms(18),
+    color: COLORS.black,
+    fontWeight: '600',
+  },
+  rideImage: {
+    height: ms(39),
+    width: ms(75),
+    resizeMode: 'contain',
+  },
   businessText: {
     fontSize: ms(12),
     color: COLORS.black,
