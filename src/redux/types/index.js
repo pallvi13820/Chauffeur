@@ -21,4 +21,6 @@ export const USER_GET_RIDE_PRICE = 'user/getRidePrice';
 export const BOOK_RIDE = 'user/bookRide';
 export const GET_CARDS = 'user/getCards';
 export const ADD_CARDS = 'user/addCards';
+export const GET_BOOKINGS = 'user/getBookings';
+
 

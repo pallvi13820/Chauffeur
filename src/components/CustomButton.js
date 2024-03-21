@@ -5,14 +5,21 @@ import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {moderateScale, ms} from 'react-native-size-matters';
 
-const CustomButton = ({title, onPress, disabled, loading}) => {
+const CustomButton = ({
+  title,
+  onPress,
+  disabled,
+  loading,
+  style,
+  buttonStyle,
+}) => {
   return (
     <LinearGradient
       colors={['rgba(22, 22, 200, 1)', 'rgba(0, 0, 139, 1)']}
-      style={styles.buttonGradientStyle}>
+      style={[styles.buttonGradientStyle, buttonStyle]}>
       <TouchableOpacity
         onPress={onPress}
-        style={styles.buttonView}
+        style={[styles.buttonView, style]}
         disabled={disabled}>
         {loading ? (
           <FastImage

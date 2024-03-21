@@ -49,6 +49,7 @@ export {default as TrackingMap} from './/images/TrackingMap.png';
 export {default as UserDelete} from './/images/UserDelete.png';
 export {default as PaymentCard} from './/images/PaymentCard.png';
 export {default as BlankCard} from './/images/BlankCard.png';
+export {default as CardType} from './/images/CardType.png';
 
 //ic_icon
 export {default as bag} from './ic_icon/bag.png';
@@ -74,7 +75,7 @@ export {default as Notification} from './ic_icon/Notification.png';
 export {default as bookRide} from './ic_icon/bookRide.png';
 export {default as card} from './ic_icon/card.png';
 export {default as help} from './ic_icon/help.png';
-export {default as logout} from './ic_icon/logout.png';
+export {default as logoutIcon} from './ic_icon/logout.png';
 export {default as privacy} from './ic_icon/privacy.png';
 export {default as Password} from './ic_icon/Password.png';
 export {default as Profile} from './ic_icon/Profile.png';
@@ -85,6 +86,7 @@ export {default as globe} from './ic_icon/globe.png';
 export {default as Message} from './ic_icon/Message.png';
 export {default as Calling} from './ic_icon/Calling.png';
 export {default as changePassword} from './ic_icon/changePassword.png';
+export {default as deleteIcon} from './ic_icon/delete.png';
 
 //Splash
 

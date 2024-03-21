@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {
   addCards,
   bookRide,
+  getBookings,
   getCards,
   getRidePrice,
 } from '../actions/authActions';
@@ -15,6 +16,7 @@ const initialState = {
   bookRideDetail: {},
   cardsDetails: {},
   addCardDetails: {},
+  rideBookings: {},
 };
 
 const userSlice = createSlice({
@@ -75,6 +77,20 @@ const userSlice = createSlice({
         state.addCardDetails = action.payload;
       })
       .addCase(addCards.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    //getBooking
+    builder
+      .addCase(getBookings.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getBookings.fulfilled, (state, action) => {
+        state.loading = false;
+        state.addCardDetails = action.payload;
+      })
+      .addCase(getBookings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

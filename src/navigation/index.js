@@ -11,9 +11,10 @@ import {HttpClient} from '@/controllers';
 import SplashScreen from 'react-native-splash-screen';
 
 export function RootNavigator() {
-  const user = useSelector(state => state?.auth?.verifyUser);
+  const verifyUser = useSelector(state => state?.auth?.verifyUser);
+  const user = useSelector(state => state?.auth?.user);
 
-  const token = user?.data?.auth_token;
+  const token = user?.data?.auth_token || verifyUser?.data?.auth_token;
   const scheme = useColorScheme();
 
   useEffect(() => {

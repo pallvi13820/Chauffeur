@@ -14,6 +14,7 @@ import {
   PaymentMethod,
   PersonalInfo,
   PrivacyPolicy,
+  RideBookings,
   TermConditions,
 } from '@/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -92,6 +93,11 @@ export function HomeNavigator() {
       <Stack.Screen
         component={PaymentMethod}
         name={NAVIGATION.paymentMethod}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={RideBookings}
+        name={NAVIGATION.rideBookings}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

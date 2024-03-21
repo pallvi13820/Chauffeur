@@ -39,13 +39,17 @@ export function DeleteAccountBottomSheet() {
               color: COLORS.black,
               fontWeight: '600',
               textAlign: 'center',
-              marginHorizontal: ms(60),
             }}>
             {'Are you sure you want to delete your account?'}
           </Text>
 
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <CustomButton title={'Yes,Delete'} />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginHorizontal: ms(20),
+            }}>
+            <CustomButton title={'Yes,Delete'} buttonStyle={{width: ms(140)}} />
 
             <TouchableOpacity
               style={[styles.resendButtonView, {backgroundColor: '#E6E6E6'}]}
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#191919',
+    backgroundColor: '#5e5e5e',
   },
   contentContainer: {
     flex: 1,
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
   resendButtonView: {
     backgroundColor: '#E6E6E6',
     alignSelf: 'center',
-    width: ms(174),
+    width: ms(140),
     height: ms(58),
     borderRadius: ms(20),
     alignItems: 'center',

@@ -13,6 +13,7 @@ import {
   AUTH_VERIFY_FORGOT_PASSWORD_OTP,
   AUTH_VERIFY_OTP,
   BOOK_RIDE,
+  GET_BOOKINGS,
   GET_CARDS,
   USER_GET_RIDE_PRICE,
 } from '../types';
@@ -141,7 +142,6 @@ export const bookRide = createAsyncThunk(
   },
 );
 
-
 export const addCards = createAsyncThunk(
   ADD_CARDS,
   async (body, {rejectWithValue}) => {
@@ -155,7 +155,6 @@ export const addCards = createAsyncThunk(
   },
 );
 
-
 export const getCards = createAsyncThunk(
   GET_CARDS,
   async (body, {rejectWithValue}) => {
@@ -163,7 +162,18 @@ export const getCards = createAsyncThunk(
       const res = await UserController.getCards(body);
       return res;
     } catch (error) {
-      console.log("hkjdhskhgsd", error)
+      return rejectWithValue(JSON.stringify(error));
+    }
+  },
+);
+
+export const getBookings = createAsyncThunk(
+  GET_BOOKINGS,
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await UserController.getBookings(data);
+      return res;
+    } catch (error) {
       return rejectWithValue(JSON.stringify(error));
     }
   },

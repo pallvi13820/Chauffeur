@@ -23,4 +23,5 @@ export const NAVIGATION = {
   changePassword: 'ChangePassword',
   deleteAccountBottomSheet: 'DeleteAccountBottomSheet',
   paymentMethod: 'PaymentMethod',
+  rideBookings: 'RideBookings',
 };

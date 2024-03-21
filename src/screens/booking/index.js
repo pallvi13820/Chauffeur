@@ -16,7 +16,9 @@ import {useSelector} from 'react-redux';
 export function Booking(props) {
   const rideData = props?.route?.params?.rideData;
 
-  const userDetail = useSelector(state => state?.auth?.verifyUser);
+  const verifyUserDetail = useSelector(state => state?.auth?.verifyUser);
+  const userDetail = useSelector(state => state?.auth?.user);
+
   const isLoading = useSelector(state => state?.auth?.loading);
 
   const [name, setName] = useState('');
@@ -63,7 +65,8 @@ export function Booking(props) {
     } else if (!notes) {
       alert('Please describe notes.');
     } else if (bookingType === 1) {
-      userDetail?.data?.user_cards?.length < 1
+      userDetail?.data?.user_cards?.length < 1 ||
+      verifyUserDetail?.data?.user_cards?.length < 1
         ? navigate(NAVIGATION.addCardDetails, {
             rideData: rideData,
             bookingDetail: bookingDetailForMyself,
@@ -73,7 +76,8 @@ export function Booking(props) {
             bookingDetail: bookingDetailForMyself,
           });
     } else {
-      userDetail?.data?.user_cards?.length < 1
+      userDetail?.data?.user_cards?.length < 1 ||
+      verifyUserDetail?.data?.user_cards?.length < 1
         ? navigate(NAVIGATION.addCardDetails, {
             rideData: rideData,
             bookingDetail: bookingDetailForMyself,

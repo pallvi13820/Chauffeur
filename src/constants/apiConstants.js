@@ -16,4 +16,9 @@ export const API_END_POINTS = {
   bookRide: 'user/bookRide',
   getCards: 'user/getCards',
   addCards: 'user/addCard',
+  getBookings: 'user/getBookings',
 };
+
+// /api/v1/user/getBookings?status=7
+// Mthod:GET
+// param -> status

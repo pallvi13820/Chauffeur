@@ -8,7 +8,7 @@ import {
   bookRide,
   card,
   help,
-  logout,
+  logoutIcon,
   privacy,
   terms,
   toggleOff,
@@ -19,9 +19,18 @@ import {COLORS} from '@/theme/Colors';
 import {Spacer} from '@/theme/Spacer';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
+import {restAllData} from '@/redux/commonActions';
+import {logout} from '@/redux/actions/authActions';
+import {useDispatch} from 'react-redux';
 
 const CustomDrawer = () => {
+  const dispatch = useDispatch();
+
   const [isToggle, setIsToggle] = useState(false);
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(restAllData());
+  };
 
   const data = [
     {
@@ -41,7 +50,7 @@ const CustomDrawer = () => {
       id: 3,
       title: 'Ride Bookings ',
       image: bookRide,
-      onPress: () => {},
+      onPress: () => navigate(NAVIGATION.rideBookings),
     },
     {
       id: 4,
@@ -179,7 +188,7 @@ const CustomDrawer = () => {
             }}>
             <Image
               style={{height: ms(20), width: ms(20), resizeMode: 'contain'}}
-              source={logout}
+              source={logoutIcon}
             />
           </View>
           <Text
@@ -189,7 +198,8 @@ const CustomDrawer = () => {
               fontWeight: '400',
               marginHorizontal: ms(10),
               flex: 1,
-            }}>
+            }}
+            onPress={handleLogout}>
             {'Logout'}
           </Text>
         </TouchableOpacity>

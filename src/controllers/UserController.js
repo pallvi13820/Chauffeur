@@ -277,7 +277,7 @@ export class UserController {
       HttpClient.post(endpoint, body)
         .then(res => {
           resolve(res);
-          console.log("response add card", res)
+          console.log('response add card', res);
           Toast.show({
             type: 'success_toast',
             text2: res?.message,
@@ -286,7 +286,7 @@ export class UserController {
           });
         })
         .catch(err => {
-          console.log("shsdhg", err)
+          console.log('shsdhg', err);
           Toast.show({
             text2: err.message,
             position: 'bottom',
@@ -297,7 +297,6 @@ export class UserController {
         });
     });
   }
-
 
   static async getCards() {
     return new Promise((resolve, reject) => {
@@ -310,11 +309,39 @@ export class UserController {
             position: 'bottom',
             visibilityTime: 1500,
           });
-          console.log("djfsdf", res)
+          console.log('djfsdf', res);
           resolve(res);
         })
         .catch(err => {
-          console.log("djfsdf",err)
+          console.log('djfsdf', err);
+
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
+        });
+    });
+  }
+
+  static async getBookings(data) {
+    return new Promise((resolve, reject) => {
+      const endpoint = `${API_BASE_URL + API_END_POINTS.getBookings}?status=${data}`
+      HttpClient.get(endpoint)
+        .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          console.log('djfsdf', res);
+          resolve(res);
+        })
+        .catch(err => {
+          console.log('djfsdf', err);
 
           Toast.show({
             text2: err.message,
