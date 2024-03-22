@@ -23,3 +23,4 @@ export const GET_CARDS = 'user/getCards';
 export const ADD_CARDS = 'user/addCards';
 export const GET_BOOKINGS = 'user/getBookings';
 export const GET_NOTIFICATION = 'user/notification';
+export const GET_UPDATE_PROFILE = 'user/updateProfile';

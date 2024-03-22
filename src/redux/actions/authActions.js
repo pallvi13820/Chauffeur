@@ -17,6 +17,7 @@ import {
   GET_CARDS,
   GET_NOTIFICATION,
   USER_GET_RIDE_PRICE,
+  GET_UPDATE_PROFILE,
 } from '../types';
 import {useDispatch} from 'react-redux';
 import {navigate} from '@/navigation/NavigationRef';
@@ -191,6 +192,17 @@ export const getNotification = createAsyncThunk(
   },
 );
 
+export const getUpdateProfile = createAsyncThunk(
+  GET_UPDATE_PROFILE,
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await UserController.getUpdateProfile(data);
+      return res;
+    } catch (error) {
+      return rejectWithValue(JSON.stringify(error));
+    }
+  },
+);
 export const logout = createAsyncThunk(
   AUTH_LOGOUT,
   async (params, {rejectWithValue}) => {
