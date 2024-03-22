@@ -31,17 +31,23 @@ import {
 import {NAVIGATION} from '@/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
-import {bookRide, getCards} from '@/redux/actions/authActions';
+import {
+  bookRide,
+  getCards,
+  getRideDetailBookings,
+} from '@/redux/actions/authActions';
 import Modal from 'react-native-modal';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
 export function RideUpcoming(props) {
+  const route = useRoute();
   const dispatch = useDispatch();
+  const bookingId = route?.params?.bookingId;
 
   const [cardId, setCardId] = useState('');
   const rideDetail = useSelector(
-    state => state?.user?.ridePrice?.data?.booking,
+    state => state?.user?.rideDetailBookings?.data,
   );
   const userDetail = useSelector(state => state?.auth?.verifyUser);
   const cardsDetail = useSelector(state => state?.user?.cardsDetails);
@@ -54,33 +60,11 @@ export function RideUpcoming(props) {
   useFocusEffect(
     useCallback(() => {
       dispatch(getCards());
+      dispatch(getRideDetailBookings(bookingId));
     }, []),
   );
 
   const [isVisible, setIsVisible] = useState(false);
-
-  const bookRideData = {
-    pickup_type: rideDetail?.pickup_type,
-    pickup_latitude: rideDetail?.pickup_latitude,
-    pickup_longitude: rideDetail?.pickup_longitude,
-    dropoff_latitude: rideDetail?.dropoff_latitude,
-    dropoff_longitude: rideDetail?.dropoff_longitude,
-    dropoff_location: rideDetail?.dropoff_location,
-    pickup_location: rideDetail?.pickup_location,
-    estimate_distance: rideDetail?.estimate_distance,
-    pickup_date_time: rideDetail?.pickup_date_time,
-    car_category_id: rideData?.category_id,
-    pickup_sign: bookingDetail?.pickup_sign,
-    notes: bookingDetail?.notes,
-    book_for: bookingDetail?.book_for,
-    //   recipient_first_name:lakshdeep
-    //   recipient_last_name:singh
-    //   recipient_phone_code:+91
-    //   recipient_phone_number:7087519219
-    //   recipient_email:lakshdeep@yopmail.com
-    price: rideData?.ride_price,
-    card_id: cardId,
-  };
 
   function formatDebitCardNumber(debitCardNumber) {
     // Convert the number to a string
@@ -153,21 +137,6 @@ export function RideUpcoming(props) {
     </View>
   );
 
-  const checkout = () => {
-    // navigate(NAVIGATION.invoiceDetail)
-    setIsVisible(true);
-    dispatch(bookRide(bookRideData))
-      .then(response => {
-        // Handle success callback here
-        console.log('Ride booked successfully:', response);
-      })
-      .catch(error => {
-        setIsVisible(false);
-
-        // Handle error callback here
-        console.error('Error booking ride:', error);
-      });
-  };
   return (
     <ScreenWrapper>
       <KeyboardAwareScrollView
@@ -181,13 +150,10 @@ export function RideUpcoming(props) {
               onPress={() => goBack()}>
               <Image source={LeftBlackArrow} style={styles.arrowIconStyle} />
             </TouchableOpacity>
-
-            <Spacer space={ms(15)} />
-            <Text style={styles.headerTitle}>{'Checkout'}</Text>
           </View>
           <View style={{alignItems: 'center', marginTop: ms(20)}}>
             <Image
-              source={{uri: rideData?.file_src}}
+              source={{uri: rideDetail?.car_category?.file_src}}
               style={{height: ms(128), width: ms(244), resizeMode: 'stretch'}}
             />
           </View>
@@ -201,7 +167,7 @@ export function RideUpcoming(props) {
               marginTop: ms(5),
               textAlign: 'center',
             }}>
-            ${rideData?.ride_price?.toFixed(2)}
+            ${rideDetail?.price?.toFixed(2)}
           </Text>
           <Text
             style={{
@@ -211,7 +177,7 @@ export function RideUpcoming(props) {
               textAlign: 'center',
               marginVertical: ms(2),
             }}>
-            {rideData?.category_name}
+            {rideDetail?.car_category?.title}
           </Text>
 
           <Text
@@ -331,7 +297,7 @@ export function RideUpcoming(props) {
                     resizeMode: 'contain',
                   }}
                 />
-                {/* <View
+                <View
                   style={{
                     backgroundColor: '#F6F6F6',
                     borderRadius: ms(20),
@@ -345,7 +311,7 @@ export function RideUpcoming(props) {
                     source={Car}
                     resizeMode="contain"
                   />
-                </View> */}
+                </View>
               </View>
               <View>
                 <Text
@@ -390,39 +356,6 @@ export function RideUpcoming(props) {
           </Text>
 
           <FlatList data={cardsDetail?.data || []} renderItem={renderItem} />
-
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              marginVertical: ms(15),
-              alignItems: 'center',
-            }}
-            onPress={() =>
-              navigate(NAVIGATION.addCardDetails, {
-                rideData: rideData,
-                bookingDetail: bookingDetail,
-              })
-            }>
-            <Image
-              source={add}
-              style={{height: ms(18), width: ms(18), resizeMode: 'contain'}}
-            />
-            <Text
-              style={{
-                fontSize: ms(12),
-                fontWeight: '500',
-                color: COLORS.black,
-                marginHorizontal: ms(5),
-              }}>
-              {'Add Other Card'}
-            </Text>
-          </TouchableOpacity>
-
-          <CustomButton
-            title={'Pay Now'}
-            onPress={checkout}
-            // loading={isLoading}
-          />
         </View>
       </KeyboardAwareScrollView>
       <Modal isVisible={isVisible} onBackdropPress={() => setIsVisible(false)}>

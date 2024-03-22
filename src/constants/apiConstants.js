@@ -17,9 +17,12 @@ export const API_END_POINTS = {
   getCards: 'user/getCards',
   addCards: 'user/addCard',
   getBookings: 'user/getBookings',
+  getRideDetailBookings: 'user/rideDetails',
   getNotification: 'user/notification',
 };
 
-// /api/v1/user/getBookings?status=7
-// Mthod:GET
-// param -> status
+// @Mansi  mam please check this ride details  api
+// api/v1/user/rideDetails?booking_id=1
+// with token
+// param is : =
+// booking_id

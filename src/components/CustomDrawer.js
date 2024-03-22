@@ -27,12 +27,15 @@ const CustomDrawer = () => {
   const dispatch = useDispatch();
 
   const [isToggle, setIsToggle] = useState(false);
-  const notificationData = useSelector((state) => state?.user?.notification)
+  const notificationData = useSelector(state => state?.user?.notification);
 
   const handleLogout = () => {
     dispatch(logout());
     dispatch(restAllData());
   };
+  useEffect(() => {
+    dispatch(getNotification());
+  }, []);
 
   const handleNotification = () => {
     dispatch(getNotification());

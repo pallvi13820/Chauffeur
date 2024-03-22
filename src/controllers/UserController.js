@@ -277,7 +277,6 @@ export class UserController {
       HttpClient.post(endpoint, body)
         .then(res => {
           resolve(res);
-          console.log('response add card', res);
           Toast.show({
             type: 'success_toast',
             text2: res?.message,
@@ -286,7 +285,6 @@ export class UserController {
           });
         })
         .catch(err => {
-          console.log('shsdhg', err);
           Toast.show({
             text2: err.message,
             position: 'bottom',
@@ -309,12 +307,9 @@ export class UserController {
             position: 'bottom',
             visibilityTime: 1500,
           });
-          console.log('djfsdf', res);
           resolve(res);
         })
         .catch(err => {
-          console.log('djfsdf', err);
-
           Toast.show({
             text2: err.message,
             position: 'bottom',
@@ -328,7 +323,36 @@ export class UserController {
 
   static async getBookings(data) {
     return new Promise((resolve, reject) => {
-      const endpoint = `${API_BASE_URL + API_END_POINTS.getBookings}?status=${data}`
+      const endpoint = `${
+        API_BASE_URL + API_END_POINTS.getBookings
+      }?status=${data}`;
+      HttpClient.get(endpoint)
+        .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          resolve(res);
+        })
+        .catch(err => {
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
+        });
+    });
+  }
+
+  static async getRideDetailBookings(bookingId) {
+    return new Promise((resolve, reject) => {
+      const endpoint = `${
+        API_BASE_URL + API_END_POINTS.getRideDetailBookings
+      }?booking_id=${bookingId}`;
       HttpClient.get(endpoint)
         .then(res => {
           Toast.show({
@@ -353,11 +377,10 @@ export class UserController {
         });
     });
   }
-
 
   static async getNotification() {
     return new Promise((resolve, reject) => {
-      const endpoint = API_BASE_URL + API_END_POINTS.getNotification
+      const endpoint = API_BASE_URL + API_END_POINTS.getNotification;
       HttpClient.get(endpoint)
         .then(res => {
           Toast.show({
@@ -366,12 +389,9 @@ export class UserController {
             position: 'bottom',
             visibilityTime: 1500,
           });
-          console.log('djfsdf', JSON.stringify(res));
           resolve(res);
         })
         .catch(err => {
-          console.log('djfsdf', err);
-
           Toast.show({
             text2: err.message,
             position: 'bottom',
@@ -382,7 +402,6 @@ export class UserController {
         });
     });
   }
-
 
   static async logout() {
     return new Promise((resolve, reject) => {

@@ -33,7 +33,7 @@ export function RootNavigator() {
 
   return (
     <NavigationContainer theme={theme[scheme]} ref={navigationRef}>
-      {token ? <HomeNavigator /> : <AuthNavigator />}
+      {isAuthorized ? <HomeNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 }

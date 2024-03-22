@@ -27,3 +27,5 @@ export {ChangePassword} from '@/screens/menu/ChangePassword';
 export {DeleteAccountBottomSheet} from '@/screens/menu/DeleteAccountBottomSheet';
 export {PaymentMethod} from '@/screens/menu/PaymentMethod';
 export {RideBookings} from '@/screens/menu/RideBookings';
+export {RideUpcoming} from '@/screens/menu/rideUpcoming/RideUpcoming';
+

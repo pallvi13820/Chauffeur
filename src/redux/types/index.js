@@ -22,4 +22,5 @@ export const BOOK_RIDE = 'user/bookRide';
 export const GET_CARDS = 'user/getCards';
 export const ADD_CARDS = 'user/addCards';
 export const GET_BOOKINGS = 'user/getBookings';
+export const GET_RIDE_DETAILS_BOOKINGS = 'user/rideDetails';
 export const GET_NOTIFICATION = 'user/notification';

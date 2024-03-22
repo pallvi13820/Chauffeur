@@ -5,6 +5,7 @@ import {
   getBookings,
   getCards,
   getNotification,
+  getRideDetailBookings,
   getRidePrice,
 } from '../actions/authActions';
 import {USER} from '../types';
@@ -19,6 +20,7 @@ const initialState = {
   addCardDetails: {},
   rideBookings: {},
   notification: {},
+  rideDetailBookings: {},
 };
 
 const userSlice = createSlice({
@@ -107,6 +109,20 @@ const userSlice = createSlice({
         state.notification = action.payload;
       })
       .addCase(getNotification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    //getRideDetailBooking
+    builder
+      .addCase(getRideDetailBookings.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getRideDetailBookings.fulfilled, (state, action) => {
+        state.loading = false;
+        state.rideDetailBookings = action.payload;
+      })
+      .addCase(getRideDetailBookings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

@@ -19,6 +19,7 @@ import {
 } from '@/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {DrawerNavigator} from './DrawerNavigator';
+import {RideUpcoming} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -98,6 +99,11 @@ export function HomeNavigator() {
       <Stack.Screen
         component={RideBookings}
         name={NAVIGATION.rideBookings}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={RideUpcoming}
+        name={NAVIGATION.rideUpcoming}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -16,6 +16,7 @@ import {
   GET_BOOKINGS,
   GET_CARDS,
   GET_NOTIFICATION,
+  GET_RIDE_DETAILS_BOOKINGS,
   USER_GET_RIDE_PRICE,
 } from '../types';
 import {useDispatch} from 'react-redux';
@@ -179,6 +180,19 @@ export const getBookings = createAsyncThunk(
     }
   },
 );
+
+export const getRideDetailBookings = createAsyncThunk(
+  GET_RIDE_DETAILS_BOOKINGS,
+  async (bookingId, {rejectWithValue}) => {
+    try {
+      const res = await UserController.getRideDetailBookings(bookingId);
+      return res;
+    } catch (error) {
+      return rejectWithValue(JSON.stringify(error));
+    }
+  },
+);
+
 export const getNotification = createAsyncThunk(
   GET_NOTIFICATION,
   async (data, {rejectWithValue}) => {

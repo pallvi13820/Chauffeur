@@ -18,7 +18,7 @@ import {
   VerticalLineSeprator,
   card,
 } from '@/assets';
-import {goBack} from '@/navigation/NavigationRef';
+import {goBack, navigate} from '@/navigation/NavigationRef';
 import {ms} from 'react-native-size-matters';
 import {Spacer} from '@/theme/Spacer';
 import {COLORS} from '@/theme/Colors';
@@ -26,6 +26,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getBookings} from '@/redux/actions/authActions';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
+import {NAVIGATION} from '@/constants';
 
 export function RideBookings() {
   const [active, setActive] = useState(0);
@@ -37,8 +38,14 @@ export function RideBookings() {
     dispatch(getBookings(active));
   }, [active]);
 
+  const handleRideBooking = item => {
+    navigate(NAVIGATION.rideUpcoming, {bookingId: item?.id});
+  };
+
   const renderItem = ({item, index}) => (
-    <TouchableOpacity style={styles.bookingDetailView}>
+    <TouchableOpacity
+      style={styles.bookingDetailView}
+      onPress={() => handleRideBooking(item)}>
       <View style={styles.displayFlex}>
         <Image source={Calendar} style={styles.calendarIcon} />
         <Text style={styles.dateTimeText}>
