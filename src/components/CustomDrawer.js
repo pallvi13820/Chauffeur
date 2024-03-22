@@ -28,7 +28,6 @@ const CustomDrawer = () => {
 
   const [isToggle, setIsToggle] = useState(false);
   const notificationData = useSelector((state) => state?.user?.notification)
-  console.log("slfjlsdf", notificationData?.data?.is_notification)
 
   const handleLogout = () => {
     dispatch(logout());
