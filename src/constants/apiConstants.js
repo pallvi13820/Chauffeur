@@ -20,9 +20,3 @@ export const API_END_POINTS = {
   getRideDetailBookings: 'user/rideDetails',
   getNotification: 'user/notification',
 };
-
-// @Mansi  mam please check this ride details  api
-// api/v1/user/rideDetails?booking_id=1
-// with token
-// param is : =
-// booking_id
