@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Image, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ms} from 'react-native-size-matters';
@@ -11,14 +11,17 @@ import {Spacer} from '@/theme/Spacer';
 import CountryPicker from 'react-native-country-picker-modal';
 import {navigate} from '@/navigation/NavigationRef';
 import {NAVIGATION} from '@/constants';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
+import {getCards} from '@/redux/actions/authActions';
 
 export function Booking(props) {
+  const dispatch = useDispatch();
   const rideData = props?.route?.params?.rideData;
 
   const verifyUserDetail = useSelector(state => state?.auth?.verifyUser);
   const userDetail = useSelector(state => state?.auth?.user);
-
+  const getCard = useSelector(state => state?.user?.cardsDetails);
   const isLoading = useSelector(state => state?.auth?.loading);
 
   const [name, setName] = useState('');
@@ -44,6 +47,13 @@ export function Booking(props) {
   const handleBlur = () => {
     setIsFocused(false);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getCards());
+    }, []),
+  );
+
   const bookingDetailForMyself = {
     pickup_sign: pickupSign,
     notes: notes,
@@ -65,8 +75,7 @@ export function Booking(props) {
     } else if (!notes) {
       alert('Please describe notes.');
     } else if (bookingType === 1) {
-      userDetail?.data?.user_cards?.length < 1 ||
-      verifyUserDetail?.data?.user_cards?.length < 1
+      getCard?.data?.length < 1
         ? navigate(NAVIGATION.addCardDetails, {
             rideData: rideData,
             bookingDetail: bookingDetailForMyself,
@@ -76,11 +85,10 @@ export function Booking(props) {
             bookingDetail: bookingDetailForMyself,
           });
     } else {
-      userDetail?.data?.user_cards?.length < 1 ||
-      verifyUserDetail?.data?.user_cards?.length < 1
+      getCard?.data?.length < 1
         ? navigate(NAVIGATION.addCardDetails, {
             rideData: rideData,
-            bookingDetail: bookingDetailForMyself,
+            bookingDetail: bookingDetailForOther,
           })
         : navigate(NAVIGATION.checkout, {
             rideData: rideData,
@@ -241,7 +249,7 @@ export function Booking(props) {
                 value={phoneNo}
                 keyboardType="number-pad"
                 maxLength={10}
-                style={{paddingHorizontal: 10}}
+                style={{paddingHorizontal: 10, flex: 1}}
               />
             </View>
 

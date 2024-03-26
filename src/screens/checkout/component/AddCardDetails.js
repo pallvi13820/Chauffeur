@@ -72,12 +72,20 @@ export function AddCardDetails(props) {
   //   console.log('Invalid expiry date format');
   // }
   const handleProceedCheckout = () => {
-    dispatch(addCards(cardDetail));
-    navigate(NAVIGATION.checkout, {
-      rideData: rideData,
-      bookingDetail: bookingDetail,
-      // cardDetail: cardDetail,
-    });
+    dispatch(addCards(cardDetail))
+      .then(response => {
+        // Handle success callback here
+        if (response?.payload?.statusCode === 200) {
+          navigate(NAVIGATION.checkout, {
+            rideData: rideData,
+            bookingDetail: bookingDetail,
+            // cardDetail: cardDetail,
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error booking ride:', error);
+      });
   };
 
   return (

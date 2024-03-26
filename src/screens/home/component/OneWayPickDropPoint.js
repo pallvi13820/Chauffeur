@@ -35,7 +35,7 @@ import DistanceByRoad from '@/components/DistanceByRoad';
 import {getRidePrice} from '@/redux/actions/authActions';
 import {useDispatch} from 'react-redux';
 
-const OneWayPickDropPoint = () => {
+const OneWayPickDropPoint = ({pickupType}) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [permissionStatus, setPermissionStatus] = useState('');
@@ -217,7 +217,7 @@ const OneWayPickDropPoint = () => {
 
   const getRidePriceRequest = async () => {
     const body = {
-      pickup_type: 1,
+      pickup_type: pickupType,
       pickup_latitude: pickupLatitude,
       pickup_longitude: pickupLongitude,
       dropoff_latitude: dropLatitude,

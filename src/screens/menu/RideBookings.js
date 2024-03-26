@@ -51,7 +51,7 @@ export function RideBookings() {
         <Text style={styles.dateTimeText}>
           {moment(item?.pickup_date_time)?.format('ddd, MMM. DD [at] hh:mm A')}
         </Text>
-        <Text style={styles.amountText}>${item?.price}</Text>
+        <Text style={styles.amountText}>${item?.price?.toFixed(2)}</Text>
       </View>
       <Spacer space={ms(20)} />
 

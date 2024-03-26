@@ -26,7 +26,7 @@ import {Spacer} from '@/theme/Spacer';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '@/redux/actions/authActions';
 import {restAllData} from '@/redux/commonActions';
-import { navigationRef } from '@/navigation/NavigationRef';
+import {navigationRef} from '@/navigation/NavigationRef';
 
 export function Home() {
   const dispatch = useDispatch();
@@ -34,14 +34,14 @@ export function Home() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const isLoadings = useSelector(state => state?.auth?.loading);
-  console.log('jghkdfhkfg', isLoadings);
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(2);
+  console.log('jghkdfhkfhg', activeTab);
 
-  const oneWayView = {borderBottomWidth: activeTab === 0 ? ms(3) : 0};
+  const oneWayView = {borderBottomWidth: activeTab === 2 ? ms(3) : 0};
   const byHourView = {borderBottomWidth: activeTab === 1 ? ms(3) : 0};
 
-  const oneWayText = {fontWeight: activeTab === 0 ? '800' : '500'};
+  const oneWayText = {fontWeight: activeTab === 2 ? '800' : '500'};
   const byHourText = {fontWeight: activeTab === 1 ? '800' : '500'};
 
   const rideSelectedWay = [
@@ -160,7 +160,7 @@ export function Home() {
           <View style={styles.flexDirectionRow}>
             <TouchableOpacity
               style={[styles.tabView, oneWayView]}
-              onPress={() => setActiveTab(0)}>
+              onPress={() => setActiveTab(2)}>
               <Text style={[styles.title, oneWayText]}>{'One Way'}</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -170,7 +170,7 @@ export function Home() {
             </TouchableOpacity>
           </View>
           <Spacer space={ms(20)} />
-          <OneWayPickDropPoint />
+          <OneWayPickDropPoint pickupType={activeTab} />
         </View>
       </ImageBackground>
     </ScreenWrapper>

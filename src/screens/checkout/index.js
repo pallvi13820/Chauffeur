@@ -58,6 +58,7 @@ export function Checkout(props) {
   );
 
   const [isVisible, setIsVisible] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const bookRideData = {
     pickup_type: rideDetail?.pickup_type,
@@ -81,6 +82,15 @@ export function Checkout(props) {
     price: rideData?.ride_price,
     card_id: cardId,
   };
+
+  if (bookingDetail?.book_for === 2) {
+    (bookRideData.recipient_first_name = bookingDetail?.recipient_first_name),
+      (bookRideData.recipient_last_name = bookingDetail?.recipient_first_name),
+      (bookRideData.recipient_phone_code = bookingDetail?.recipient_phone_code),
+      (bookRideData.recipient_phone_number =
+        bookingDetail?.recipient_phone_number);
+    bookRideData.recipient_email = bookingDetail?.recipient_email;
+  }
 
   function formatDebitCardNumber(debitCardNumber) {
     // Convert the number to a string
@@ -156,14 +166,21 @@ export function Checkout(props) {
   const checkout = () => {
     // navigate(NAVIGATION.invoiceDetail)
     setIsVisible(true);
+    setPaymentSuccess(false);
+
     dispatch(bookRide(bookRideData))
       .then(response => {
-        // Handle success callback here
-        console.log('Ride booked successfully:', response);
+        if (response?.payload?.statusCode === 200) {
+          setPaymentSuccess(true);
+          console.log('Ride booked successfully:', response);
+        } else {
+          setIsVisible(false);
+          setPaymentSuccess(false);
+        }
       })
       .catch(error => {
         setIsVisible(false);
-
+        setPaymentSuccess(false);
         // Handle error callback here
         console.error('Error booking ride:', error);
       });
@@ -389,7 +406,11 @@ export function Checkout(props) {
             {'Card'}
           </Text>
 
-          <FlatList data={cardsDetail?.data || []} renderItem={renderItem} />
+          <FlatList
+            data={cardsDetail?.data || []}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
 
           <TouchableOpacity
             style={{
@@ -454,7 +475,7 @@ export function Checkout(props) {
                   color: COLORS.black,
                   fontWeight: '600',
                 }}>
-                {'Payment Successful'}
+                {paymentSuccess ? 'Payment Successful' : ''}
               </Text>
             </View>
           )}
