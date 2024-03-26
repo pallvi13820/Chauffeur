@@ -2,6 +2,11 @@ import axios from 'axios';
 // import { Config } from 'react-native-config';
 import {strings} from '@/localization';
 import {API_BASE_URL} from '@/constants/apiConstants';
+import CustomAlert from '@/components/CustomAlert';
+import {restAllData} from '@/redux/commonActions';
+import {store} from '@/redux/store';
+
+let invalidTokenAlertShown = false;
 
 const client = axios.create({
   baseURL: API_BASE_URL,
@@ -32,6 +37,21 @@ client.interceptors.response.use(
   response => response.data,
   error => {
     if (error.response) {
+      if (error.response.status === 401 && !invalidTokenAlertShown) {
+        invalidTokenAlertShown = true;
+        // Handle 401 Unauthorized scenario here
+        CustomAlert({
+          title: 'Alert',
+          description:
+            'Session activated from another device, please login again to continue',
+          yesButtonTitle: 'Logout',
+          showSingleButton: true,
+          onYesPress: () => {
+            store.dispatch(restAllData());
+            invalidTokenAlertShown = false;
+          },
+        });
+      }
       return Promise.reject(error.response.data);
     } else if (error.request) {
       return Promise.reject({error: strings.common.connectionError});

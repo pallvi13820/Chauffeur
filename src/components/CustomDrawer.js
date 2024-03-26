@@ -39,6 +39,7 @@ const CustomDrawer = () => {
 
   const handleNotification = () => {
     dispatch(getNotification());
+    setIsToggle(!isToggle);
   };
 
   const data = [
@@ -127,7 +128,7 @@ const CustomDrawer = () => {
       </Text>
       {index == 1 ? (
         <TouchableOpacity
-          onPress={() => setIsToggle(!isToggle)}
+          onPress={handleNotification}
           style={{
             paddingVertical: ms(0),
             height: ms(25),
