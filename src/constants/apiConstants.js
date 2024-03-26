@@ -19,4 +19,5 @@ export const API_END_POINTS = {
   getBookings: 'user/getBookings',
   getRideDetailBookings: 'user/rideDetails',
   getNotification: 'user/notification',
+  getUpdateProfile: 'user/updateProfile'
 };

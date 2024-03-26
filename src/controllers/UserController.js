@@ -377,7 +377,34 @@ export class UserController {
         });
     });
   }
+  static async getUpdateProfile(body) {
+    return new Promise((resolve, reject) => {
+      const endpoint = API_BASE_URL + API_END_POINTS.getUpdateProfile;
+      HttpClient.post(endpoint, body)
+        .then(res => {
+          Toast.show({
+            type: 'success_toast',
+            text2: res?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          console.log('djfsdf', JSON.stringify(res));
+          resolve(res);
+        })
+        .catch(err => {
+          console.log('djfsdf', err);
 
+          Toast.show({
+            text2: err.message,
+            position: 'bottom',
+            type: 'error_toast',
+            visibilityTime: 1500,
+          });
+          reject(new Error(err));
+        });
+    });
+  
+  }
   static async getNotification() {
     return new Promise((resolve, reject) => {
       const endpoint = API_BASE_URL + API_END_POINTS.getNotification;

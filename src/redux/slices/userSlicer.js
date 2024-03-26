@@ -7,6 +7,7 @@ import {
   getNotification,
   getRideDetailBookings,
   getRidePrice,
+  getUpdateProfile,
 } from '../actions/authActions';
 import {USER} from '../types';
 import {restAllData} from '../commonActions';
@@ -21,6 +22,7 @@ const initialState = {
   rideBookings: {},
   notification: {},
   rideDetailBookings: {},
+  updateprofile: {},
 };
 
 const userSlice = createSlice({
@@ -99,7 +101,20 @@ const userSlice = createSlice({
         state.error = action.payload;
       });
 
-    //getBooking
+       //getUpdateProfile
+    builder
+    .addCase(getUpdateProfile.pending, state => {
+      state.loading = true;
+    })
+    .addCase(getUpdateProfile.fulfilled, (state, action) => {
+      state.loading = false;
+      state.rideBookings = action.payload;
+    })
+    .addCase(getUpdateProfile.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    //getNotification
     builder
       .addCase(getNotification.pending, state => {
         state.loading = true;

@@ -16,8 +16,11 @@ import {Spacer} from '@/theme/Spacer';
 import {COLORS} from '@/theme/Colors';
 import CustomButton from '@/components/CustomButton';
 import { NAVIGATION } from '@/constants';
+import { useSelector } from 'react-redux';
 
 export function PersonalInfo() {
+  const user = useSelector(state => state?.auth?.user);
+
   return (
     <ScreenWrapper>
       <KeyboardAwareScrollView
@@ -58,7 +61,7 @@ export function PersonalInfo() {
                   color: COLORS.black,
                   fontWeight: '600',
                 }}>
-                {'Johan'}
+                {user?.data?.full_name}
               </Text>
             </View>
           </View>
@@ -72,7 +75,7 @@ export function PersonalInfo() {
               <View style={styles.marginLeft15}>
                 <Text style={styles.title}>{'Email'}</Text>
                 <Text style={styles.linkedDescriptionText}>
-                  {'hello758@gmail.com'}
+                  {user?.data?.email}
                 </Text>
               </View>
             </View>
@@ -102,7 +105,7 @@ export function PersonalInfo() {
               <View style={styles.marginLeft15}>
                 <Text style={styles.title}>{'Phone'}</Text>
                 <Text style={styles.linkedDescriptionText}>
-                  {'+41 (785)0025674'}
+                  {user?.data?.phone_number}
                 </Text>
               </View>
             </View>

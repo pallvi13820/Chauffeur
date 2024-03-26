@@ -18,23 +18,37 @@ import CustomButton from '@/components/CustomButton';
 import CustomInput from '@/components/CustomInput';
 import {TextInput as TextField} from 'react-native-paper';
 import CountryPicker from 'react-native-country-picker-modal';
-
+import { getUpdateProfile } from '@/redux/actions/authActions';
+import { useDispatch, useSelector } from 'react-redux';
 export function EditInfo() {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const dispatch = useDispatch()
+  const user = useSelector(state => state?.auth?.user);
+
+  const [email, setEmail] = useState(user?.data?.email ||'');
+  const [name, setName] = useState(user?.data?.name ||'');
   const [isFocusedName, setIsFocusedName] = useState(false);
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
   const [countryCode, setCountryCode] = useState('US');
   const [countryPhoneCode, setCountryPhoneCode] = useState('1');
   const [isVisible, setIsVisible] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('');
-
+  const [phoneNumber, setPhoneNumber] = useState(user?.data?.phoneNumber ||'');
+  
   const onSelect = country => {
     setCountryCode(country?.cca2);
     setCountryPhoneCode(country?.callingCode[0]);
     setIsVisible(false);
   };
 
+  const updateDetail = {
+    full_name: name,
+    phoneNumber: phoneNumber,
+    email: email
+    
+  };
+
+  const handleProceedCheckout = () => {
+    dispatch(getUpdateProfile(updateDetail));
+  };
   return (
     <ScreenWrapper>
       <KeyboardAwareScrollView
@@ -119,7 +133,7 @@ export function EditInfo() {
           </View>
         </View>
 
-        <CustomButton title={'Update'} />
+        <CustomButton title={'Update'} onPress={handleProceedCheckout} />
         <Spacer space={ms(20)} />
       </KeyboardAwareScrollView>
     </ScreenWrapper>
